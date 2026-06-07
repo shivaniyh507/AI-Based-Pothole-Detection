@@ -1,0 +1,16 @@
+# Dataset and zip files
+data/
+*.zip
+
+# Models
+models/
+*.h5
+*.pt
+
+# Python caches
+__pycache__/
+*.pyc
+
+# IDEs
+.vscode/
+.idea/
