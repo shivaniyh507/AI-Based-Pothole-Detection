@@ -1,0 +1,9 @@
+{
+  "name": "roadsafe-ai",
+  "version": "1.0.0",
+  "description": "AI Based Pothole Detection Web App",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  }
+}
