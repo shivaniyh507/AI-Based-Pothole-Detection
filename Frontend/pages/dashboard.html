@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RoadSafe AI - Driver Dashboard</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/common.css" />
+  <link rel="stylesheet" href="../assets/css/dashboard.css" />
+  <link rel="stylesheet" href="../assets/css/responsive.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+</head>
+<body>
+
+<div class="app-shell">
+
+<aside class="sidebar">
+
+<div class="brand">
+<div class="brand-mark"><i class="fa-solid fa-road"></i></div>
+<div>
+<h1>RoadSafe AI</h1>
+<p>Driver Module</p>
+</div>
+</div>
+
+<nav class="sidebar-nav">
+<a class="nav-item active" href="dashboard.html"><i class="fa-solid fa-gauge-high"></i><span>Dashboard</span></a>
+<a class="nav-item" href="scan-road.html"><i class="fa-solid fa-camera"></i><span>Scan Road</span></a>
+<a class="nav-item" href="live-map.html"><i class="fa-solid fa-route"></i><span>Live Map</span></a>
+<a class="nav-item" href="my-reports.html"><i class="fa-solid fa-file-lines"></i><span>My Reports</span></a>
+<a class="nav-item" href="notifications.html"><i class="fa-solid fa-bell"></i><span>Notifications</span></a>
+<a class="nav-item" href="#"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+</nav>
+
+<div class="sidebar-footer">
+<div class="status-card">
+<span class="dot online"></span>
+<div>
+<strong>GPS Connected</strong>
+<p>Live location enabled</p>
+</div>
+</div>
+</div>
+
+</aside>
+
+<main class="main-content">
+
+<header class="topbar">
+<div class="search-box">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input type="text" placeholder="Search roads, reports, alerts..." />
+</div>
+
+<div class="topbar-actions">
+<button class="icon-btn">
+<i class="fa-solid fa-bell"></i>
+<span class="badge">3</span>
+</button>
+
+<div class="profile-pill">
+<img src="https://i.pravatar.cc/80?img=32" alt="Profile">
+<div>
+<strong>Archita</strong>
+<p>Driver</p>
+</div>
+</div>
+</div>
+</header>
+
+<section class="hero-card">
+<div>
+<p class="eyebrow">Driver Dashboard</p>
+<h2>Good Afternoon, Archita 👋</h2>
+<p class="hero-text">Track potholes, monitor nearby alerts, and plan safer routes in one place.</p>
+
+<div class="hero-actions">
+<button class="primary-btn" onclick="window.location='scan-road.html'">
+<i class="fa-solid fa-camera"></i> Start Scan
+</button>
+
+<button class="secondary-btn" onclick="window.location='live-map.html'">
+<i class="fa-solid fa-route"></i> Plan Route
+</button>
+</div>
+</div>
+
+<div class="health-card">
+<span>Road Health</span>
+<strong>82%</strong>
+<p>Moderate</p>
+</div>
+</section>
+
+<section class="stats-grid">
+<article class="stat-card"><i class="fa-solid fa-location-dot"></i><div><span>Nearby Potholes</span><strong>12</strong></div></article>
+<article class="stat-card"><i class="fa-solid fa-file-lines"></i><div><span>My Reports</span><strong>8</strong></div></article>
+<article class="stat-card"><i class="fa-solid fa-road"></i><div><span>Safe Routes</span><strong>4</strong></div></article>
+<article class="stat-card"><i class="fa-solid fa-star"></i><div><span>Driver Score</span><strong>95%</strong></div></article>
+<article class="stat-card"><i class="fa-solid fa-car-side"></i><div><span>Today's Scan</span><strong>3.2 km</strong></div></article>
+<article class="stat-card"><i class="fa-solid fa-shield-halved"></i><div><span>AI Confidence</span><strong>93%</strong></div></article>
+</section>
+
+<section class="content-grid">
+
+<div class="panel map-panel">
+<div class="panel-header">
+<h3>Live Navigation</h3>
+</div>
+
+<div class="map-preview">
+<img src="../assets/images/map-preview.png" alt="Map Preview">
+<div class="map-overlay">
+<h4>Explore Live Map</h4>
+<p>View potholes, safer routes and live traffic.</p>
+<a href="live-map.html" class="primary-btn">Open Live Map <i class="fa-solid fa-arrow-right"></i></a>
+</div>
+</div>
+
+</div>
+
+<div class="side-column">
+
+<div class="panel ai-panel">
+<div class="panel-header"><h3>AI Recommendation</h3></div>
+
+<div class="recommend-list">
+<div><strong>🟢 Safest Route</strong><span>5.6 km • 0 Major Potholes</span></div>
+<div><strong>🟡 Balanced Route</strong><span>5.1 km • 1 Medium Pothole</span></div>
+<div><strong>🔴 Fastest Route</strong><span>4.8 km • 4 Potholes</span></div>
+</div>
+</div>
+
+<div class="panel alerts-panel">
+<div class="panel-header"><h3>Nearby Alerts</h3></div>
+
+<div class="alert-item danger"><strong>Large pothole ahead</strong></div>
+<div class="alert-item warning"><strong>Road under repair</strong></div>
+<div class="alert-item info"><strong>Safer route available</strong></div>
+
+<button class="secondary-btn">View All Alerts</button>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="bottom-grid">
+
+<div class="panel activity-panel">
+<h3>Recent Activity</h3>
+<ul class="timeline">
+<li>Started Scan</li>
+<li>Submitted Report</li>
+<li>Road Repair Updated</li>
+</ul>
+</div>
+
+<div class="panel quick-panel">
+<h3>Quick Actions</h3>
+
+<div class="quick-actions">
+<button onclick="window.location='scan-road.html'">Start Scan</button>
+<button onclick="window.location='live-map.html'">Live Map</button>
+<button>Upload Media</button>
+<button onclick="window.location='my-reports.html'">View Reports</button>
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+</div>
+
+<script src="../assets/js/dashboard.js"></script>
+</body>
+</html>
