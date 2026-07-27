@@ -1,0 +1,92 @@
+[
+  {
+    "id": "USR-001",
+    "name": "James Anderson",
+    "email": "j.anderson@roadsafe.ai",
+    "role": "Crew Leader",
+    "status": "active",
+    "avatar": "../images/avatars/avatar-5.jpg",
+    "online": true
+  },
+  {
+    "id": "USR-002",
+    "name": "Maria Garcia",
+    "email": "m.garcia@roadsafe.ai",
+    "role": "Fleet Driver",
+    "status": "active",
+    "avatar": "../images/avatars/avatar-9.jpg",
+    "online": false
+  },
+  {
+    "id": "USR-003",
+    "name": "Thomas Wright",
+    "email": "t.wright@roadsafe.ai",
+    "role": "Maintenance Tech",
+    "status": "active",
+    "avatar": "../images/avatars/avatar-5.jpg",
+    "online": false
+  },
+  {
+    "id": "USR-004",
+    "name": "Elena Rostova",
+    "email": "e.rostova@roadsafe.ai",
+    "role": "Data Analyst",
+    "status": "active",
+    "avatar": "../images/avatars/avatar-7.jpg",
+    "online": true
+  },
+  {
+    "id": "USR-005",
+    "name": "David Miller",
+    "email": "d.miller@roadsafe.ai",
+    "role": "Fleet Driver",
+    "status": "pending",
+    "avatar": "../images/avatars/avatar-1.jpg",
+    "online": false
+  },
+  {
+    "id": "USR-006",
+    "name": "Sarah Jenkins",
+    "email": "s.jenkins@roadsafe.ai",
+    "role": "Analyst",
+    "status": "pending",
+    "avatar": "../images/avatars/avatar-2.jpg",
+    "online": false
+  },
+  {
+    "id": "USR-007",
+    "name": "Carlos Mendez",
+    "email": "c.mendez@roadsafe.ai",
+    "role": "Crew Leader",
+    "status": "active",
+    "avatar": "../images/avatars/avatar-6.jpg",
+    "online": true
+  },
+  {
+    "id": "USR-008",
+    "name": "Priya Sharma",
+    "email": "p.sharma@roadsafe.ai",
+    "role": "Fleet Driver",
+    "status": "active",
+    "avatar": "../images/avatars/avatar-1.jpg",
+    "online": false
+  },
+  {
+    "id": "USR-009",
+    "name": "Robert Chen",
+    "email": "r.chen@roadsafe.ai",
+    "role": "Maintenance Tech",
+    "status": "active",
+    "avatar": "../images/avatars/avatar-6.jpg",
+    "online": true
+  },
+  {
+    "id": "USR-010",
+    "name": "Lisa Park",
+    "email": "l.park@roadsafe.ai",
+    "role": "Data Analyst",
+    "status": "pending",
+    "avatar": "../images/avatars/avatar-5.jpg",
+    "online": false
+  }
+]

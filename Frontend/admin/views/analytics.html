@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics & Reports - RoadSafe AI Admin</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#a855f7',
+                        secondary: '#0a0a0f',
+                        critical: '#ff4d4d',
+                        warning: '#ff9800',
+                        success: '#4caf50'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/admin-style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <!-- Icons -->
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Leaflet.js for Geographic Heatmap -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+</head>
+<body class="bg-slate-50 text-slate-900 flex h-screen overflow-hidden">
+
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar w-64 bg-white border-r border-slate-200 shadow-xl flex-shrink-0 z-20 flex flex-col transition-all duration-300 relative" id="sidebar">
+        <div class="h-20 flex items-center justify-center border-b border-slate-200">
+            <h1 class="text-2xl font-bold text-primary tracking-tight">RoadSafe <span class="font-light text-slate-500">AI</span></h1>
+        </div>
+        <nav class="flex-1 py-6 px-4 space-y-2 overflow-y-auto">
+            <a href="dashboard.html" class="sidebar-link flex items-center px-4 py-3 rounded-lg text-slate-500">
+                <i data-icon="layout-dashboard" class="w-5 h-5 mr-3"></i>
+                Dashboard
+            </a>
+            <a href="detection_log.html" class="sidebar-link flex items-center px-4 py-3 rounded-lg text-slate-500">
+                <i data-icon="list" class="w-5 h-5 mr-3"></i>
+                Detection Log
+            </a>
+            <a href="analytics.html" class="sidebar-link active flex items-center px-4 py-3 rounded-lg">
+                <i data-icon="bar-chart-2" class="w-5 h-5 mr-3"></i>
+                Analytics &amp; Reports
+            </a>
+            <a href="users.html" class="sidebar-link flex items-center px-4 py-3 rounded-lg text-slate-500">
+                <i data-icon="users" class="w-5 h-5 mr-3"></i>
+                User Management
+            </a>
+            <a href="repair_workflow.html" class="sidebar-link flex items-center px-4 py-3 rounded-lg text-slate-500">
+                <i data-icon="wrench" class="w-5 h-5 mr-3"></i>
+                Repair Workflow
+            </a>
+        </nav>
+        <div class="p-4 border-t border-slate-200">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold">
+                        A
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-sm font-medium text-slate-900">Admin User</p>
+                        <p class="text-xs text-slate-500">System Administrator</p>
+                    </div>
+                </div>
+                <a href="#" class="text-slate-400 hover:text-critical transition-colors" title="Logout">
+                    <i data-icon="log-out" class="w-5 h-5"></i>
+                </a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 relative flex flex-col h-screen overflow-hidden">
+        <!-- Hero Background 3D Globe -->
+        <div id="globe-container"></div>
+
+        
+        <!-- Top Header -->
+        <header class="h-20 glass z-50 flex items-center justify-between px-8 border-b border-slate-200" data-tilt data-tilt-glare data-tilt-max-glare="0.1" data-tilt-scale="1.02">
+            <div class="flex items-center">
+                <button class="hamburger-btn mr-3" id="sidebar-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                </button>
+                <h2 class="text-xl font-semibold text-primary">Analytics &amp; Reports</h2>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="relative flex items-center bg-primary text-slate-900 rounded-lg text-sm font-medium hover:bg-primary/90 transition shadow-sm border border-primary/20">
+                    <i data-icon="calendar" class="w-4 h-4 absolute left-3 pointer-events-none"></i>
+                    <select id="timeRangeFilter" class="appearance-none bg-transparent pl-9 pr-8 py-2 focus:outline-none cursor-pointer w-full h-full font-medium text-slate-900">
+                        <option value="today" class="bg-white text-slate-800">Today</option>
+                        <option value="7days" class="bg-white text-slate-800">Last 7 Days</option>
+                        <option value="30days" class="bg-white text-slate-800" selected>Last 30 Days</option>
+                        <option value="90days" class="bg-white text-slate-800">Last 90 Days</option>
+                        <option value="this_year" class="bg-white text-slate-800">This Year</option>
+                        <option value="all_time" class="bg-white text-slate-800">All Time</option>
+                    </select>
+                    <svg class="w-4 h-4 absolute right-3 pointer-events-none text-slate-900" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+                
+                <!-- Profile Dropdown -->
+                
+                <div class="relative z-50" id="profileDropdownContainer">
+                    <button id="profileDropdownBtn" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:text-primary hover:bg-primary/10 border-2 border-transparent hover:border-primary transition-all duration-300 shadow-sm focus:outline-none p-0 overflow-hidden">
+                        <img src="../../driver/images/photos/photo-1.jpg" alt="Profile" class="w-full h-full object-cover transition-transform hover:scale-110 duration-300">
+                    </button>
+                    <div id="profileDropdownMenu" class="absolute right-0 top-full mt-2 w-64 opacity-0 pointer-events-none transition-all duration-300 ease-out transform origin-top-right z-50 translate-y-2 scale-95">
+                        
+                    <div class="bg-white rounded-xl shadow-2xl py-2 border border-slate-200">
+                        <div class="px-4 py-5 border-b border-slate-200 flex flex-col items-center relative overflow-hidden">
+                            <div class="absolute top-0 left-0 w-full h-12 bg-gradient-to-r from-primary to-purple-500 opacity-20"></div>
+                            <div class="relative mt-2">
+                                <img src="../../driver/images/photos/photo-1.jpg" alt="Profile Picture" class="w-20 h-20 rounded-full object-cover border-4 border-white shadow-md relative z-10">
+                                <span class="absolute bottom-1 right-1 w-4 h-4 bg-success border-2 border-white rounded-full z-20"></span>
+                            </div>
+                            <p class="text-sm font-bold text-slate-900 mt-3">Admin User</p>
+                            <p class="text-xs text-primary font-medium bg-primary/10 px-3 py-1 rounded-full mt-1">System Administrator</p>
+                        </div>
+                        <div class="py-1">
+                            <a href="#" class="px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 hover:text-primary transition-colors flex items-center group">
+                                <i data-icon="user" class="w-4 h-4 mr-3 text-slate-500 group-hover:text-primary transition-colors"></i> My Profile
+                            </a>
+                            <a href="#" class="px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 hover:text-primary transition-colors flex items-center group">
+                                <i data-icon="settings" class="w-4 h-4 mr-3 text-slate-500 group-hover:text-primary transition-colors"></i> Account Settings
+                            </a>
+                        </div>
+                        <div class="border-t border-slate-200 py-1 mt-1">
+                            <a href="#" class="px-4 py-2.5 text-sm text-critical hover:bg-red-500/10 transition-colors flex items-center group">
+                                <i data-icon="log-out" class="w-4 h-4 mr-3 text-red-400 group-hover:text-critical transition-colors"></i> Logout
+                            </a>
+                        
+                    </div>
+                </div>
+            
+                </div>
+            </div>
+        </header>
+
+        <!-- Content Area -->
+        <div class="flex-1 overflow-y-auto p-8 z-10 bg-slate-50 content-area">
+            <div class="max-w-7xl mx-auto space-y-6">
+                
+                <!-- Top Metrics -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="glass rounded-2xl p-6 fade-in-target" data-tilt data-tilt-glare data-tilt-max-glare="0.1" data-tilt-scale="1.02">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-slate-500 font-medium">Monthly Detections Trend</h3>
+                            <span class="text-success text-sm font-semibold">+18%</span>
+                        </div>
+                        <h2 class="text-3xl font-bold text-slate-900 mb-4">4,210 <span class="text-sm font-normal text-slate-500">new cases</span></h2>
+                        <div class="h-48">
+                            <canvas id="trendChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="glass rounded-2xl p-6 fade-in-target flex flex-col justify-between" data-tilt data-tilt-glare data-tilt-max-glare="0.1" data-tilt-scale="1.02">
+                        <div>
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-slate-500 font-medium">Overall Repair Rate</h3>
+                                <i data-icon="activity" class="w-5 h-5 text-primary"></i>
+                            </div>
+                            <h2 class="text-5xl font-bold text-slate-900 mb-2">76.4%</h2>
+                            <p class="text-sm text-slate-500">Of detected potholes were repaired within SLA target (48 hours).</p>
+                        </div>
+                        <div class="mt-4">
+                            <div class="w-full bg-slate-100 rounded-full h-2 mb-1">
+                                <div class="bg-success h-2 rounded-full" style="width: 76.4%"></div>
+                            </div>
+                            <div class="flex justify-between text-xs text-slate-500 font-medium">
+                                <span>0%</span>
+                                <span>Target: 85%</span>
+                                <span>100%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Secondary Charts -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Severity Distribution -->
+                    <div class="glass rounded-2xl p-6 fade-in-target" data-tilt data-tilt-glare data-tilt-max-glare="0.1" data-tilt-scale="1.02">
+                        <h3 class="text-slate-900 font-semibold mb-4">Severity Distribution</h3>
+                        <div class="h-56 relative flex items-center justify-center">
+                            <canvas id="severityChart"></canvas>
+                            <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                <span class="text-2xl font-bold text-slate-900">Total</span>
+                            </div>
+                        </div>
+                        <div class="mt-4 grid grid-cols-3 gap-2 text-center text-xs">
+                            <div>
+                                <div class="w-3 h-3 rounded-full bg-critical mx-auto mb-1"></div>
+                                <span class="text-slate-500">Critical</span><br>
+                                <span class="font-bold text-slate-900">15%</span>
+                            </div>
+                            <div>
+                                <div class="w-3 h-3 rounded-full bg-warning mx-auto mb-1"></div>
+                                <span class="text-slate-500">Major</span><br>
+                                <span class="font-bold text-slate-900">35%</span>
+                            </div>
+                            <div>
+                                <div class="w-3 h-3 rounded-full bg-slate-500 mx-auto mb-1"></div>
+                                <span class="text-slate-500">Minor</span><br>
+                                <span class="font-bold text-slate-900">50%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Geographic Progress -->
+                    <div class="lg:col-span-2 glass rounded-2xl p-6 fade-in-target" data-tilt data-tilt-glare data-tilt-max-glare="0.1" data-tilt-scale="1.02">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-slate-900 font-semibold">Geographic Progress (Resolved)</h3>
+                            <button class="text-sm text-primary font-medium hover:underline">Download Detailed Report</button>
+                        </div>
+                        <div class="space-y-5">
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span class="font-medium text-slate-900">Downtown Core</span>
+                                    <span class="text-slate-500">89%</span>
+                                </div>
+                                <div class="w-full bg-slate-100 rounded-full h-2">
+                                    <div class="bg-primary h-2 rounded-full" style="width: 89%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span class="font-medium text-slate-900">North Heights</span>
+                                    <span class="text-slate-500">65%</span>
+                                </div>
+                                <div class="w-full bg-slate-100 rounded-full h-2">
+                                    <div class="bg-warning h-2 rounded-full" style="width: 65%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span class="font-medium text-slate-900">Westside Industrial</span>
+                                    <span class="text-slate-500">42%</span>
+                                </div>
+                                <div class="w-full bg-slate-100 rounded-full h-2">
+                                    <div class="bg-critical h-2 rounded-full" style="width: 42%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span class="font-medium text-slate-900">Eastside Residential</span>
+                                    <span class="text-slate-500">94%</span>
+                                </div>
+                                <div class="w-full bg-slate-100 rounded-full h-2">
+                                    <div class="bg-success h-2 rounded-full" style="width: 94%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Geographic Heatmap (Leaflet) -->
+                <div class="glass rounded-2xl p-6 fade-in-target" data-tilt data-tilt-glare data-tilt-max-glare="0.1" data-tilt-scale="1.02">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-slate-900 font-semibold flex items-center">
+                            <i data-icon="map" class="w-5 h-5 mr-2 text-primary"></i>
+                            Pothole Density Heatmap
+                        </h3>
+                        <div class="flex items-center text-xs text-slate-500">
+                            <span class="mr-2">Low Density</span>
+                            <div class="w-24 h-2 rounded-full bg-gradient-to-r from-green-400 via-yellow-400 to-red-500"></div>
+                            <span class="ml-2">High Density</span>
+                        </div>
+                    </div>
+                    <div id="geoHeatmap" class="w-full rounded-xl overflow-hidden" style="height: 400px; z-index: 1;"></div>
+                </div>
+
+                <!-- Recent Detailed Reports List -->
+                <div class="glass rounded-2xl p-6 fade-in-target" data-tilt data-tilt-glare data-tilt-max-glare="0.1" data-tilt-scale="1.02">
+                    <h3 class="text-slate-900 font-semibold mb-4">Generated PDF Reports</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div class="flex items-center p-4 border border-slate-200 rounded-xl bg-slate-50 hover:bg-slate-100 transition">
+                            <div class="w-10 h-10 rounded bg-red-50 flex items-center justify-center text-red-500 mr-4">
+                                <i data-icon="file-text" class="w-5 h-5"></i>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-sm font-semibold text-slate-900">Q2 Infrastructure Audit</p>
+                                <p class="text-xs text-slate-500">Generated: 2 days ago</p>
+                            </div>
+                            <button class="text-slate-500 hover:text-primary"><i data-icon="download" class="w-5 h-5"></i></button>
+                        </div>
+                        <div class="flex items-center p-4 border border-slate-200 rounded-xl bg-slate-50 hover:bg-slate-100 transition">
+                            <div class="w-10 h-10 rounded bg-red-50 flex items-center justify-center text-red-500 mr-4">
+                                <i data-icon="file-text" class="w-5 h-5"></i>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-sm font-semibold text-slate-900">Downtown Critical Repairs</p>
+                                <p class="text-xs text-slate-500">Generated: 5 days ago</p>
+                            </div>
+                            <button class="text-slate-500 hover:text-primary"><i data-icon="download" class="w-5 h-5"></i></button>
+                        </div>
+                        <div class="flex items-center p-4 border border-slate-200 rounded-xl bg-slate-50 hover:bg-slate-100 transition">
+                            <div class="w-10 h-10 rounded bg-red-50 flex items-center justify-center text-red-500 mr-4">
+                                <i data-icon="file-text" class="w-5 h-5"></i>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-sm font-semibold text-slate-900">Monthly Budget Estimate</p>
+                                <p class="text-xs text-slate-500">Generated: 1 week ago</p>
+                            </div>
+                            <button class="text-slate-500 hover:text-primary"><i data-icon="download" class="w-5 h-5"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script>
+        
+    </script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/admin-main.js"></script>
+    <script src="../js/charts-init.js"></script>
+    <script>
+        // Initialize Leaflet geographic heatmap
+        document.addEventListener('DOMContentLoaded', () => {
+            const mapContainer = document.getElementById('geoHeatmap');
+            if (!mapContainer || typeof L === 'undefined') return;
+
+            // Create Leaflet map centered on LA
+            const map = L.map('geoHeatmap', {
+                scrollWheelZoom: false
+            }).setView([34.05, -118.30], 11);
+
+            // Tile layer (dark/light theme)
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                attribution: '© OpenStreetMap contributors © CARTO',
+                maxZoom: 19
+            }).addTo(map);
+
+            // Pothole locations with intensity (from mock data)
+            const heatData = [
+                [34.0522, -118.2437, 0.9],  // Downtown Ave & 4th St - Critical
+                [34.0621, -118.2541, 0.6],  // North Heights Blvd - Major
+                [34.0410, -118.2310, 0.3],  // Eastside Highway
+                [34.0722, -118.2612, 0.95], // Westwood Industrial - Critical
+                [34.0928, -118.3287, 0.7],  // Sunset & Vine
+                [34.1016, -118.3385, 0.3],  // Hollywood & Highland
+                [34.0624, -118.3080, 0.9],  // Wilshire Blvd
+                [34.0095, -118.4970, 0.6],  // Santa Monica
+                [33.9850, -118.4695, 0.2],  // Venice Beach
+                [33.9416, -118.4085, 0.85], // LAX Connector
+                [33.9461, -118.3800, 0.6],  // Century & Aviation
+                [33.9892, -118.3302, 0.3],  // Crenshaw & Slauson
+                [34.0253, -118.2786, 0.8],  // Figueroa & Adams
+                [34.0224, -118.2851, 0.2],  // USC Campus
+                [34.0555, -118.3012, 0.65], // Koreatown
+                [34.0782, -118.2606, 0.85], // Echo Park
+                [34.0870, -118.2708, 0.25], // Silver Lake
+                [34.1425, -118.2551, 0.6],  // Glendale
+                [34.1478, -118.1445, 0.8],  // Pasadena
+                [34.1808, -118.3090, 0.3],  // Burbank
+                // Additional cluster points for density
+                [34.0530, -118.2450, 0.7],
+                [34.0515, -118.2420, 0.8],
+                [34.0540, -118.2460, 0.6],
+                [34.0700, -118.2600, 0.75],
+                [34.0710, -118.2620, 0.8],
+            ];
+
+            // Add heat layer
+            L.heatLayer(heatData, {
+                radius: 30,
+                blur: 20,
+                maxZoom: 14,
+                max: 1.0,
+                gradient: {
+                    0.2: '#4caf50',
+                    0.4: '#8bc34a',
+                    0.6: '#ff9800',
+                    0.8: '#ff5722',
+                    1.0: '#ff4d4d'
+                }
+            }).addTo(map);
+
+            // Add pothole markers
+            const severityColors = {
+                'Critical': '#ff4d4d',
+                'Major': '#ff9800',
+                'Minor': '#9ca3af'
+            };
+
+            const potholes = [
+                { lat: 34.0522, lng: -118.2437, id: 'PH-9823', sev: 'Critical', loc: 'Downtown Ave & 4th St' },
+                { lat: 34.0621, lng: -118.2541, id: 'PH-9822', sev: 'Major', loc: 'North Heights Blvd' },
+                { lat: 34.0722, lng: -118.2612, id: 'PH-9820', sev: 'Critical', loc: 'Westwood Industrial Park' },
+                { lat: 34.0624, lng: -118.3080, id: 'PH-9817', sev: 'Critical', loc: 'Wilshire Blvd, Mile 3' },
+                { lat: 33.9416, lng: -118.4085, id: 'PH-9814', sev: 'Critical', loc: 'LAX Terminal Connector' },
+            ];
+
+            potholes.forEach(p => {
+                const color = severityColors[p.sev];
+                const marker = L.circleMarker([p.lat, p.lng], {
+                    radius: 6,
+                    fillColor: color,
+                    color: '#fff',
+                    weight: 2,
+                    fillOpacity: 0.8
+                }).addTo(map);
+
+                marker.bindPopup(`
+                    <div style="font-family: Inter, sans-serif; min-width: 160px;">
+                        <p style="font-weight:700; margin:0 0 4px;">#${p.id}</p>
+                        <p style="color:#6b7280; font-size:12px; margin:0 0 4px;">${p.loc}</p>
+                        <span style="display:inline-block; padding:2px 8px; border-radius:9999px; font-size:11px; font-weight:600; background:${color}20; color:${color};">${p.sev}</span>
+                    </div>
+                `);
+            });
+
+            // Fix map rendering after tab/container is visible
+            setTimeout(() => map.invalidateSize(), 100);
+        });
+    </script>
+<script src="../js/dashboard-3d.js"></script>
+</body>
+</html>

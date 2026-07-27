@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Notifications | RoadSafe AI</title>
+
+<link rel="stylesheet" href="../css/common.css">
+<link rel="stylesheet" href="../css/dashboard.css">
+<link rel="stylesheet" href="../css/notifications.css">
+<link rel="stylesheet" href="../css/responsive.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+</head>
+
+<body>
+
+
+<div class="app-shell">
+
+<aside class="sidebar">
+
+<div class="brand">
+<div class="brand-mark"><i class="fa-solid fa-road"></i></div>
+<div>
+<h1>RoadSafe AI</h1>
+<p>Driver Module</p>
+</div>
+</div>
+
+<nav class="sidebar-nav">
+<a class="nav-item " href="dashboard.html"><i class="fa-solid fa-gauge-high"></i><span>Dashboard</span></a>
+<a class="nav-item" href="scan-road.html"><i class="fa-solid fa-camera"></i><span>Scan Road</span></a>
+<a class="nav-item" href="live-map.html"><i class="fa-solid fa-route"></i><span>Live Map</span></a>
+<a class="nav-item" href="my-reports.html"><i class="fa-solid fa-file-lines"></i><span>My Reports</span></a>
+<a class="nav-item active" href="notifications.html"><i class="fa-solid fa-bell"></i><span>Notifications</span></a>
+<a class="nav-item" href="#"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+</nav>
+
+</aside>
+
+<!-- Main -->
+
+<main class="main-content">
+
+<header class="topbar">
+
+<h2>Notifications</h2>
+
+<button id="markAll" class="primary-btn">
+
+Mark All Read
+
+</button>
+
+</header>
+
+<section class="notification-container">
+
+<div class="notification-card unread high">
+
+<div class="icon">
+
+<i class="fa-solid fa-triangle-exclamation"></i>
+
+</div>
+
+<div>
+
+<h3>Large pothole detected</h3>
+
+<p>GT Road • 2 mins ago</p>
+
+</div>
+
+</div>
+
+<div class="notification-card unread warning">
+
+<div class="icon">
+
+<i class="fa-solid fa-road-circle-exclamation"></i>
+
+</div>
+
+<div>
+
+<h3>Road under repair</h3>
+
+<p>Civil Lines • 15 mins ago</p>
+
+</div>
+
+</div>
+
+<div class="notification-card success">
+
+<div class="icon">
+
+<i class="fa-solid fa-circle-check"></i>
+
+</div>
+
+<div>
+
+<h3>Your report was verified</h3>
+
+<p>Report #1021 approved</p>
+
+</div>
+
+</div>
+
+<div class="notification-card info">
+
+<div class="icon">
+
+<i class="fa-solid fa-route"></i>
+
+</div>
+
+<div>
+
+<h3>Safer route available</h3>
+
+<p>AI recommends Route B</p>
+
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+</div>
+
+<script src="../js/notifications.js"></script>
+
+</body>
+
+</html>

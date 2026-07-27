@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - RoadSafe AI Admin</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#a855f7',
+                        secondary: '#0a0a0f',
+                        critical: '#ff4d4d',
+                        warning: '#ff9800',
+                        success: '#4caf50'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/admin-style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <!-- Icons -->
+    
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+</head>
+<body class="bg-slate-50 text-slate-900 flex h-screen overflow-hidden">
+
+    <!-- Sidebar Overlay (Mobile) -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar w-64 bg-white border-r border-slate-200 shadow-xl flex-shrink-0 z-20 flex flex-col transition-all duration-300 relative" id="sidebar">
+        <div class="h-20 flex items-center justify-center border-b border-slate-200">
+            <h1 class="text-2xl font-bold text-primary tracking-tight">RoadSafe <span class="font-light text-slate-500">AI</span></h1>
+        </div>
+        <nav class="flex-1 py-6 px-4 space-y-2 overflow-y-auto">
+            <a href="dashboard.html" class="sidebar-link active flex items-center px-4 py-3 rounded-lg">
+                <i data-icon="layout-dashboard" class="w-5 h-5 mr-3"></i>
+                Dashboard
+            </a>
+            <a href="detection_log.html" class="sidebar-link flex items-center px-4 py-3 rounded-lg text-slate-500">
+                <i data-icon="list" class="w-5 h-5 mr-3"></i>
+                Detection Log
+            </a>
+            <a href="analytics.html" class="sidebar-link flex items-center px-4 py-3 rounded-lg text-slate-500">
+                <i data-icon="bar-chart-2" class="w-5 h-5 mr-3"></i>
+                Analytics &amp; Reports
+            </a>
+            <a href="users.html" class="sidebar-link flex items-center px-4 py-3 rounded-lg text-slate-500">
+                <i data-icon="users" class="w-5 h-5 mr-3"></i>
+                User Management
+            </a>
+            <a href="repair_workflow.html" class="sidebar-link flex items-center px-4 py-3 rounded-lg text-slate-500">
+                <i data-icon="wrench" class="w-5 h-5 mr-3"></i>
+                Repair Workflow
+            </a>
+        </nav>
+        <div class="p-4 border-t border-slate-200">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold">
+                        A
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-sm font-medium text-slate-900">Admin User</p>
+                        <p class="text-xs text-slate-500">System Administrator</p>
+                    </div>
+                </div>
+                <a href="#" class="text-slate-400 hover:text-critical transition-colors" title="Logout">
+                    <i data-icon="log-out" class="w-5 h-5"></i>
+                </a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 relative flex flex-col h-screen overflow-hidden">
+        
+        <!-- Hero Background 3D Globe -->
+        <div id="globe-container"></div>
+
+        <!-- Top Header -->
+        <header class="h-20 glass z-50 flex items-center justify-between px-8" data-tilt data-tilt-glare data-tilt-max-glare="0.1" data-tilt-scale="1.02">
+            <div class="flex items-center">
+                <!-- Hamburger (mobile/tablet) -->
+                <button class="hamburger-btn mr-3" id="sidebar-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                </button>
+                <h2 class="text-xl font-semibold text-primary">Command Center</h2>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button class="relative p-2 text-slate-500 hover:text-primary transition-colors">
+                    <i data-icon="bell" class="w-6 h-6"></i>
+                    <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-critical rounded-full alert-pulse"></span>
+                </button>
+                
+                <!-- Profile Dropdown -->
+                
+                <div class="relative z-50" id="profileDropdownContainer">
+                    <button id="profileDropdownBtn" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:text-primary hover:bg-primary/10 border-2 border-transparent hover:border-primary transition-all duration-300 shadow-sm focus:outline-none p-0 overflow-hidden">
+                        <img src="../../driver/images/photos/photo-1.jpg" alt="Profile" class="w-full h-full object-cover transition-transform hover:scale-110 duration-300">
+                    </button>
+                    <div id="profileDropdownMenu" class="absolute right-0 top-full mt-2 w-64 opacity-0 pointer-events-none transition-all duration-300 ease-out transform origin-top-right z-50 translate-y-2 scale-95">
+                        
+                    <div class="bg-white rounded-xl shadow-2xl py-2 border border-slate-200">
+                        <div class="px-4 py-5 border-b border-slate-200 flex flex-col items-center relative overflow-hidden">
+                            <div class="absolute top-0 left-0 w-full h-12 bg-gradient-to-r from-primary to-purple-500 opacity-20"></div>
+                            <div class="relative mt-2">
+                                <img src="../../driver/images/photos/photo-1.jpg" alt="Profile Picture" class="w-20 h-20 rounded-full object-cover border-4 border-white shadow-md relative z-10 transition-transform duration-300 hover:scale-105">
+                                <span class="absolute bottom-1 right-1 w-4 h-4 bg-success border-2 border-white rounded-full z-20"></span>
+                            </div>
+                            <p class="text-sm font-bold text-slate-900 mt-3">Admin User</p>
+                            <p class="text-xs text-primary font-medium bg-primary/10 px-3 py-1 rounded-full mt-1">System Administrator</p>
+                        </div>
+                        <div class="py-1">
+                            <a href="#" class="px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 hover:text-primary transition-colors flex items-center group">
+                                <i data-icon="user" class="w-4 h-4 mr-3 text-slate-500 group-hover:text-primary transition-colors"></i> My Profile
+                            </a>
+                            <a href="#" class="px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 hover:text-primary transition-colors flex items-center group">
+                                <i data-icon="settings" class="w-4 h-4 mr-3 text-slate-500 group-hover:text-primary transition-colors"></i> Account Settings
+                            </a>
+                        </div>
+                        <div class="border-t border-slate-200 py-1 mt-1">
+                            <a href="#" class="px-4 py-2.5 text-sm text-critical hover:bg-red-500/10 transition-colors flex items-center group">
+                                <i data-icon="log-out" class="w-4 h-4 mr-3 text-red-400 group-hover:text-critical transition-colors"></i> Logout
+                            </a>
+                        
+                    </div>
+                </div>
+            
+                </div>
+            </div>
+        </header>
+
+        <!-- Content Area -->
+        <div class="flex-1 overflow-y-auto p-8 z-10 content-area">
+            <div class="max-w-7xl mx-auto space-y-8">
+                
+                <!-- KPI Row -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 stats-grid">
+                    <!-- Total Scanned -->
+                    <div class="glass fade-in-target rounded-2xl p-6 relative overflow-hidden" data-tilt data-tilt-glare data-tilt-max-glare="0.1" data-tilt-scale="1.02">
+                        <div class="absolute -right-4 -top-4 w-24 h-24 bg-primary opacity-10 rounded-full blur-xl"></div>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-slate-500 font-medium mb-1">Total Scanned (Km)</p>
+                                <h3 class="text-3xl font-bold text-black">12,450</h3>
+                            </div>
+                            <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                                <i data-icon="map" class="w-6 h-6"></i>
+                            </div>
+                        </div>
+                        <div class="mt-2 flex items-center text-sm">
+                            <span class="text-success flex items-center"><i data-icon="trending-up" class="w-4 h-4 mr-1"></i> 12%</span>
+                            <span class="text-slate-500 ml-2">vs last month</span>
+                        </div>
+                        <!-- Sparkline -->
+                        <div class="h-12 mt-2"><canvas id="scannedSparkline"></canvas></div>
+                    </div>
+
+                    <!-- Critical Risk -->
+                    <div class="glass fade-in-target rounded-2xl p-6 relative overflow-hidden" data-tilt data-tilt-glare data-tilt-max-glare="0.1" data-tilt-scale="1.02">
+                        <div class="absolute -right-4 -top-4 w-24 h-24 bg-critical opacity-10 rounded-full blur-xl"></div>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-slate-500 font-medium mb-1">Critical Risk</p>
+                                <h3 class="text-3xl font-bold text-black">142</h3>
+                            </div>
+                            <div class="w-12 h-12 rounded-full bg-critical/10 flex items-center justify-center text-critical">
+                                <i data-icon="alert-triangle" class="w-6 h-6"></i>
+                            </div>
+                        </div>
+                        <div class="mt-2 flex items-center text-sm">
+                            <span class="text-critical flex items-center"><i data-icon="trending-up" class="w-4 h-4 mr-1"></i> 5%</span>
+                            <span class="text-slate-500 ml-2">vs last month</span>
+                        </div>
+                        <!-- Sparkline -->
+                        <div class="h-12 mt-2"><canvas id="criticalSparkline"></canvas></div>
+                    </div>
+
+                    <!-- Repaired this Month -->
+                    <div class="glass fade-in-target rounded-2xl p-6 relative overflow-hidden" data-tilt data-tilt-glare data-tilt-max-glare="0.1" data-tilt-scale="1.02">
+                        <div class="absolute -right-4 -top-4 w-24 h-24 bg-success opacity-10 rounded-full blur-xl"></div>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-slate-500 font-medium mb-1">Repaired this Month</p>
+                                <h3 class="text-3xl font-bold text-black">856</h3>
+                            </div>
+                            <div class="w-12 h-12 rounded-full bg-success/10 flex items-center justify-center text-success">
+                                <i data-icon="check-circle" class="w-6 h-6"></i>
+                            </div>
+                        </div>
+                        <div class="mt-2 flex items-center text-sm">
+                            <span class="text-success flex items-center"><i data-icon="trending-up" class="w-4 h-4 mr-1"></i> 22%</span>
+                            <span class="text-slate-500 ml-2">vs last month</span>
+                        </div>
+                        <!-- Sparkline -->
+                        <div class="h-12 mt-2"><canvas id="repairedSparkline"></canvas></div>
+                    </div>
+                </div>
+
+                <!-- Lower Section -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    
+                    <!-- Recent Detections -->
+                    <div class="lg:col-span-2 glass fade-in-target rounded-2xl p-6" data-tilt data-tilt-glare data-tilt-max-glare="0.1" data-tilt-scale="1.02">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-lg font-semibold text-black">Recent AI Detections</h3>
+                            <a href="detection_log.html" class="text-sm text-primary font-medium hover:underline">View All</a>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Detection Card 1 -->
+                            <div class="group relative rounded-xl overflow-hidden shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
+                                <div class="h-32 bg-gray-200 relative">
+                                    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('../../driver/images/photos/photo-2.jpg');"></div>
+                                    <div class="absolute top-2 right-2 px-2 py-1 bg-critical text-white text-xs font-bold rounded shadow">Critical</div>
+                                </div>
+                                <div class="p-4 bg-white border-r border-slate-200">
+                                    <p class="text-xs text-slate-500 mb-1">ID: #PH-9823 • 2 mins ago</p>
+                                    <h4 class="font-semibold text-black text-sm">Downtown Ave &amp; 4th St</h4>
+                                    <div class="mt-3 flex justify-between items-center">
+                                        <span class="text-xs font-medium text-slate-500 flex items-center"><i data-icon="crosshair" class="w-3 h-3 mr-1"></i> 98% Conf.</span>
+                                        <button class="text-xs bg-primary/10 text-primary px-3 py-1.5 rounded hover:bg-primary/20 transition-colors">Analyze</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Detection Card 2 -->
+                            <div class="group relative rounded-xl overflow-hidden shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
+                                <div class="h-32 bg-gray-200 relative">
+                                    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('../../driver/images/photos/photo-3.jpg');"></div>
+                                    <div class="absolute top-2 right-2 px-2 py-1 bg-warning text-white text-xs font-bold rounded shadow">Major</div>
+                                </div>
+                                <div class="p-4 bg-white border-r border-slate-200">
+                                    <p class="text-xs text-slate-500 mb-1">ID: #PH-9822 • 15 mins ago</p>
+                                    <h4 class="font-semibold text-black text-sm">North Heights Blvd</h4>
+                                    <div class="mt-3 flex justify-between items-center">
+                                        <span class="text-xs font-medium text-slate-500 flex items-center"><i data-icon="crosshair" class="w-3 h-3 mr-1"></i> 92% Conf.</span>
+                                        <button class="text-xs bg-primary/10 text-primary px-3 py-1.5 rounded hover:bg-primary/20 transition-colors">Analyze</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- System Alerts Feed -->
+                    <div class="glass fade-in-target rounded-2xl p-6 flex flex-col h-full max-h-[400px]" data-tilt data-tilt-glare data-tilt-max-glare="0.1" data-tilt-scale="1.02">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-lg font-semibold text-black flex items-center"><i data-icon="radio" class="w-5 h-5 mr-2 text-primary"></i> Live Alerts</h3>
+                        </div>
+                        <div class="flex-1 overflow-y-auto pr-2 space-y-4">
+                            <div class="flex items-start">
+                                <div class="w-2 h-2 rounded-full bg-critical mt-1.5 mr-3 alert-pulse flex-shrink-0"></div>
+                                <div>
+                                    <p class="text-sm font-medium text-black">Critical Pothole Detected</p>
+                                    <p class="text-xs text-slate-500 mt-0.5">Route 66, Unit 4 • Just now</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-2 h-2 rounded-full bg-success mt-1.5 mr-3 flex-shrink-0"></div>
+                                <div>
+                                    <p class="text-sm font-medium text-black">Repair Completed</p>
+                                    <p class="text-xs text-slate-500 mt-0.5">Crew Alpha • 10 mins ago</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-2 h-2 rounded-full bg-warning mt-1.5 mr-3 flex-shrink-0"></div>
+                                <div>
+                                    <p class="text-sm font-medium text-black">Multiple detections cluster</p>
+                                    <p class="text-xs text-slate-500 mt-0.5">Industrial Zone • 32 mins ago</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-2 h-2 rounded-full bg-slate-500 mt-1.5 mr-3 flex-shrink-0"></div>
+                                <div>
+                                    <p class="text-sm font-medium text-black">Camera offline (Unit 12)</p>
+                                    <p class="text-xs text-slate-500 mt-0.5">Westside • 1 hr ago</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Init Icons & Scripts -->
+    <script>
+        
+    </script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/admin-main.js"></script>
+    <script src="../js/dashboard-3d.js"></script>
+    <script src="../js/dashboard.js"></script>
+</body>
+</html>

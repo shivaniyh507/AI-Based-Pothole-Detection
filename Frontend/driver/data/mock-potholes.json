@@ -1,0 +1,222 @@
+[
+  {
+    "id": "PH-9823",
+    "location": "Downtown Ave & 4th St",
+    "lat": 34.0522,
+    "lng": -118.2437,
+    "severity": "Critical",
+    "confidence": 98,
+    "status": "Open",
+    "detectedAt": "2025-07-12T10:30:00Z",
+    "imageUrl": "../images/photos/photo-1.jpg"
+  },
+  {
+    "id": "PH-9822",
+    "location": "North Heights Blvd",
+    "lat": 34.0621,
+    "lng": -118.2541,
+    "severity": "Major",
+    "confidence": 92,
+    "status": "Scheduled",
+    "detectedAt": "2025-07-12T10:15:00Z",
+    "imageUrl": "../images/photos/photo-1.jpg"
+  },
+  {
+    "id": "PH-9821",
+    "location": "Eastside Highway, Exit 4",
+    "lat": 34.0410,
+    "lng": -118.2310,
+    "severity": "Minor",
+    "confidence": 85,
+    "status": "Investigating",
+    "detectedAt": "2025-07-12T09:45:00Z",
+    "imageUrl": ""
+  },
+  {
+    "id": "PH-9820",
+    "location": "Westwood Industrial Park",
+    "lat": 34.0722,
+    "lng": -118.2612,
+    "severity": "Critical",
+    "confidence": 99,
+    "status": "Open",
+    "detectedAt": "2025-07-12T09:00:00Z",
+    "imageUrl": ""
+  },
+  {
+    "id": "PH-9819",
+    "location": "Sunset Boulevard & Vine",
+    "lat": 34.0928,
+    "lng": -118.3287,
+    "severity": "Major",
+    "confidence": 94,
+    "status": "Scheduled",
+    "detectedAt": "2025-07-11T16:30:00Z",
+    "imageUrl": ""
+  },
+  {
+    "id": "PH-9818",
+    "location": "Hollywood & Highland",
+    "lat": 34.1016,
+    "lng": -118.3385,
+    "severity": "Minor",
+    "confidence": 78,
+    "status": "Open",
+    "detectedAt": "2025-07-11T14:20:00Z",
+    "imageUrl": ""
+  },
+  {
+    "id": "PH-9817",
+    "location": "Wilshire Blvd, Mile 3",
+    "lat": 34.0624,
+    "lng": -118.3080,
+    "severity": "Critical",
+    "confidence": 97,
+    "status": "Investigating",
+    "detectedAt": "2025-07-11T12:00:00Z",
+    "imageUrl": ""
+  },
+  {
+    "id": "PH-9816",
+    "location": "Santa Monica Pier Access Rd",
+    "lat": 34.0095,
+    "lng": -118.4970,
+    "severity": "Major",
+    "confidence": 88,
+    "status": "Open",
+    "detectedAt": "2025-07-11T10:45:00Z",
+    "imageUrl": ""
+  },
+  {
+    "id": "PH-9815",
+    "location": "Venice Beach Boardwalk",
+    "lat": 33.9850,
+    "lng": -118.4695,
+    "severity": "Minor",
+    "confidence": 72,
+    "status": "Scheduled",
+    "detectedAt": "2025-07-11T09:30:00Z",
+    "imageUrl": ""
+  },
+  {
+    "id": "PH-9814",
+    "location": "LAX Terminal Connector",
+    "lat": 33.9416,
+    "lng": -118.4085,
+    "severity": "Critical",
+    "confidence": 96,
+    "status": "Open",
+    "detectedAt": "2025-07-10T17:15:00Z",
+    "imageUrl": ""
+  },
+  {
+    "id": "PH-9813",
+    "location": "Century Blvd & Aviation",
+    "lat": 33.9461,
+    "lng": -118.3800,
+    "severity": "Major",
+    "confidence": 90,
+    "status": "Investigating",
+    "detectedAt": "2025-07-10T15:00:00Z",
+    "imageUrl": ""
+  },
+  {
+    "id": "PH-9812",
+    "location": "Crenshaw & Slauson",
+    "lat": 33.9892,
+    "lng": -118.3302,
+    "severity": "Minor",
+    "confidence": 81,
+    "status": "Open",
+    "detectedAt": "2025-07-10T13:20:00Z",
+    "imageUrl": ""
+  },
+  {
+    "id": "PH-9811",
+    "location": "Figueroa & Adams",
+    "lat": 34.0253,
+    "lng": -118.2786,
+    "severity": "Critical",
+    "confidence": 95,
+    "status": "Scheduled",
+    "detectedAt": "2025-07-10T11:00:00Z",
+    "imageUrl": ""
+  },
+  {
+    "id": "PH-9810",
+    "location": "USC Campus Rd, South",
+    "lat": 34.0224,
+    "lng": -118.2851,
+    "severity": "Minor",
+    "confidence": 76,
+    "status": "Open",
+    "detectedAt": "2025-07-10T08:30:00Z",
+    "imageUrl": ""
+  },
+  {
+    "id": "PH-9809",
+    "location": "Koreatown, Olympic Blvd",
+    "lat": 34.0555,
+    "lng": -118.3012,
+    "severity": "Major",
+    "confidence": 89,
+    "status": "Investigating",
+    "detectedAt": "2025-07-09T16:45:00Z",
+    "imageUrl": ""
+  },
+  {
+    "id": "PH-9808",
+    "location": "Echo Park Ave & Sunset",
+    "lat": 34.0782,
+    "lng": -118.2606,
+    "severity": "Critical",
+    "confidence": 93,
+    "status": "Open",
+    "detectedAt": "2025-07-09T14:10:00Z",
+    "imageUrl": ""
+  },
+  {
+    "id": "PH-9807",
+    "location": "Silver Lake Blvd",
+    "lat": 34.0870,
+    "lng": -118.2708,
+    "severity": "Minor",
+    "confidence": 70,
+    "status": "Scheduled",
+    "detectedAt": "2025-07-09T11:00:00Z",
+    "imageUrl": ""
+  },
+  {
+    "id": "PH-9806",
+    "location": "Glendale, Brand Blvd",
+    "lat": 34.1425,
+    "lng": -118.2551,
+    "severity": "Major",
+    "confidence": 87,
+    "status": "Open",
+    "detectedAt": "2025-07-09T09:00:00Z",
+    "imageUrl": ""
+  },
+  {
+    "id": "PH-9805",
+    "location": "Pasadena, Colorado Blvd",
+    "lat": 34.1478,
+    "lng": -118.1445,
+    "severity": "Critical",
+    "confidence": 91,
+    "status": "Investigating",
+    "detectedAt": "2025-07-08T15:30:00Z",
+    "imageUrl": ""
+  },
+  {
+    "id": "PH-9804",
+    "location": "Burbank, Olive Ave",
+    "lat": 34.1808,
+    "lng": -118.3090,
+    "severity": "Minor",
+    "confidence": 74,
+    "status": "Open",
+    "detectedAt": "2025-07-08T12:00:00Z",
+    "imageUrl": ""
+  }
+]

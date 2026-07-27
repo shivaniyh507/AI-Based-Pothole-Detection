@@ -1,0 +1,333 @@
+/* ═══════════════════════════════════════════════════════════
+   responsive.css — Mobile-first responsive overrides
+   for RoadSafe AI Admin Panel
+   ═══════════════════════════════════════════════════════════ */
+
+/* ─── CSS Custom Properties ─────────────────────────────── */
+:root {
+    --sidebar-width: 256px;
+    --header-height: 80px;
+    --primary: #a855f7;
+    --primary-light: rgba(168, 85, 247, 0.15);
+    --transition-smooth: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ─── Sidebar Overlay (Mobile) ──────────────────────────── */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 25;
+    opacity: 0;
+    transition: opacity var(--transition-smooth);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+}
+
+.sidebar-overlay.active {
+    display: block;
+    opacity: 1;
+}
+
+/* ─── Hamburger Button ──────────────────────────────────── */
+.hamburger-btn {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background 0.2s;
+    flex-shrink: 0;
+}
+
+.hamburger-btn:hover {
+    background: var(--primary-light);
+}
+
+.hamburger-btn svg {
+    width: 24px;
+    height: 24px;
+    color: #e2e8f0;
+}
+
+/* ─── Mobile Card View for Tables ───────────────────────── */
+.mobile-card {
+    display: none;
+}
+
+/* ─── Toast (ensure it works on mobile) ─────────────────── */
+@media (max-width: 640px) {
+    .rs-toast {
+        left: 16px !important;
+        right: 16px !important;
+        max-width: none !important;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   TABLET: 641px — 1024px
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+
+    /* Show hamburger */
+    .hamburger-btn {
+        display: flex;
+    }
+
+    /* Sidebar becomes off-canvas drawer */
+    aside.sidebar {
+        position: fixed !important;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: var(--sidebar-width);
+        transform: translateX(-100%);
+        transition: transform var(--transition-smooth);
+        z-index: 30 !important;
+    }
+
+    aside.sidebar.open {
+        transform: translateX(0);
+    }
+
+    /* Main takes full width */
+    body {
+        flex-direction: column;
+    }
+
+    main {
+        width: 100% !important;
+    }
+
+    /* Repair workflow: side panel goes under kanban */
+    .repair-side-panel {
+        width: 100% !important;
+        flex-shrink: 1 !important;
+    }
+
+    /* Content area fills full width for kanban */
+    .kanban-wrapper {
+        flex-direction: column !important;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MOBILE: up to 640px
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width: 640px) {
+
+    /* Header shrink */
+    header {
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+        height: 64px !important;
+    }
+
+    header h2 {
+        font-size: 16px !important;
+    }
+
+    /* Content area padding */
+    .content-area {
+        padding: 16px !important;
+    }
+
+    /* Tables → Mobile Card View */
+    .desktop-table {
+        display: none !important;
+    }
+
+    .mobile-card {
+        display: block !important;
+    }
+
+    .mobile-card-item {
+        background: #111118;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 12px;
+        padding: 16px;
+        margin-bottom: 12px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    }
+
+    .mobile-card-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 6px 0;
+    }
+
+    .mobile-card-label {
+        font-size: 12px;
+        color: #94a3b8;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .mobile-card-value {
+        font-size: 13px;
+        color: #f1f5f9;
+        font-weight: 500;
+        text-align: right;
+    }
+
+    /* Kanban: horizontal scroll with snap */
+    .kanban-board {
+        display: flex !important;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        gap: 16px;
+        padding-bottom: 16px;
+    }
+
+    .kanban-board > div {
+        min-width: 85vw;
+        scroll-snap-align: start;
+        flex-shrink: 0;
+    }
+
+    /* Stat cards: single column */
+    .stats-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Modals: full screen */
+    .modal-dialog {
+        width: 100% !important;
+        height: 100% !important;
+        max-width: none !important;
+        max-height: none !important;
+        border-radius: 0 !important;
+        margin: 0 !important;
+    }
+
+    /* Touch targets: minimum 44px */
+    button, a, select, input[type="checkbox"], .sidebar-link {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    select {
+        min-height: 44px;
+        padding-top: 8px;
+        padding-bottom: 8px;
+    }
+
+    /* Filter bar stack */
+    .filter-bar {
+        flex-direction: column !important;
+    }
+
+    .filter-bar > * {
+        width: 100% !important;
+    }
+
+    /* Personnel grid: 2 columns */
+    .personnel-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   VERY SMALL MOBILE: up to 400px
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width: 400px) {
+    /* Personnel grid: single column */
+    .personnel-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Modal Styles (shared across pages)
+   ═══════════════════════════════════════════════════════════ */
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.modal-backdrop.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-dialog {
+    background: #ffffff;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 480px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+    transform: scale(0.95) translateY(20px);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-backdrop.active .modal-dialog {
+    transform: scale(1) translateY(0);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Heatmap Tooltip
+   ═══════════════════════════════════════════════════════════ */
+.heatmap-tooltip {
+    position: absolute;
+    background: #1a1a2e;
+    color: #f1f5f9;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-family: 'Inter', sans-serif;
+    pointer-events: none;
+    z-index: 100;
+    white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    transform: translate(-50%, -100%);
+    margin-top: -8px;
+    opacity: 0;
+    transition: opacity 0.15s;
+}
+
+.heatmap-tooltip.visible {
+    opacity: 1;
+}
+
+.heatmap-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: #1a1a2e;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Landscape Orientation Fixes
+   ═══════════════════════════════════════════════════════════ */
+@media (max-height: 500px) and (orientation: landscape) {
+    header {
+        height: 56px !important;
+    }
+
+    .content-area {
+        padding: 8px 16px !important;
+    }
+}

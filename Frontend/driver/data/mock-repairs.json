@@ -1,0 +1,75 @@
+[
+  {
+    "id": "RPR-001",
+    "potholeId": "PH-9823",
+    "location": "Downtown Ave & 4th St",
+    "severity": "Critical",
+    "crew": null,
+    "status": "backlog",
+    "eta": null,
+    "materialPercent": 0,
+    "addedAt": "2025-07-12T10:30:00Z",
+    "assigneeAvatar": "../images/avatars/avatar-1.jpg"
+  },
+  {
+    "id": "RPR-002",
+    "potholeId": "PH-9820",
+    "location": "Westwood Industrial Park",
+    "severity": "Critical",
+    "crew": null,
+    "status": "backlog",
+    "eta": null,
+    "materialPercent": 0,
+    "addedAt": "2025-07-12T09:00:00Z",
+    "assigneeAvatar": "../images/avatars/avatar-3.jpg"
+  },
+  {
+    "id": "RPR-003",
+    "potholeId": "PH-9822",
+    "location": "North Heights Blvd",
+    "severity": "Major",
+    "crew": "Crew Alpha",
+    "status": "assigned",
+    "eta": 15,
+    "materialPercent": 80,
+    "addedAt": "2025-07-12T10:15:00Z",
+    "assigneeAvatar": "../images/avatars/avatar-4.jpg"
+  },
+  {
+    "id": "RPR-004",
+    "potholeId": "PH-9817",
+    "location": "Wilshire Blvd, Mile 3",
+    "severity": "Critical",
+    "crew": null,
+    "status": "backlog",
+    "eta": null,
+    "materialPercent": 0,
+    "addedAt": "2025-07-11T12:00:00Z",
+    "assigneeAvatar": "../images/avatars/avatar-7.jpg"
+  },
+  {
+    "id": "RPR-005",
+    "potholeId": "PH-9814",
+    "location": "LAX Terminal Connector",
+    "severity": "Critical",
+    "crew": "Crew Bravo",
+    "status": "in-progress",
+    "eta": 0,
+    "materialPercent": 45,
+    "addedAt": "2025-07-10T17:15:00Z",
+    "assigneeAvatar": "../images/avatars/avatar-6.jpg"
+  },
+  {
+    "id": "RPR-006",
+    "potholeId": "PH-9811",
+    "location": "Figueroa & Adams",
+    "severity": "Critical",
+    "crew": "Crew Alpha",
+    "status": "completed",
+    "eta": 0,
+    "materialPercent": 100,
+    "addedAt": "2025-07-10T11:00:00Z",
+    "completedAt": "2025-07-11T14:00:00Z",
+    "assigneeAvatar": "../images/avatars/avatar-5.jpg"
+  }
+]
