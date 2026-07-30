@@ -1,179 +1,173 @@
-// =============================
-// RoadSafe AI - Scan Road
-// =============================
+// ==========================================================================
+// RoadSafe AI - Scan Road Controller
+// ==========================================================================
 
-const fileInput = document.getElementById("fileInput");
-const previewImage = document.getElementById("previewImage");
-const previewVideo = document.getElementById("previewVideo");
-const placeholder = document.getElementById("placeholder");
-const scanBtn = document.getElementById("scanBtn");
+document.addEventListener("DOMContentLoaded", () => {
+  const fileInput = document.getElementById("fileInput");
+  const browseBtn = document.getElementById("browseBtn");
+  const uploadActionBtn = document.getElementById("uploadActionBtn");
+  const cameraActionBtn = document.getElementById("cameraActionBtn");
+  const previewImage = document.getElementById("previewImage");
+  const previewVideo = document.getElementById("previewVideo");
+  const placeholder = document.getElementById("placeholder");
+  const scanBtn = document.getElementById("scanBtn");
+  const generateReportBtn = document.getElementById("generateReportBtn");
+  const dropArea = document.getElementById("dropArea");
 
-// Result Fields
+  // Result fields
+  const potholes = document.getElementById("potholes");
+  const severity = document.getElementById("severity");
+  const confidence = document.getElementById("confidence");
+  const condition = document.getElementById("condition");
+  const recommendation = document.getElementById("recommendation");
+  const statusText = document.getElementById("statusText");
 
-const potholes = document.getElementById("potholes");
-const severity = document.getElementById("severity");
-const confidence = document.getElementById("confidence");
-const condition = document.getElementById("condition");
-const recommendation = document.getElementById("recommendation");
+  // Trigger file browser
+  if (browseBtn) {
+    browseBtn.addEventListener("click", () => fileInput.click());
+  }
 
-// =============================
-// Preview Image / Video
-// =============================
+  if (uploadActionBtn) {
+    uploadActionBtn.addEventListener("click", () => fileInput.click());
+  }
 
-fileInput.addEventListener("change", function () {
+  if (cameraActionBtn) {
+    cameraActionBtn.addEventListener("click", () => {
+      alert("Camera stream initialized. Position camera towards road surface.");
+    });
+  }
 
-    const file = this.files[0];
+  // Handle File Input Selection
+  if (fileInput) {
+    fileInput.addEventListener("change", function () {
+      const file = this.files[0];
+      if (!file) return;
 
-    if (!file) return;
+      placeholder.style.display = "none";
+      const url = URL.createObjectURL(file);
 
-    placeholder.style.display = "none";
-
-    const url = URL.createObjectURL(file);
-
-    if (file.type.startsWith("image")) {
-
+      if (file.type.startsWith("image")) {
         previewImage.src = url;
         previewImage.style.display = "block";
         previewVideo.style.display = "none";
-
-    }
-
-    else if (file.type.startsWith("video")) {
-
+      } else if (file.type.startsWith("video")) {
         previewVideo.src = url;
         previewVideo.style.display = "block";
         previewImage.style.display = "none";
+      }
 
-    }
+      if (statusText) {
+        statusText.textContent = "Media Ready for Detection";
+      }
+    });
+  }
 
-});
+  // Drag & Drop Handling
+  if (dropArea) {
+    ["dragenter", "dragover"].forEach((event) => {
+      dropArea.addEventListener(event, (e) => {
+        e.preventDefault();
+        dropArea.style.backgroundColor = "var(--bg-purple-soft)";
+      });
+    });
 
-// =============================
-// Dummy AI Scan
-// =============================
+    ["dragleave", "drop"].forEach((event) => {
+      dropArea.addEventListener(event, (e) => {
+        e.preventDefault();
+        dropArea.style.backgroundColor = "var(--bg-main)";
+      });
+    });
 
-scanBtn.addEventListener("click", () => {
+    dropArea.addEventListener("drop", (e) => {
+      const file = e.dataTransfer.files[0];
+      if (!file) return;
 
-    if (previewImage.style.display === "none" &&
-        previewVideo.style.display === "none") {
+      fileInput.files = e.dataTransfer.files;
+      fileInput.dispatchEvent(new Event("change"));
+    });
+  }
 
-        alert("Please upload an image or video first.");
-
+  // Run AI Detection Scan Simulation
+  if (scanBtn) {
+    scanBtn.addEventListener("click", () => {
+      if (
+        previewImage.style.display === "none" &&
+        previewVideo.style.display === "none"
+      ) {
+        alert("Please upload an image or video file first.");
         return;
+      }
 
-    }
+      scanBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Running YOLO Detection...`;
+      scanBtn.disabled = true;
 
-    scanBtn.innerHTML =
-        `<i class="fa-solid fa-spinner fa-spin"></i> Scanning...`;
+      setTimeout(() => {
+        const count = Math.floor(Math.random() * 5) + 1;
+        const confidenceVal = Math.floor(Math.random() * 8) + 91;
 
-    scanBtn.disabled = true;
+        if (potholes) potholes.textContent = count;
+        if (confidence) confidence.textContent = `${confidenceVal}%`;
 
-    setTimeout(() => {
-
-        const potholeCount = Math.floor(Math.random() * 6);
-
-        const confidenceValue =
-            Math.floor(Math.random() * 10) + 90;
-
-        potholes.innerText = potholeCount;
-
-        confidence.innerText = confidenceValue + "%";
-
-        if (potholeCount == 0) {
-
-            severity.innerText = "None";
-            severity.style.color = "#16a34a";
-
-            condition.innerText = "Excellent";
-
-            recommendation.innerText =
-                "Road looks safe. Continue driving.";
-
+        if (count <= 1) {
+          if (severity) {
+            severity.textContent = "Low Hazard";
+            severity.className = "badge-tag badge-success-soft";
+          }
+          if (condition) condition.textContent = "Good Road Condition";
+          if (recommendation) {
+            recommendation.textContent = "Minor road surface wear. Safe for normal driving speeds.";
+          }
+        } else if (count <= 3) {
+          if (severity) {
+            severity.textContent = "Medium Hazard";
+            severity.className = "badge-tag badge-warning-soft";
+          }
+          if (condition) condition.textContent = "Moderate Damage";
+          if (recommendation) {
+            recommendation.textContent = "Multiple shallow potholes detected. Reduce speed to 40 km/h.";
+          }
+        } else {
+          if (severity) {
+            severity.textContent = "High Hazard";
+            severity.className = "badge-tag badge-danger-soft";
+          }
+          if (condition) condition.textContent = "Severe Surface Degradation";
+          if (recommendation) {
+            recommendation.textContent = "Critical pothole cluster detected. Reroute via safer alternative.";
+          }
         }
 
-        else if (potholeCount <= 2) {
-
-            severity.innerText = "Low";
-            severity.style.color = "#22c55e";
-
-            condition.innerText = "Good";
-
-            recommendation.innerText =
-                "Minor potholes detected. Drive carefully.";
-
-        }
-
-        else if (potholeCount <= 4) {
-
-            severity.innerText = "Medium";
-            severity.style.color = "#f59e0b";
-
-            condition.innerText = "Moderate";
-
-            recommendation.innerText =
-                "Reduce speed and stay alert.";
-
-        }
-
-        else {
-
-            severity.innerText = "High";
-            severity.style.color = "#ef4444";
-
-            condition.innerText = "Poor";
-
-            recommendation.innerText =
-                "Avoid this road if possible.";
-
-        }
-
-        scanBtn.innerHTML =
-            `<i class="fa-solid fa-check"></i> Scan Complete`;
-
-        scanBtn.style.background = "#16a34a";
-
-    }, 2500);
-
-});
-
-// =============================
-// Drag & Drop
-// =============================
-
-const dropArea = document.getElementById("dropArea");
-
-["dragenter", "dragover"].forEach(event => {
-
-    dropArea.addEventListener(event, e => {
-
-        e.preventDefault();
-
-        dropArea.style.background = "#eef5ff";
-
+        if (statusText) statusText.textContent = "Scan Complete";
+        scanBtn.innerHTML = `<i class="fa-solid fa-check"></i> Scan Complete`;
+        scanBtn.disabled = false;
+      }, 2000);
     });
+  }
 
-});
-
-["dragleave", "drop"].forEach(event => {
-
-    dropArea.addEventListener(event, e => {
-
-        e.preventDefault();
-
-        dropArea.style.background = "white";
-
+  // Generate Report Button Action
+  if (generateReportBtn) {
+    generateReportBtn.addEventListener("click", () => {
+      alert("New Pothole Detection Report generated and saved to 'My Reports'.");
+      window.location.href = "my-reports.html";
     });
+  }
 
-});
+  // Quick Action Shortcuts
+  const quickStartScan = document.getElementById("quickStartScan");
+  const quickOpenCamera = document.getElementById("quickOpenCamera");
+  const quickViewReports = document.getElementById("quickViewReports");
 
-dropArea.addEventListener("drop", e => {
+  if (quickStartScan && browseBtn) {
+    quickStartScan.addEventListener("click", () => browseBtn.click());
+  }
 
-    const file = e.dataTransfer.files[0];
+  if (quickOpenCamera && cameraActionBtn) {
+    quickOpenCamera.addEventListener("click", () => cameraActionBtn.click());
+  }
 
-    if (!file) return;
-
-    fileInput.files = e.dataTransfer.files;
-
-    fileInput.dispatchEvent(new Event("change"));
-
+  if (quickViewReports) {
+    quickViewReports.addEventListener("click", () => {
+      window.location.href = "my-reports.html";
+    });
+  }
 });

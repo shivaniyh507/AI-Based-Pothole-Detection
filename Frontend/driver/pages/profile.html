@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Scan Road | ROADIES</title>
+  <title>User Profile | ROADIES</title>
 
   <!-- Typography & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,7 +13,7 @@
 
   <!-- App Stylesheets -->
   <link rel="stylesheet" href="../css/common.css" />
-  <link rel="stylesheet" href="../css/scan.css" />
+  <link rel="stylesheet" href="../css/profile.css" />
   <link rel="stylesheet" href="../css/responsive.css" />
 </head>
 <body>
@@ -38,9 +38,9 @@
       <a class="nav-item" href="live-map.html"><i class="fa-solid fa-route"></i><span>Route Planner</span></a>
       <a class="nav-item" href="my-reports.html"><i class="fa-solid fa-clock-rotate-left"></i><span>Route History</span></a>
       <a class="nav-item" href="dashboard.html"><i class="fa-solid fa-circle-info"></i><span>Pothole Details</span></a>
-      <a class="nav-item active" href="scan-road.html"><i class="fa-solid fa-camera"></i><span>Scan Road</span></a>
+      <a class="nav-item" href="scan-road.html"><i class="fa-solid fa-camera"></i><span>Scan Road</span></a>
       <a class="nav-item" href="my-reports.html"><i class="fa-solid fa-file-lines"></i><span>My Reports</span></a>
-      <a class="nav-item" href="profile.html"><i class="fa-solid fa-user"></i><span>Profile</span></a>
+      <a class="nav-item active" href="profile.html"><i class="fa-solid fa-user"></i><span>Profile</span></a>
       <a class="nav-item" href="settings.html"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
     </nav>
 
@@ -61,8 +61,8 @@
     <!-- Topbar Header -->
     <header class="topbar">
       <div class="topbar-title-section">
-        <h1 class="page-title">Scan Road with AI 🚗</h1>
-        <p class="page-subtitle">Upload image or video feed to detect road damage & potholes</p>
+        <h1 class="page-title">User Profile & Activity 👤</h1>
+        <p class="page-subtitle">Manage driver account credentials, achievements, and road scan contributions</p>
       </div>
 
       <div class="topbar-actions">
@@ -84,157 +84,191 @@
             <i class="fa-solid fa-user"></i>
           </div>
           <div class="profile-info">
-            <strong>Archita Trivedi</strong>
-            <p>Driver / Member #1042</p>
+            <strong id="headerUserName">Archita Trivedi</strong>
+            <p id="headerUserRole">Driver / Member #1042</p>
           </div>
         </a>
       </div>
     </header>
 
-    <!-- AI Detection Hero Banner -->
-    <section class="hero-banner-card">
+    <!-- Profile Header Banner Card -->
+    <section class="hero-banner-card profile-banner">
+      <div class="profile-avatar-large">
+        <i class="fa-solid fa-user-gear"></i>
+      </div>
       <div class="hero-banner-content">
-        <p class="hero-eyebrow">AI Powered Analytics</p>
-        <h2>Automated Road Detection & Assessment</h2>
-        <p>ROADIES uses YOLO deep learning vision models to instantly identify potholes, estimate depth severity, and generate repair reports.</p>
-        <div class="hero-banner-actions">
-          <button id="uploadActionBtn" class="btn btn-purple-soft">
-            <i class="fa-solid fa-upload"></i> Upload Media
-          </button>
-          <button id="cameraActionBtn" class="btn btn-secondary">
-            <i class="fa-solid fa-camera"></i> Open Camera
-          </button>
+        <p class="hero-eyebrow">ROADIES Safety Network Member</p>
+        <h2 id="profileName">Archita Trivedi</h2>
+        <p id="profileBio">Senior Road Inspector & Active Driver Contributor. Joined July 2026.</p>
+        <div class="profile-badges">
+          <span class="badge-tag badge-purple-soft"><i class="fa-solid fa-award"></i> Gold Inspector</span>
+          <span class="badge-tag badge-success-soft"><i class="fa-solid fa-shield-check"></i> 98% Accuracy Rating</span>
         </div>
       </div>
 
       <div class="hero-side-card">
-        <span>AI Accuracy</span>
-        <strong>96%</strong>
-        <p>YOLO v8 Vision Engine</p>
+        <span>Contribution Score</span>
+        <strong>1,450</strong>
+        <p>Points Earned</p>
       </div>
     </section>
 
-    <!-- Quick Scan Metrics -->
-    <section class="stats-grid" aria-label="Scan Statistics">
+    <!-- Contribution Statistics Grid -->
+    <section class="stats-grid" aria-label="Driver Activity Statistics">
       <article class="stat-card">
-        <div class="stat-icon"><i class="fa-solid fa-image"></i></div>
+        <div class="stat-icon"><i class="fa-solid fa-route"></i></div>
         <div class="stat-info">
-          <span>Images Scanned</span>
-          <strong>34</strong>
+          <span>Roads Scanned</span>
+          <strong id="statDistance">48.2 km</strong>
+        </div>
+      </article>
+      <article class="stat-card">
+        <div class="stat-icon"><i class="fa-solid fa-file-circle-check"></i></div>
+        <div class="stat-info">
+          <span>Reports Submitted</span>
+          <strong id="statSubmitted">34</strong>
         </div>
       </article>
       <article class="stat-card">
         <div class="stat-icon"><i class="fa-solid fa-circle-check"></i></div>
         <div class="stat-info">
-          <span>Detections</span>
-          <strong>29</strong>
+          <span>Verified Hazards</span>
+          <strong id="statVerified">29</strong>
         </div>
       </article>
       <article class="stat-card">
-        <div class="stat-icon"><i class="fa-solid fa-road"></i></div>
+        <div class="stat-icon"><i class="fa-solid fa-trophy"></i></div>
         <div class="stat-info">
-          <span>Potholes Found</span>
-          <strong id="potholes">61</strong>
-        </div>
-      </article>
-      <article class="stat-card">
-        <div class="stat-icon"><i class="fa-solid fa-brain"></i></div>
-        <div class="stat-info">
-          <span>Confidence</span>
-          <strong id="confidence">94%</strong>
+          <span>Rank</span>
+          <strong>#4 Citywide</strong>
         </div>
       </article>
     </section>
 
-    <!-- Main Scan Grid (Upload Zone + AI Result Panel) -->
-    <section class="scan-grid">
+    <!-- Main Profile Grid (Form Settings + Achievements Timeline) -->
+    <section class="profile-main-grid">
 
-      <!-- Upload Container Card -->
-      <article class="panel-card upload-panel-card">
-        <div class="panel-header-bar">
-          <h2><i class="fa-solid fa-cloud-arrow-up"></i> Upload Media / Camera Feed</h2>
-        </div>
+      <!-- Left Column: Edit Profile & Security Forms -->
+      <div class="profile-forms-column">
 
-        <div id="dropArea" class="drop-zone">
-          <input type="file" id="fileInput" hidden accept="image/*,video/*">
-          
-          <div id="placeholder" class="drop-placeholder">
-            <div class="upload-icon-wrapper">
-              <i class="fa-solid fa-cloud-arrow-up"></i>
+        <!-- Personal Info Card -->
+        <article class="panel-card">
+          <div class="panel-header-bar">
+            <h2><i class="fa-solid fa-user-pen"></i> Personal Information</h2>
+          </div>
+
+          <form id="profileForm" class="profile-form">
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="inputFullName">Full Name</label>
+                <input type="text" id="inputFullName" class="form-control" value="Archita Trivedi" required />
+              </div>
+              <div class="form-group">
+                <label for="inputEmail">Email Address</label>
+                <input type="email" id="inputEmail" class="form-control" value="archita.trivedi@roadies.ai" required />
+              </div>
+              <div class="form-group">
+                <label for="inputPhone">Phone Number</label>
+                <input type="tel" id="inputPhone" class="form-control" value="+91 98765 43210" />
+              </div>
+              <div class="form-group">
+                <label for="inputVehicle">Vehicle Model</label>
+                <input type="text" id="inputVehicle" class="form-control" value="Honda City (SUV/Sedan)" />
+              </div>
             </div>
-            <h3>Drag & Drop File Here</h3>
-            <p>Supports JPG, PNG, MP4 video streams</p>
-            <button id="browseBtn" class="btn btn-purple-gradient">Browse Files</button>
+
+            <div class="form-actions">
+              <button type="submit" id="saveProfileBtn" class="btn btn-purple-gradient">
+                <i class="fa-solid fa-floppy-disk"></i> Save Profile Changes
+              </button>
+            </div>
+          </form>
+        </article>
+
+        <!-- Password & Security Card -->
+        <article class="panel-card">
+          <div class="panel-header-bar">
+            <h2><i class="fa-solid fa-lock"></i> Security & Password</h2>
           </div>
 
-          <img id="previewImage" class="preview-media" alt="Scan Preview">
-          <video id="previewVideo" class="preview-media" controls></video>
-        </div>
-      </article>
+          <form id="passwordForm" class="profile-form">
+            <div class="form-group">
+              <label for="inputCurrentPass">Current Password</label>
+              <input type="password" id="inputCurrentPass" class="form-control" placeholder="••••••••" required />
+            </div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="inputNewPass">New Password</label>
+                <input type="password" id="inputNewPass" class="form-control" placeholder="••••••••" required />
+              </div>
+              <div class="form-group">
+                <label for="inputConfirmPass">Confirm New Password</label>
+                <input type="password" id="inputConfirmPass" class="form-control" placeholder="••••••••" required />
+              </div>
+            </div>
 
-      <!-- AI Result Panel Card -->
-      <aside class="panel-card result-panel-card">
-        <div class="panel-header-bar">
-          <h2><i class="fa-solid fa-chart-pie"></i> AI Detection Result</h2>
-        </div>
+            <div class="form-actions">
+              <button type="submit" id="updatePasswordBtn" class="btn btn-secondary">
+                <i class="fa-solid fa-key"></i> Update Password
+              </button>
+            </div>
+          </form>
+        </article>
 
-        <div class="result-details">
-          <div class="result-status-block">
-            <span class="status-label">Detection Status</span>
-            <h3 id="statusText">Waiting for File...</h3>
+      </div>
+
+      <!-- Right Column: Achievements & Activity Feed -->
+      <div class="profile-sidebar-column">
+
+        <!-- Achievements Card -->
+        <article class="panel-card">
+          <div class="panel-header-bar">
+            <h2><i class="fa-solid fa-medal"></i> Achievements</h2>
           </div>
 
-          <div class="metric-row">
-            <span class="metric-label">Estimated Severity</span>
-            <strong id="severity" class="badge-tag badge-purple-soft">None</strong>
+          <div class="achievements-list">
+            <div class="achievement-item">
+              <div class="achievement-icon gold"><i class="fa-solid fa-trophy"></i></div>
+              <div>
+                <strong>Gold Road Inspector</strong>
+                <p>Scanned over 40 km of city roads</p>
+              </div>
+            </div>
+
+            <div class="achievement-item">
+              <div class="achievement-icon purple"><i class="fa-solid fa-eye"></i></div>
+              <div>
+                <strong>Eagle Eye Detector</strong>
+                <p>Reported 25+ verified high severity potholes</p>
+              </div>
+            </div>
+
+            <div class="achievement-item">
+              <div class="achievement-icon green"><i class="fa-solid fa-shield-halved"></i></div>
+              <div>
+                <strong>Community Sentinel</strong>
+                <p>98% AI verification accuracy rate</p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Activity Timeline Card -->
+        <article class="panel-card">
+          <div class="panel-header-bar">
+            <h2><i class="fa-solid fa-clock-rotate-left"></i> Driver Activity History</h2>
           </div>
 
-          <div class="metric-row">
-            <span class="metric-label">Road Condition</span>
-            <strong id="condition">Pending Scan</strong>
-          </div>
+          <ul class="timeline-list">
+            <li class="timeline-item">Scanned Mall Road & detected 1 high hazard pothole (Today)</li>
+            <li class="timeline-item">Submitted Report #1021 — Approved by Kanpur Works (Yesterday)</li>
+            <li class="timeline-item">Earned "Gold Road Inspector" Badge (12 Jul 2026)</li>
+            <li class="timeline-item">Completed 10 km live navigation scan route (10 Jul 2026)</li>
+          </ul>
+        </article>
 
-          <div class="recommendation-box">
-            <span class="metric-label">AI Recommendation</span>
-            <p id="recommendation">Upload an image or video to run real-time YOLO pothole detection.</p>
-          </div>
-        </div>
+      </div>
 
-        <div class="result-actions">
-          <button id="scanBtn" class="btn btn-purple-gradient btn-full">
-            <i class="fa-solid fa-magnifying-glass"></i> Run AI Detection Scan
-          </button>
-          <button id="generateReportBtn" class="btn btn-secondary btn-full">
-            <i class="fa-solid fa-file-export"></i> Generate Report
-          </button>
-        </div>
-      </aside>
-
-    </section>
-
-    <!-- Bottom Section: Recent Activity & Quick Shortcuts -->
-    <section class="bottom-scan-grid">
-      <article class="panel-card">
-        <div class="panel-header-bar">
-          <h2><i class="fa-solid fa-clock-rotate-left"></i> Recent Scans</h2>
-        </div>
-        <ul class="timeline-list">
-          <li class="timeline-item">GT Road Mall Crossing — 5 Potholes Detected (High Risk)</li>
-          <li class="timeline-item">Civil Lines Sector 4 — No Surface Damage Found</li>
-          <li class="timeline-item">Kidwai Nagar Main Road — Medium Severity Depressions</li>
-        </ul>
-      </article>
-
-      <article class="panel-card">
-        <div class="panel-header-bar">
-          <h2><i class="fa-solid fa-bolt"></i> Quick Actions</h2>
-        </div>
-        <div class="quick-actions-grid">
-          <button id="quickStartScan" class="btn btn-purple-soft">Start Scan</button>
-          <button id="quickOpenCamera" class="btn btn-secondary">Open Camera</button>
-          <button id="quickViewReports" class="btn btn-secondary">View Reports</button>
-        </div>
-      </article>
     </section>
 
   </main>
@@ -325,6 +359,6 @@
 
 <!-- Application Scripts -->
 <script src="../js/common.js"></script>
-<script src="../js/scan.js"></script>
+<script src="../js/profile.js"></script>
 </body>
 </html>

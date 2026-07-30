@@ -1,25 +1,96 @@
-@media (max-width: 1200px){
-  .stats-grid{grid-template-columns:repeat(3,1fr);}
-  .content-grid,
-  .bottom-grid{grid-template-columns:1fr;}
+/* ==========================================================================
+   RoadSafe AI - Responsive Breakpoints Across All Driver Pages
+   ========================================================================== */
+
+@media (max-width: 1200px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .dashboard-main-grid,
+  .scan-grid,
+  .bottom-scan-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .guidelines-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
-@media (max-width: 980px){
-  .app-shell{grid-template-columns:1fr;}
-  .sidebar{display:none;}
-  .hero-card{flex-direction:column;align-items:flex-start;}
+@media (max-width: 992px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+  }
+  
+  .sidebar {
+    display: none;
+  }
+  
+  .main-content {
+    padding: 24px;
+  }
+
+  .hero-banner-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .floating-route-card {
+    position: relative;
+    top: 0;
+    right: 0;
+    width: 100%;
+    margin-top: 14px;
+  }
 }
 
-@media (max-width: 720px){
-  .topbar{flex-direction:column;align-items:stretch}
-  .topbar-actions{justify-content:space-between}
-  .stats-grid{grid-template-columns:repeat(2,1fr);}
-  .quick-actions{grid-template-columns:1fr;}
-  .hero-card h2{font-size:24px;}
+@media (max-width: 768px) {
+  .topbar,
+  .map-toolbar-card,
+  .reports-filter-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  
+  .topbar-actions,
+  .toolbar-buttons,
+  .filter-controls,
+  .search-box {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .page-title {
+    font-size: 20px;
+  }
+
+  .quick-actions-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
-@media (max-width: 520px){
-  .main-content{padding:14px}
-  .stats-grid{grid-template-columns:1fr;}
-  .panel,.hero-card,.topbar{border-radius:18px}
+@media (max-width: 520px) {
+  .main-content {
+    padding: 14px;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .map-container,
+  .live-map-container {
+    height: 320px;
+  }
+
+  .hero-banner-card {
+    padding: 20px;
+  }
+
+  .hero-banner-content h2 {
+    font-size: 20px;
+  }
 }

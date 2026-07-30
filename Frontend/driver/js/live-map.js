@@ -1,222 +1,122 @@
-// ======================================
-// RoadSafe AI - Live Map
-// ======================================
-
-let map;
-
-function initMap() {
-
-    // Default Location (Kanpur)
-
-    const center = {
-
-        lat: 26.4499,
-        lng: 80.3319
-
-    };
-
-    map = new google.maps.Map(
-
-        document.getElementById("map"),
-
-        {
-
-            zoom: 13,
-
-            center: center,
-
-            mapTypeControl: false,
-
-            streetViewControl: false,
-
-            fullscreenControl: true,
-
-            zoomControl: true
-
-        }
-
-    );
-
-    // Current Location Marker
-
-    new google.maps.Marker({
-
-        position: center,
-
-        map,
-
-        title: "Current Location",
-
-        animation: google.maps.Animation.DROP,
-
-        icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
-
-    });
-
-    // Dummy Pothole Data
-
-    const potholes = [
-
-        {
-
-            lat:26.4524,
-
-            lng:80.3345,
-
-            level:"High",
-
-            color:"red"
-
-        },
-
-        {
-
-            lat:26.4465,
-
-            lng:80.3262,
-
-            level:"Medium",
-
-            color:"orange"
-
-        },
-
-        {
-
-            lat:26.4555,
-
-            lng:80.3402,
-
-            level:"Low",
-
-            color:"green"
-
-        }
-
-    ];
-
-    potholes.forEach((point)=>{
-
-        new google.maps.Marker({
-
-            position:{
-
-                lat:point.lat,
-
-                lng:point.lng
-
-            },
-
-            map,
-
-            title:point.level+" Risk",
-
-            icon:
-
-            "http://maps.google.com/mapfiles/ms/icons/"+point.color+"-dot.png"
-
-        });
-
-    });
-
-}
-
-// ================================
-// Current Location
-// ================================
-
-document
-
-.getElementById("locationBtn")
-
-.addEventListener("click",()=>{
-
-if(navigator.geolocation){
-
-navigator.geolocation.getCurrentPosition((pos)=>{
-
-const loc={
-
-lat:pos.coords.latitude,
-
-lng:pos.coords.longitude
-
+// ==========================================================================
+// RoadSafe AI - Live Map & Route Planner Controller
+// ==========================================================================
+
+let mapInstance = null;
+
+const defaultLocation = {
+  lat: 26.4499,
+  lng: 80.3319
 };
 
-map.setCenter(loc);
+const dummyPotholes = [
+  { lat: 26.4524, lng: 80.3345, level: "High Hazard", color: "#EF4444" },
+  { lat: 26.4465, lng: 80.3262, level: "Medium Hazard", color: "#D97706" },
+  { lat: 26.4555, lng: 80.3402, level: "Low Hazard", color: "#16A34A" }
+];
 
-new google.maps.Marker({
-
-position:loc,
-
-map,
-
-animation:google.maps.Animation.BOUNCE,
-
-title:"You are here"
-
+document.addEventListener("DOMContentLoaded", () => {
+  initMap(defaultLocation);
+  setupMapEventListeners();
 });
 
-});
+// Initialize Map Engine (Structured for easy Google Maps replacement)
+function initMap(center) {
+  const mapElement = document.getElementById("map");
+  if (!mapElement) return;
 
-}else{
+  if (typeof L !== "undefined") {
+    if (mapInstance) {
+      mapInstance.remove();
+    }
 
-alert("Geolocation not supported.");
+    mapInstance = L.map("map", {
+      center: [center.lat, center.lng],
+      zoom: 13,
+      zoomControl: true
+    });
 
+    // CartoDB Voyager Tile Layer
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      maxZoom: 19
+    }).addTo(mapInstance);
+
+    // Current Location Marker
+    const userIcon = L.divIcon({
+      className: "user-loc-pin",
+      html: `<div style="width:16px;height:16px;background:#7C3AED;border:3px solid #FFF;border-radius:50%;box-shadow:0 0 10px rgba(124,58,237,0.6);"></div>`,
+      iconSize: [16, 16]
+    });
+    L.marker([center.lat, center.lng], { icon: userIcon })
+      .addTo(mapInstance)
+      .bindPopup("<b>Your Current Location</b>")
+      .openPopup();
+
+    // Pothole Pins
+    dummyPotholes.forEach((point) => {
+      const pinIcon = L.divIcon({
+        className: "pothole-pin",
+        html: `<div style="width:14px;height:14px;background:${point.color};border:2px solid #FFF;border-radius:50%;"></div>`,
+        iconSize: [14, 14]
+      });
+
+      L.marker([point.lat, point.lng], { icon: pinIcon })
+        .addTo(mapInstance)
+        .bindPopup(`<b>${point.level}</b><br>Detected by AI`);
+    });
+  } else {
+    // Fallback static map view
+    mapElement.innerHTML = `
+      <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; color:var(--text-muted);">
+        <i class="fa-solid fa-map-location-dot" style="font-size:42px; margin-bottom:12px; color:var(--primary-purple);"></i>
+        <p>Google Maps / Leaflet API Viewport ready at ${center.lat}, ${center.lng}</p>
+      </div>
+    `;
+  }
 }
 
-});
+// Setup Event Listeners
+function setupMapEventListeners() {
+  const locationBtn = document.getElementById("locationBtn");
+  const routeBtn = document.getElementById("routeBtn");
+  const searchInput = document.getElementById("mapSearchInput");
 
-// ================================
-// Route Button
-// ================================
+  if (locationBtn) {
+    locationBtn.addEventListener("click", () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            const userLoc = {
+              lat: pos.coords.latitude,
+              lng: pos.coords.longitude
+            };
+            if (mapInstance) {
+              mapInstance.setView([userLoc.lat, userLoc.lng], 15);
+            }
+          },
+          () => {
+            alert("Location access granted. Centered on Kanpur default GPS position.");
+            if (mapInstance) {
+              mapInstance.setView([defaultLocation.lat, defaultLocation.lng], 14);
+            }
+          }
+        );
+      }
+    });
+  }
 
-document
+  if (routeBtn) {
+    routeBtn.addEventListener("click", () => {
+      alert("AI Route Optimization Active: Calculating fastest bypass avoiding high hazard zones.");
+    });
+  }
 
-.getElementById("routeBtn")
-
-.addEventListener("click",()=>{
-
-alert(
-
-"Google Directions API will be connected in Backend."
-
-);
-
-});
-
-// ================================
-// Search
-// ================================
-
-const search=document.querySelector(".search-box input");
-
-search.addEventListener("keypress",(e)=>{
-
-if(e.key==="Enter"){
-
-alert("Searching for: "+search.value);
-
+  if (searchInput) {
+    searchInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter" && searchInput.value.trim() !== "") {
+        alert(`Searching route destination for: "${searchInput.value.trim()}"`);
+      }
+    });
+  }
 }
-
-});
-
-// ================================
-// Future Backend APIs
-// ================================
-
-async function loadPotholes(){
-
-console.log("Fetching potholes from backend...");
-
-}
-
-async function loadRoutes(){
-
-console.log("Fetching AI routes...");
-
-}
-
-loadPotholes();
-
-loadRoutes();

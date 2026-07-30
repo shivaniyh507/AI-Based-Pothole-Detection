@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Live Map | ROADIES</title>
+  <title>Application Settings | ROADIES</title>
 
   <!-- Typography & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,12 +11,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
-  <!-- Map Engine CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-
   <!-- App Stylesheets -->
   <link rel="stylesheet" href="../css/common.css" />
-  <link rel="stylesheet" href="../css/live-map.css" />
+  <link rel="stylesheet" href="../css/settings.css" />
   <link rel="stylesheet" href="../css/responsive.css" />
 </head>
 <body>
@@ -37,14 +34,14 @@
 
     <nav class="sidebar-nav" aria-label="Main Navigation">
       <a class="nav-item" href="dashboard.html"><i class="fa-solid fa-gauge-high"></i><span>Dashboard</span></a>
-      <a class="nav-item active" href="live-map.html"><i class="fa-solid fa-compass"></i><span>Map View</span></a>
+      <a class="nav-item" href="live-map.html"><i class="fa-solid fa-compass"></i><span>Map View</span></a>
       <a class="nav-item" href="live-map.html"><i class="fa-solid fa-route"></i><span>Route Planner</span></a>
       <a class="nav-item" href="my-reports.html"><i class="fa-solid fa-clock-rotate-left"></i><span>Route History</span></a>
       <a class="nav-item" href="dashboard.html"><i class="fa-solid fa-circle-info"></i><span>Pothole Details</span></a>
       <a class="nav-item" href="scan-road.html"><i class="fa-solid fa-camera"></i><span>Scan Road</span></a>
       <a class="nav-item" href="my-reports.html"><i class="fa-solid fa-file-lines"></i><span>My Reports</span></a>
       <a class="nav-item" href="profile.html"><i class="fa-solid fa-user"></i><span>Profile</span></a>
-      <a class="nav-item" href="settings.html"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+      <a class="nav-item active" href="settings.html"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
     </nav>
 
     <div class="sidebar-footer">
@@ -64,8 +61,8 @@
     <!-- Topbar Header -->
     <header class="topbar">
       <div class="topbar-title-section">
-        <h1 class="page-title">Live Navigation & Route Planner 🗺️</h1>
-        <p class="page-subtitle">Real-time hazard awareness, route guidance, & pothole mapping</p>
+        <h1 class="page-title">Application Settings & Preferences ⚙️</h1>
+        <p class="page-subtitle">Configure AI detection threshold, navigation alerts, & API backend parameters</p>
       </div>
 
       <div class="topbar-actions">
@@ -94,99 +91,139 @@
       </div>
     </header>
 
-    <!-- Map Control Toolbar -->
-    <section class="map-toolbar-card">
-      <div class="search-box">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <input type="text" id="mapSearchInput" placeholder="Search destination, road, or landmark..." />
-      </div>
+    <!-- Main Settings Grid -->
+    <section class="settings-grid">
 
-      <div class="toolbar-buttons">
-        <button id="locationBtn" class="btn btn-secondary">
-          <i class="fa-solid fa-location-crosshairs"></i> My Location
-        </button>
-        <button id="routeBtn" class="btn btn-purple-gradient">
-          <i class="fa-solid fa-route"></i> Start Navigation
-        </button>
-      </div>
-    </section>
+      <!-- AI Detection Settings Card -->
+      <article class="panel-card">
+        <div class="panel-header-bar">
+          <h2><i class="fa-solid fa-brain"></i> AI Detection Model & Vision Engine</h2>
+        </div>
 
-    <!-- Map Viewport & Overlay Section -->
-    <section class="map-section-wrapper">
-      <div id="map" class="map-viewport live-map-container">
-        <!-- Interactive Map Container -->
-      </div>
-
-      <!-- Floating AI Route Recommendation Overlay Card -->
-      <aside class="floating-route-card panel-card">
-        <h3><i class="fa-solid fa-brain"></i> AI Route Options</h3>
-        
-        <div class="route-option-card active">
-          <div class="route-option-header">
-            <span class="route-tag badge-success-soft">🟢 Safest</span>
-            <strong>5.8 km</strong>
+        <div class="settings-group">
+          <div class="setting-item flex-between">
+            <div>
+              <strong>Auto Road Scanning</strong>
+              <p>Automatically run YOLO vision model while driving with camera enabled</p>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" checked />
+              <span class="toggle-slider"></span>
+            </label>
           </div>
-          <p>0 Major Potholes • Bypass Corridor</p>
-        </div>
 
-        <div class="route-option-card">
-          <div class="route-option-header">
-            <span class="route-tag badge-warning-soft">🟡 Balanced</span>
-            <strong>5.2 km</strong>
+          <div class="setting-item">
+            <div class="flex-between">
+              <strong>AI Confidence Threshold</strong>
+              <span id="thresholdValue" class="badge-tag badge-purple-soft">85% Minimum</span>
+            </div>
+            <p>Filter out low-confidence AI detections before flagging hazards</p>
+            <input type="range" id="thresholdSlider" class="range-slider" min="80" max="99" value="85" />
           </div>
-          <p>1 Medium Pothole • Standard Route</p>
-        </div>
 
-        <div class="route-option-card">
-          <div class="route-option-header">
-            <span class="route-tag badge-danger-soft">🔴 Fastest</span>
-            <strong>4.9 km</strong>
+          <div class="setting-item flex-between">
+            <div>
+              <strong>Real-Time Depth Estimation</strong>
+              <p>Estimate pothole depth in centimeters using stereo spatial algorithms</p>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" checked />
+              <span class="toggle-slider"></span>
+            </label>
           </div>
-          <p>4 Potholes • GT Road Highway</p>
         </div>
-      </aside>
-    </section>
+      </article>
 
-    <!-- Bottom Map Metrics & Legend Grid -->
-    <section class="stats-grid" aria-label="Map Navigation Metrics">
-      <article class="stat-card">
-        <div class="stat-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
-        <div class="stat-info">
-          <span>Potholes Nearby</span>
-          <strong>27</strong>
+      <!-- Navigation & Hazard Alerts Settings Card -->
+      <article class="panel-card">
+        <div class="panel-header-bar">
+          <h2><i class="fa-solid fa-compass"></i> Navigation & Hazard Alerts</h2>
         </div>
-      </article>
-      <article class="stat-card">
-        <div class="stat-icon"><i class="fa-solid fa-shield-halved"></i></div>
-        <div class="stat-info">
-          <span>Road Health</span>
-          <strong>94%</strong>
-        </div>
-      </article>
-      <article class="stat-card">
-        <div class="stat-icon"><i class="fa-solid fa-car"></i></div>
-        <div class="stat-info">
-          <span>Safe Routes</span>
-          <strong>3</strong>
-        </div>
-      </article>
-      <article class="stat-card">
-        <div class="stat-icon"><i class="fa-solid fa-clock"></i></div>
-        <div class="stat-info">
-          <span>Estimated ETA</span>
-          <strong>18 min</strong>
-        </div>
-      </article>
-    </section>
 
-    <!-- Hazard Legend Bar -->
-    <footer class="legend-bar panel-card">
-      <span class="legend-title">Hazard Legend:</span>
-      <div class="legend-item"><span class="legend-dot red"></span> High Hazard Zone</div>
-      <div class="legend-item"><span class="legend-dot orange"></span> Medium Hazard</div>
-      <div class="legend-item"><span class="legend-dot green"></span> Safe Road</div>
-      <div class="legend-item"><span class="legend-dot purple"></span> Recommended AI Route</div>
-    </footer>
+        <div class="settings-group">
+          <div class="setting-item flex-between">
+            <div>
+              <strong>Audio Hazard Warnings</strong>
+              <p>Play audio alert when approaching high severity potholes (< 100 meters)</p>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" checked />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+
+          <div class="setting-item flex-between">
+            <div>
+              <strong>Automatic AI Rerouting</strong>
+              <p>Automatically reroute via safer roads when severe damage is detected ahead</p>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" checked />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <strong>Default Map Layer</strong>
+            <p>Select preferred map tile rendering engine</p>
+            <select class="form-select" style="width: 100%; margin-top: 8px;">
+              <option value="carto">CartoDB Voyager (SaaS Vector Clean)</option>
+              <option value="google">Google Maps JS API (Satellite Hybrid)</option>
+              <option value="osm">OpenStreetMap Standard</option>
+            </select>
+          </div>
+        </div>
+      </article>
+
+      <!-- System Integration & API Configuration Card -->
+      <article class="panel-card">
+        <div class="panel-header-bar">
+          <h2><i class="fa-solid fa-server"></i> System Backend & API Endpoints</h2>
+        </div>
+
+        <div class="settings-group">
+          <div class="setting-item">
+            <strong>FastAPI Endpoint URL</strong>
+            <p>Backend API base URL for live synchronization</p>
+            <div style="display: flex; gap: 10px; margin-top: 8px;">
+              <input type="text" id="apiEndpointInput" class="form-control" value="http://localhost:8000/api/v1" />
+              <button id="testApiBtn" class="btn btn-purple-soft"><i class="fa-solid fa-plug"></i> Test</button>
+            </div>
+          </div>
+
+          <div class="setting-item flex-between">
+            <div>
+              <strong>PostgreSQL Telemetry Sync</strong>
+              <p>Sync offline road scans with central database when connected to Wi-Fi</p>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" checked />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+      </article>
+
+      <!-- Data & Privacy Settings Card -->
+      <article class="panel-card">
+        <div class="panel-header-bar">
+          <h2><i class="fa-solid fa-database"></i> Storage & Cache Management</h2>
+        </div>
+
+        <div class="settings-group">
+          <div class="setting-item flex-between">
+            <div>
+              <strong>Clear Offline Offline Cache</strong>
+              <p>Remove locally saved road tile data and cached scan previews</p>
+            </div>
+            <button id="clearCacheBtn" class="btn btn-danger-soft">
+              <i class="fa-solid fa-trash"></i> Clear Cache
+            </button>
+          </div>
+        </div>
+      </article>
+
+    </section>
 
   </main>
 </div>
@@ -274,11 +311,8 @@
   </div>
 </div>
 
-<!-- Map Engine JS -->
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
 <!-- Application Scripts -->
 <script src="../js/common.js"></script>
-<script src="../js/live-map.js"></script>
+<script src="../js/settings.js"></script>
 </body>
 </html>
