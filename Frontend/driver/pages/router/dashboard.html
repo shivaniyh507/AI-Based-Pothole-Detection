@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RoadSafe AI - Driver Dashboard</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/common.css" />
+  <link rel="stylesheet" href="../assets/css/dashboard.css" />
+  <link rel="stylesheet" href="../assets/css/responsive.css" />
+  <link rel="stylesheet" href="../public/css/common.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    :root { --bg: #f8fafc; --sidebar: #111827; --card: #ffffff; --text: #111827; --muted: #6b7280; --line: #e5e7eb; --blue: #2563eb; --purple: #7c3aed; --green: #22c55e; --yellow: #f59e0b; --red: #ef4444; --shadow: 0 12px 30px rgba(15,23,42,.08); }
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+    body { background: var(--bg); color: var(--text); min-height: 100vh; }
+    .app-shell { display: flex; min-height: 100vh; }
+    .sidebar { width: 270px; background: var(--sidebar); color: white; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; flex-shrink: 0; }
+    .brand { display: flex; align-items: center; gap: 14px; margin-bottom: 30px; }
+    .brand-mark { width: 48px; height: 48px; border-radius: 14px; background: linear-gradient(135deg, var(--blue), var(--purple)); display: flex; align-items: center; justify-content: center; font-size: 22px; }
+    .brand h1 { font-size: 20px; font-weight: 700; color: #fff; }
+    .brand p { font-size: 12px; color: #94a3b8; }
+    .sidebar-nav { display: flex; flex-direction: column; gap: 8px; }
+    .nav-item { display: flex; align-items: center; gap: 14px; padding: 12px 16px; border-radius: 12px; color: #cbd5e1; text-decoration: none; font-size: 14px; transition: all 0.2s ease; }
+    .nav-item:hover { background: #1f2937; color: #fff; }
+    .nav-item.active { background: linear-gradient(90deg, var(--blue), var(--purple)); color: #fff; font-weight: 600; }
+    .main-content { flex: 1; padding: 28px; overflow-y: auto; }
+    .topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .profile-pill { display: flex; align-items: center; gap: 12px; background: #fff; padding: 6px 14px 6px 8px; border-radius: 50px; box-shadow: var(--shadow); }
+    .profile-pill img { width: 40px; height: 40px; border-radius: 50%; }
+  </style>
+</head>
+<body>
+
+<div class="app-shell">
+
+<aside class="sidebar">
+
+<div class="brand">
+<div class="brand-mark"><i class="fa-solid fa-road"></i></div>
+<div>
+<h1>RoadSafe AI</h1>
+<p>Driver Module</p>
+</div>
+</div>
+
+<nav class="sidebar-nav">
+<a class="nav-item active" href="dashboard.html"><i class="fa-solid fa-gauge-high"></i><span>Dashboard</span></a>
+<a class="nav-item" href="live-map.html"><i class="fa-solid fa-map-location-dot"></i><span>Map View</span></a>
+<a class="nav-item" href="route-planner.html"><i class="fa-solid fa-route"></i><span>Route Planner</span></a>
+<a class="nav-item" href="route-history.html"><i class="fa-solid fa-clock-rotate-left"></i><span>Route History</span></a>
+<a class="nav-item" href="pothole-detail.html"><i class="fa-solid fa-circle-info"></i><span>Pothole Details</span></a>
+<a class="nav-item" href="scan-road.html"><i class="fa-solid fa-camera"></i><span>Scan Road</span></a>
+<a class="nav-item" href="my-reports.html"><i class="fa-solid fa-file-lines"></i><span>My Reports</span></a>
+</nav>
+
+<div class="sidebar-footer">
+<a href="../auth/login.html" class="nav-item" style="color: #ef4444; background: #fef2f2; border: 1px solid #fee2e2; margin-bottom: 12px;">
+<i class="fa-solid fa-right-from-bracket" style="color: #ef4444;"></i>
+<span>Logout</span>
+</a>
+<div class="status-card">
+<span class="dot online"></span>
+<div>
+<strong>GPS Connected</strong>
+<p>Live location enabled</p>
+</div>
+</div>
+</div>
+
+</aside>
+
+<main class="main-content">
+
+<header class="topbar">
+<div class="search-box">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input type="text" placeholder="Search roads, reports, alerts..." />
+</div>
+
+<div class="topbar-actions">
+<button class="icon-btn">
+<i class="fa-solid fa-bell"></i>
+<span class="badge">3</span>
+</button>
+
+<div class="profile-pill">
+<div style="width: 36px; height: 36px; border-radius: 50%; background: #f3e8ff; color: #9333ea; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+<i class="fa-solid fa-circle-user"></i>
+</div>
+<div>
+<strong>shhio</strong>
+<p>Driver</p>
+</div>
+</div>
+</div>
+</header>
+
+<section class="hero-card">
+<div>
+<p class="eyebrow">Driver Dashboard</p>
+<h2>Good Afternoon, shhio 👋</h2>
+<p class="hero-text">Track potholes, monitor nearby alerts, and plan safer routes in one place.</p>
+
+<div class="hero-actions">
+<button class="primary-btn" onclick="window.location='scan-road.html'">
+<i class="fa-solid fa-camera"></i> Start Scan
+</button>
+
+<button class="secondary-btn" onclick="window.location='live-map.html'">
+<i class="fa-solid fa-route"></i> Plan Route
+</button>
+</div>
+</div>
+
+<div class="health-card">
+<span>Road Health</span>
+<strong>82%</strong>
+<p>Moderate</p>
+</div>
+</section>
+
+<section class="stats-grid">
+<article class="stat-card"><i class="fa-solid fa-location-dot"></i><div><span>Nearby Potholes</span><strong>12</strong></div></article>
+<article class="stat-card"><i class="fa-solid fa-file-lines"></i><div><span>My Reports</span><strong>8</strong></div></article>
+<article class="stat-card"><i class="fa-solid fa-road"></i><div><span>Safe Routes</span><strong>4</strong></div></article>
+<article class="stat-card"><i class="fa-solid fa-star"></i><div><span>Driver Score</span><strong>95%</strong></div></article>
+<article class="stat-card"><i class="fa-solid fa-car-side"></i><div><span>Today's Scan</span><strong>3.2 km</strong></div></article>
+<article class="stat-card"><i class="fa-solid fa-shield-halved"></i><div><span>AI Confidence</span><strong>93%</strong></div></article>
+</section>
+
+<section class="content-grid">
+
+<div class="panel map-panel">
+<div class="panel-header">
+<h3>Live Navigation</h3>
+</div>
+
+<div class="map-preview">
+<img src="../assets/images/map-preview.png" alt="Map Preview">
+<div class="map-overlay">
+<h4>Explore Live Map</h4>
+<p>View potholes, safer routes and live traffic.</p>
+<a href="live-map.html" class="primary-btn">Open Live Map <i class="fa-solid fa-arrow-right"></i></a>
+</div>
+</div>
+
+</div>
+
+<div class="side-column">
+
+<div class="panel ai-panel">
+<div class="panel-header"><h3>AI Recommendation</h3></div>
+
+<div class="recommend-list">
+<div><strong>🟢 Safest Route</strong><span>5.6 km • 0 Major Potholes</span></div>
+<div><strong>🟡 Balanced Route</strong><span>5.1 km • 1 Medium Pothole</span></div>
+<div><strong>🔴 Fastest Route</strong><span>4.8 km • 4 Potholes</span></div>
+</div>
+</div>
+
+<div class="panel alerts-panel">
+<div class="panel-header"><h3>Nearby Alerts</h3></div>
+
+<div class="alert-item danger"><strong>Large pothole ahead</strong></div>
+<div class="alert-item warning"><strong>Road under repair</strong></div>
+<div class="alert-item info"><strong>Safer route available</strong></div>
+
+<button class="secondary-btn">View All Alerts</button>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="bottom-grid">
+
+<div class="panel activity-panel">
+<h3>Recent Activity</h3>
+<ul class="timeline">
+<li>Started Scan</li>
+<li>Submitted Report</li>
+<li>Road Repair Updated</li>
+</ul>
+</div>
+
+<div class="panel quick-panel">
+<h3>Quick Actions</h3>
+
+<div class="quick-actions">
+<button onclick="window.location='scan-road.html'">Start Scan</button>
+<button onclick="window.location='live-map.html'">Live Map</button>
+<button>Upload Media</button>
+<button onclick="window.location='my-reports.html'">View Reports</button>
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+</div>
+
+<script src="../assets/js/dashboard.js"></script>
+</body>
+</html>

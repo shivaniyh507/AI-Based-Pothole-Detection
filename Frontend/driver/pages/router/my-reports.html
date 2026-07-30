@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Reports | RoadSafe AI</title>
+<link rel="stylesheet" href="../assets/css/dashboard.css">
+<link rel="stylesheet" href="../assets/css/reports.css">
+<link rel="stylesheet" href="../assets/css/responsive.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="app-shell">
+
+<aside class="sidebar">
+
+<div class="brand">
+<div class="brand-mark"><i class="fa-solid fa-road"></i></div>
+<div>
+<h1>RoadSafe AI</h1>
+<p>Driver Module</p>
+</div>
+</div>
+
+<nav class="sidebar-nav">
+<a class="nav-item" href="dashboard.html"><i class="fa-solid fa-gauge-high"></i><span>Dashboard</span></a>
+<a class="nav-item" href="live-map.html"><i class="fa-solid fa-map-location-dot"></i><span>Map View</span></a>
+<a class="nav-item" href="route-planner.html"><i class="fa-solid fa-route"></i><span>Route Planner</span></a>
+<a class="nav-item" href="route-history.html"><i class="fa-solid fa-clock-rotate-left"></i><span>Route History</span></a>
+<a class="nav-item" href="pothole-detail.html"><i class="fa-solid fa-circle-info"></i><span>Pothole Details</span></a>
+<a class="nav-item" href="scan-road.html"><i class="fa-solid fa-camera"></i><span>Scan Road</span></a>
+<a class="nav-item active" href="my-reports.html"><i class="fa-solid fa-file-lines"></i><span>My Reports</span></a>
+</nav>
+
+<div class="sidebar-footer">
+<a href="../auth/login.html" class="nav-item" style="color: #ef4444; background: #fef2f2; border: 1px solid #fee2e2; margin-bottom: 12px;">
+<i class="fa-solid fa-right-from-bracket" style="color: #ef4444;"></i>
+<span>Logout</span>
+</a>
+<div class="status-card">
+<span class="online"></span>
+<div>
+<strong>GPS Connected</strong>
+<p>Live location enabled</p>
+</div>
+</div>
+</div>
+
+</aside>
+
+<main class="main-content">
+
+<h1>My Reports</h1>
+
+<div class="toolbar">
+<input type="text" id="searchInput" placeholder="Search Reports">
+<select id="statusFilter">
+<option>All</option>
+<option>Pending</option>
+<option>Verified</option>
+<option>Resolved</option>
+</select>
+</div>
+
+<section class="stats">
+<div class="card"><h3>Total Reports</h3><strong id="totalReports">0</strong></div>
+<div class="card"><h3>Pending</h3><strong id="pendingReports">0</strong></div>
+<div class="card"><h3>Verified</h3><strong id="verifiedReports">0</strong></div>
+<div class="card"><h3>Resolved</h3><strong id="resolvedReports">0</strong></div>
+</section>
+
+<div class="table-card">
+
+<table id="reportTable">
+<thead>
+<tr>
+<th>ID</th><th>Location</th><th>Severity</th><th>Status</th><th>Date</th><th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>#1021</td><td>GT Road</td><td>High</td><td>Pending</td><td>13 Jul 2026</td><td><button class="viewBtn">View</button> <button class="deleteBtn">Delete</button></td></tr>
+<tr><td>#1018</td><td>Civil Lines</td><td>Medium</td><td>Verified</td><td>12 Jul 2026</td><td><button class="viewBtn">View</button> <button class="deleteBtn">Delete</button></td></tr>
+<tr><td>#1012</td><td>Kidwai Nagar</td><td>Low</td><td>Resolved</td><td>10 Jul 2026</td><td><button class="viewBtn">View</button> <button class="deleteBtn">Delete</button></td></tr>
+</tbody>
+</table>
+
+</div>
+
+</main>
+
+</div>
+
+<script src="../assets/js/reports.js"></script>
+
+</body>
+</html>
