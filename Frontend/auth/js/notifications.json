@@ -1,0 +1,78 @@
+{
+  "driver": [
+    {
+      "id": 1,
+      "category": "alert",
+      "title": "Speed Limit Exceeded",
+      "message": "Your vehicle exceeded the speed limit near NH-27.",
+      "time": "10 min ago",
+      "read": false
+    },
+    {
+      "id": 2,
+      "category": "report",
+      "title": "Trip Report Submitted",
+      "message": "Your trip report has been submitted successfully and is awaiting admin review.",
+      "time": "1 hour ago",
+      "read": true
+    },
+    {
+      "id": 3,
+      "category": "system",
+      "title": "Route Updated",
+      "message": "Your assigned route has been updated. Check navigation before trip.",
+      "time": "3 hours ago",
+      "read": false
+    },
+    {
+      "id": 4,
+      "category": "system",
+      "title": "Vehicle Inspection Reminder",
+      "message": "Your assigned vehicle is scheduled for inspection tomorrow.",
+      "time": "Yesterday",
+      "read": true
+    },
+    {
+      "id": 5,
+      "category": "alert",
+      "title": "SOS Alert Nearby",
+      "message": "An emergency SOS has been reported on your route. Stay alert.",
+      "time": "Yesterday",
+      "read": false
+    }
+  ],
+  "admin": [
+    {
+      "id": 1,
+      "category": "alert",
+      "title": "New Driver Registration",
+      "message": "A new driver registration request is waiting for approval.",
+      "time": "8 min ago",
+      "read": false
+    },
+    {
+      "id": 2,
+      "category": "report",
+      "title": "Incident Report Submitted",
+      "message": "A driver submitted an incident report for review.",
+      "time": "1 hour ago",
+      "read": true
+    },
+    {
+      "id": 3,
+      "category": "system",
+      "title": "Vehicle Inspection Due",
+      "message": "Vehicle UP78 AB4582 is scheduled for inspection tomorrow.",
+      "time": "Today",
+      "read": false
+    },
+    {
+      "id": 4,
+      "category": "alert",
+      "title": "System Alert: High Traffic",
+      "message": "Pothole hazard cluster detected near Expressway Sector 62.",
+      "time": "Yesterday",
+      "read": false
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "driver": {
+    "theme": "Light",
+    "accentColor": "purple",
+    "compactLayout": false,
+    "animations": true,
+    "mapProvider": "Google Maps",
+    "zoomLevel": 60,
+    "trafficLayer": true,
+    "heatmapLayer": true,
+    "autoSync": true,
+    "measurementUnit": "km",
+    "language": "English",
+    "pushAlerts": true,
+    "emailReports": true,
+    "smsAlerts": false,
+    "weeklyDigest": true,
+    "systemUpdates": true,
+    "dataSharing": true,
+    "profileVisibility": true
+  },
+  "admin": {
+    "theme": "Light",
+    "accentColor": "purple",
+    "compactLayout": false,
+    "animations": true,
+    "systemAlerts": true,
+    "driverRegistrations": true,
+    "reportGeneration": true,
+    "maintenanceAlerts": false,
+    "securityAlerts": true,
+    "language": "English",
+    "twoFactorAuth": false,
+    "loginAlerts": true,
+    "ipRestriction": false,
+    "auditLog": true
+  }
+}
