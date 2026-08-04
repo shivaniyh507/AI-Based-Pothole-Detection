@@ -24,12 +24,19 @@
     min-height:100vh;
     }
     .sidebar{
+    width:270px;
+    height:100vh;
+    position:sticky;
+    top:0;
+    align-self:start;
+    overflow-y:auto;
     background:var(--sidebar);
     color:#fff;
     padding:24px;
     display:flex;
     flex-direction:column;
     justify-content:space-between;
+    z-index:100;
     }
     .brand{display:flex;align-items:center;gap:14px;margin-bottom:30px}
     .brand-mark{

@@ -46,6 +46,11 @@ body {
 
 .sidebar {
     width: 270px;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    align-self: flex-start;
+    overflow-y: auto;
     background: var(--sidebar);
     color: var(--text);
     padding: 24px;
@@ -55,6 +60,7 @@ body {
     flex-shrink: 0;
     border-right: 1px solid var(--line);
     box-shadow: 2px 0 10px rgba(0,0,0,0.02);
+    z-index: 100;
 }
 
 .brand {
