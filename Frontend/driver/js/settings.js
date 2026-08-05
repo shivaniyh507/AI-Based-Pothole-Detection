@@ -19,7 +19,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Test FastAPI Connection Handler
   if (testApiBtn && apiEndpointInput) {
-    testApiBtn.addEventListener("click", async () => {
+    testApiBtn.addEventListener("click", async (e) => {
+      e.preventDefault();
       const endpoint = apiEndpointInput.value.trim();
       testApiBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Testing...`;
       testApiBtn.disabled = true;
@@ -38,7 +39,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Clear Offline Cache Handler
   if (clearCacheBtn) {
-    clearCacheBtn.addEventListener("click", () => {
+    clearCacheBtn.addEventListener("click", (e) => {
+      e.preventDefault();
       if (confirm("Are you sure you want to clear offline map tiles and local data cache?")) {
         localStorage.removeItem("roadies_custom_reports");
         if (window.showToast) {

@@ -1,130 +1,515 @@
-/* ==========================================================================
-   ROADIES - User Profile Page Styles (profile.css)
-   ========================================================================== */
+/* ==========================================================
+   ROADIES (RoadSafe AI) - DRIVER PROFILE STYLESHEET
+   ========================================================== */
 
-.profile-banner {
-  gap: 24px;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-.profile-avatar-large {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(10px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 36px;
-  color: #FFFFFF;
-  border: 2px solid rgba(255, 255, 255, 0.4);
-  flex-shrink: 0;
+.page-body{
+    padding:32px;
+    background:#F8FAFC;
+    min-height:calc(100vh - 78px);
 }
 
-.profile-badges {
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
+.container{
+    max-width:1400px;
+    margin:0 auto;
 }
 
-.profile-main-grid {
-  display: grid;
-  grid-template-columns: 1fr 340px;
-  gap: 24px;
-  margin-bottom: 24px;
+/* ==========================================================
+   PROFILE HERO
+   ========================================================== */
+
+.driver-profile-card{
+    background:#FFFFFF;
+    border-radius:24px;
+    overflow:hidden;
+    border:1px solid #EEF2F7;
+    box-shadow:0 10px 35px rgba(15,23,42,.06);
+    margin-bottom:28px;
 }
 
-.profile-forms-column {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+.driver-profile-banner{
+    position:relative;
+    padding:40px;
+    background:linear-gradient(135deg,#7C3AED,#A855F7);
+    color:#FFFFFF;
 }
 
-.profile-sidebar-column {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+.driver-profile-actions{
+    position:absolute;
+    top:24px;
+    right:24px;
+    display:flex;
+    gap:12px;
 }
 
-.profile-form {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+.driver-edit-buttons{
+    display:flex;
+    gap:12px;
 }
 
-.form-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+.driver-profile-info{
+    display:flex;
+    align-items:center;
+    gap:28px;
 }
 
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+.driver-profile-avatar{
+    position:relative;
+    width:130px;
+    height:130px;
+    border-radius:50%;
+    overflow:hidden;
+    border:5px solid rgba(255,255,255,.25);
+    background:#FFFFFF;
+    flex-shrink:0;
 }
 
-.form-group label {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-muted);
+.driver-profile-avatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
 }
 
-.form-actions {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 8px;
+.driver-profile-initials{
+    width:100%;
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:42px;
+    font-weight:700;
+    color:#7C3AED;
+    background:#FFFFFF;
 }
 
-.achievements-list {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
+.driver-camera-btn{
+    position:absolute;
+    right:6px;
+    bottom:6px;
+    width:38px;
+    height:38px;
+    border:none;
+    border-radius:50%;
+    background:#7C3AED;
+    color:#FFFFFF;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:.25s;
 }
 
-.achievement-item {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 12px;
-  border-radius: var(--radius-inner);
-  background-color: var(--bg-main);
-  border: 1px solid var(--border-light);
+.driver-camera-btn:hover{
+    transform:scale(1.08);
 }
 
-.achievement-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  flex-shrink: 0;
+.driver-profile-details h2{
+    font-size:34px;
+    font-weight:700;
+    margin-bottom:8px;
 }
 
-.achievement-icon.gold {
-  background-color: #FEF3C7;
-  color: #D97706;
+.driver-profile-id{
+    opacity:.9;
+    margin-bottom:18px;
+    font-size:15px;
 }
 
-.achievement-icon.purple {
-  background-color: var(--bg-purple-light);
-  color: var(--primary-purple);
+.driver-profile-badges{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
 }
 
-.achievement-icon.green {
-  background-color: var(--bg-success-light);
-  color: var(--text-success);
+.driver-badge{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:10px 16px;
+    border-radius:999px;
+    background:rgba(255,255,255,.16);
+    backdrop-filter:blur(12px);
+    font-size:14px;
+    font-weight:600;
 }
 
-.achievement-item strong {
-  font-size: 13px;
-  color: var(--text-dark);
-  display: block;
+/* ==========================================================
+   CONTACT STRIP
+   ========================================================== */
+
+.driver-contact-row{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    background:#FFFFFF;
+    border-top:1px solid #EEF2F7;
 }
 
-.achievement-item p {
-  font-size: 11px;
-  color: var(--text-muted);
+.driver-contact-item{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    padding:24px;
+    border-right:1px solid #EEF2F7;
+}
+
+.driver-contact-item:last-child{
+    border-right:none;
+}
+
+.driver-contact-icon{
+    width:52px;
+    height:52px;
+    border-radius:14px;
+    background:#F3F4F6;
+    color:#7C3AED;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:18px;
+    flex-shrink:0;
+}
+
+.driver-contact-item span{
+    display:block;
+    font-size:12px;
+    color:#94A3B8;
+    margin-bottom:4px;
+    font-weight:500;
+}
+
+.driver-contact-item h5{
+    font-size:15px;
+    color:#0F172A;
+    font-weight:600;
+    word-break:break-word;
+}
+
+/* ==========================================================
+   ACTION BUTTONS
+   ========================================================== */
+
+.edit-btn,
+.save-btn,
+.cancel-btn{
+    border:none;
+    border-radius:12px;
+    padding:12px 22px;
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    transition:.25s ease;
+}
+
+.edit-btn{
+    background:#FFFFFF;
+    color:#7C3AED;
+}
+
+.edit-btn:hover{
+    transform:translateY(-2px);
+}
+
+.edit-actions{
+    display:flex;
+    gap:12px;
+}
+
+.edit-actions .btn{
+    min-width:120px;
+    height:48px;
+    border:none;
+    border-radius:14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+    transition:all .25s ease;
+}
+
+#saveBtn{
+    background:linear-gradient(135deg,#8B5CF6,#7C3AED);
+    color:#fff;
+    border:none;
+    box-shadow:0 8px 24px rgba(124,58,237,.35);
+}
+
+#saveBtn:hover{
+    background:linear-gradient(135deg,#9D6BFF,#8B5CF6);
+}
+
+#cancelBtn:hover,
+#saveBtn:hover{
+    background:rgba(255,255,255,0.28);
+    transform:translateY(-2px);
+}
+
+#cancelBtn:active,
+#saveBtn:active{
+    transform:scale(.98);
+}
+
+/* ==========================================================
+   STATISTICS
+   ========================================================== */
+
+.driver-stats-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:22px;
+    margin-bottom:28px;
+}
+
+.driver-stat-card{
+    background:#FFFFFF;
+    border:1px solid #EEF2F7;
+    border-radius:20px;
+    padding:28px;
+    box-shadow:0 8px 24px rgba(15,23,42,.05);
+    transition:.25s;
+}
+
+.driver-stat-card:hover{
+    transform:translateY(-5px);
+}
+
+.driver-stat-icon{
+    width:60px;
+    height:60px;
+    border-radius:16px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
+    margin-bottom:20px;
+}
+
+.driver-stat-card h2{
+    font-size:34px;
+    font-weight:700;
+    color:#111827;
+    margin-bottom:8px;
+}
+
+.driver-stat-card p{
+    color:#64748B;
+    font-size:14px;
+    font-weight:500;
+}
+
+/* ==========================================================
+   ICON COLORS
+   ========================================================== */
+
+.driver-stat-icon.purple{
+    background:#F3E8FF;
+    color:#7C3AED;
+}
+
+.driver-stat-icon.red{
+    background:#FEE2E2;
+    color:#DC2626;
+}
+
+.driver-stat-icon.green{
+    background:#DCFCE7;
+    color:#16A34A;
+}
+
+.driver-stat-icon.blue{
+    background:#DBEAFE;
+    color:#2563EB;
+}
+
+/* ==========================================================
+   MAIN CONTENT GRID
+========================================================== */
+
+.driver-content-grid,
+.profile-main-grid{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:24px;
+    align-items:start;
+}
+
+.driver-left-column,
+.driver-right-column,
+.profile-forms-column,
+.profile-sidebar-column{
+    display:flex;
+    flex-direction:column;
+    gap:24px;
+}
+
+/* ==========================================================
+   COMMON CARD
+========================================================== */
+
+.driver-card{
+    background:#FFFFFF;
+    border:1px solid #EEF2F7;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 8px 24px rgba(15,23,42,.05);
+}
+
+.driver-card-header{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:20px 24px;
+    border-bottom:1px solid #EEF2F7;
+    background:#FAFBFC;
+}
+
+.driver-card-header i{
+    width:42px;
+    height:42px;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#F3E8FF;
+    color:#7C3AED;
+    font-size:18px;
+}
+
+.driver-card-header h3{
+    font-size:18px;
+    font-weight:700;
+    color:#111827;
+}
+
+.driver-card-body{
+    padding:24px;
+}
+
+/* ==========================================================
+   INFORMATION GRID
+========================================================== */
+
+.driver-info-grid,
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+}
+
+.driver-info-item,
+.form-group{
+    display:flex;
+    flex-direction:column;
+    margin-bottom:16px;
+}
+
+.driver-info-item label,
+.form-group label{
+    font-size:13px;
+    font-weight:600;
+    color:#64748B;
+    margin-bottom:8px;
+}
+
+.driver-info-item input,
+.driver-info-item select,
+.driver-info-item textarea,
+.form-control{
+    width:100%;
+    height:48px;
+    padding:0 16px;
+    border:1px solid #D1D5DB;
+    border-radius:12px;
+    background:#FFFFFF;
+    font-size:14px;
+    color:#111827;
+    transition:.25s;
+}
+
+.form-actions{
+    margin-top:18px;
+    display:flex;
+    justify-content:flex-end;
+}
+
+/* ==========================================================
+   ACHIEVEMENTS
+========================================================== */
+
+.achievements-list,
+.driver-achievement-list{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+}
+
+.achievement-item,
+.driver-achievement-card{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    padding:18px;
+    border:1px solid #EEF2F7;
+    border-radius:16px;
+    transition:.25s;
+}
+
+.achievement-icon,
+.driver-achievement-icon{
+    width:54px;
+    height:54px;
+    border-radius:16px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
+    flex-shrink:0;
+}
+
+.achievement-icon.gold,
+.driver-achievement-icon.gold{
+    background:#FEF3C7;
+    color:#D97706;
+}
+
+.achievement-icon.purple,
+.driver-achievement-icon.purple{
+    background:#F3E8FF;
+    color:#7C3AED;
+}
+
+.achievement-icon.green,
+.driver-achievement-icon.green{
+    background:#DCFCE7;
+    color:#16A34A;
+}
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media (max-width:1100px){
+    .driver-content-grid,
+    .profile-main-grid{
+        grid-template-columns:1fr;
+    }
+    .driver-stats-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media (max-width:768px){
+    .form-grid{
+        grid-template-columns:1fr;
+    }
 }
