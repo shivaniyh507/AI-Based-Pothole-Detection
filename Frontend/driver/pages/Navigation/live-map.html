@@ -11,6 +11,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
+  <!-- Leaflet Vector Map Engine CSS (Fallback Engine) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
   <!-- App Stylesheets -->
   <link rel="stylesheet" href="../../css/common.css" />
   <link rel="stylesheet" href="../../css/live-map.css" />
@@ -62,7 +65,7 @@
     <header class="topbar">
       <div class="topbar-title-section">
         <h1 class="page-title">Live Navigation & Route Planner 🗺️</h1>
-        <p class="page-subtitle">Real-time Google Maps route guidance, hazard evaluation, & AI safety scoring</p>
+        <p class="page-subtitle">Real-time GPS tracking, Google Maps route guidance, & AI hazard evaluation</p>
       </div>
 
       <div class="topbar-actions">
@@ -90,6 +93,15 @@
         </a>
       </div>
     </header>
+
+    <!-- Location Permission Warning Banner (Hidden by default) -->
+    <div id="locationPermissionBanner" class="location-banner" style="display: none;">
+      <div>
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <strong> Location Permission Disabled:</strong> Please allow browser location access for live turn-by-turn tracking.
+      </div>
+      <button id="dismissBannerBtn" aria-label="Close Warning"><i class="fa-solid fa-xmark"></i></button>
+    </div>
 
     <!-- Route Planner Control Bar Card (2 Autocomplete inputs + My Location + Find Route) -->
     <section class="panel-card route-planner-bar">
@@ -123,11 +135,21 @@
       <!-- Left Column: Map Viewport & Route Info Bar -->
       <div class="map-primary-column">
 
-        <!-- Google Maps Viewport Container -->
+        <!-- Google Maps & Vector Viewport Container -->
         <article class="panel-card map-card-container">
           <div class="panel-header-bar">
-            <h2><i class="fa-solid fa-map-location-dot"></i> Driving Route & Hazard Navigation</h2>
+            <h2><i class="fa-solid fa-map-location-dot"></i> Driving Route & Live Telemetry</h2>
             <div id="routeStatusBadge" class="badge-tag badge-purple-soft">Google Maps Live</div>
+          </div>
+
+          <!-- Floating Navigation Controls Overlay -->
+          <div class="map-floating-controls">
+            <button id="recenterBtn" class="map-control-btn" title="Recenter to GPS Location">
+              <i class="fa-solid fa-location-crosshairs"></i> Recenter
+            </button>
+            <button id="followMeBtn" class="map-control-btn active" title="Toggle Auto-Follow Camera">
+              <i class="fa-solid fa-location-arrow"></i> Follow Me: ON
+            </button>
           </div>
 
           <!-- Loading Spinner Overlay -->
@@ -351,6 +373,9 @@
     </div>
   </div>
 </div>
+
+<!-- Fallback Leaflet Engine JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <!-- Application Scripts -->
 <script src="../../js/common.js"></script>

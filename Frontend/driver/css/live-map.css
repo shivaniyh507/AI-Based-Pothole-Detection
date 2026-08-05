@@ -1,5 +1,6 @@
 /* ==========================================================================
-   ROADIES - Live Map & Google Maps Navigation Styles (live-map.css)
+   ROADIES - Live Map & Navigation System (live-map.css)
+   Includes Floating Controls, Follow Me Mode, Route Info Cards, & Fallback Styling
    ========================================================================== */
 
 /* Main Live Map Layout Grid */
@@ -13,18 +14,18 @@
 .map-primary-column {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
 }
 
 .map-secondary-column {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
 }
 
 /* Route Planner Control Bar */
 .route-planner-bar {
-  margin-bottom: 24px;
+  margin-bottom: 20px;
   padding: 20px;
 }
 
@@ -52,7 +53,30 @@
   flex: 1;
 }
 
-/* Map Card Container & Viewport */
+/* Location Permission Warning Banner */
+.location-banner {
+  background-color: #FEF3C7;
+  border: 1px solid #F59E0B;
+  color: #92400E;
+  padding: 12px 18px;
+  border-radius: var(--radius-inner);
+  font-size: 13px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.location-banner button {
+  background: transparent;
+  border: none;
+  color: #92400E;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Map Card Container & Canvas */
 .map-card-container {
   position: relative;
   padding: 20px;
@@ -67,6 +91,95 @@
   overflow: hidden;
   border: 1px solid var(--border-light);
   background-color: #E2E8F0;
+  position: relative;
+}
+
+/* Floating Map Control Buttons Overlay (Recenter, Follow Me, Layer) */
+.map-floating-controls {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.map-control-btn {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  color: var(--text-dark);
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  transition: var(--transition-fast);
+}
+
+.map-control-btn:hover {
+  background-color: #FFFFFF;
+  color: var(--primary-purple);
+  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.15);
+  transform: translateY(-1px);
+}
+
+.map-control-btn.active {
+  background: var(--gradient-purple);
+  color: #FFFFFF;
+  border-color: transparent;
+}
+
+.map-control-btn.active i {
+  color: #FFFFFF;
+}
+
+/* GPS User Pulse Marker Animation (Leaflet & Canvas) */
+.user-pulse-marker {
+  position: relative;
+  width: 20px;
+  height: 20px;
+}
+
+.user-pulse-dot {
+  width: 16px;
+  height: 16px;
+  background-color: #3B82F6;
+  border: 3px solid #FFFFFF;
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.8);
+  z-index: 2;
+}
+
+.user-pulse-ring {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #3B82F6;
+  border-radius: 50%;
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  opacity: 0.8;
+  animation: pulse-ring 1.8s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.4);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
 }
 
 /* Route Loading Spinner Overlay */
@@ -78,7 +191,7 @@
   bottom: 20px;
   background: rgba(255, 255, 255, 0.88);
   backdrop-filter: blur(8px);
-  z-index: 10;
+  z-index: 150;
   border-radius: 16px;
   display: flex;
   flex-direction: column;
