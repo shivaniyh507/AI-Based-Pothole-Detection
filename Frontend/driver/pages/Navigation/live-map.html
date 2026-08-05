@@ -3,16 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Live Map | ROADIES</title>
+  <title>Live Map & Navigation | ROADIES</title>
 
   <!-- Typography & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-
-  <!-- Map Engine CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
   <!-- App Stylesheets -->
   <link rel="stylesheet" href="../../css/common.css" />
@@ -52,7 +49,7 @@
         <span class="dot"></span>
         <div>
           <strong>GPS Connected</strong>
-          <p>Live location enabled</p>
+          <p>Live Telemetry Active</p>
         </div>
       </div>
     </div>
@@ -65,13 +62,13 @@
     <header class="topbar">
       <div class="topbar-title-section">
         <h1 class="page-title">Live Navigation & Route Planner 🗺️</h1>
-        <p class="page-subtitle">Real-time hazard awareness, route guidance, & pothole mapping</p>
+        <p class="page-subtitle">Real-time Google Maps route guidance, hazard evaluation, & AI safety scoring</p>
       </div>
 
       <div class="topbar-actions">
         <div class="search-box">
           <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" placeholder="Search destination, road ID, or report..." />
+          <input type="text" id="globalSearchInput" placeholder="Search destination, road ID, or report..." />
           <span class="search-shortcut-hint">Ctrl K</span>
         </div>
 
@@ -94,99 +91,180 @@
       </div>
     </header>
 
-    <!-- Map Control Toolbar -->
-    <section class="map-toolbar-card">
-      <div class="search-box">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <input type="text" id="mapSearchInput" placeholder="Search destination, road, or landmark..." />
-      </div>
+    <!-- Route Planner Control Bar Card (2 Autocomplete inputs + My Location + Find Route) -->
+    <section class="panel-card route-planner-bar">
+      <div class="route-inputs-grid">
+        <div class="route-input-group">
+          <label for="originInput"><i class="fa-solid fa-location-dot text-purple"></i> Current Location (Origin)</label>
+          <div class="input-with-action">
+            <input type="text" id="originInput" class="form-control" placeholder="Enter starting location or city..." />
+            <button id="useMyLocationBtn" class="btn btn-sm btn-purple-soft" title="Use My Live Location">
+              <i class="fa-solid fa-crosshairs"></i> GPS
+            </button>
+          </div>
+        </div>
 
-      <div class="toolbar-buttons">
-        <button id="locationBtn" class="btn btn-secondary">
-          <i class="fa-solid fa-location-crosshairs"></i> My Location
-        </button>
-        <button id="routeBtn" class="btn btn-purple-gradient">
-          <i class="fa-solid fa-route"></i> Start Navigation
-        </button>
+        <div class="route-input-group">
+          <label for="destinationInput"><i class="fa-solid fa-flag-checkered text-purple"></i> Destination</label>
+          <input type="text" id="destinationInput" class="form-control" placeholder="Enter destination address or landmark..." />
+        </div>
+
+        <div class="route-action-group">
+          <button id="findRouteBtn" class="btn btn-purple-gradient btn-full">
+            <i class="fa-solid fa-route"></i> Find Route
+          </button>
+        </div>
       </div>
     </section>
 
-    <!-- Map Viewport & Overlay Section -->
-    <section class="map-section-wrapper">
-      <div id="map" class="map-viewport live-map-container">
-        <!-- Interactive Map Container -->
+    <!-- Live Map Viewport & Sidebar Grid -->
+    <section class="live-map-grid">
+
+      <!-- Left Column: Map Viewport & Route Info Bar -->
+      <div class="map-primary-column">
+
+        <!-- Google Maps Viewport Container -->
+        <article class="panel-card map-card-container">
+          <div class="panel-header-bar">
+            <h2><i class="fa-solid fa-map-location-dot"></i> Driving Route & Hazard Navigation</h2>
+            <div id="routeStatusBadge" class="badge-tag badge-purple-soft">Google Maps Live</div>
+          </div>
+
+          <!-- Loading Spinner Overlay -->
+          <div id="routeLoadingSpinner" class="route-loading-overlay" style="display: none;">
+            <div class="spinner-circle"></div>
+            <p>Calculating optimal driving route...</p>
+          </div>
+
+          <div id="map" class="map-viewport live-map-viewport"></div>
+        </article>
+
+        <!-- Route Trip Summary Metrics Bar (Distance, Travel Time, ETA) -->
+        <article id="tripSummaryCard" class="panel-card trip-summary-card">
+          <div class="trip-summary-grid">
+            <div class="trip-metric">
+              <i class="fa-solid fa-ruler"></i>
+              <div>
+                <span>Distance</span>
+                <strong id="routeDistance">-- km</strong>
+              </div>
+            </div>
+
+            <div class="trip-metric">
+              <i class="fa-solid fa-clock"></i>
+              <div>
+                <span>Travel Time</span>
+                <strong id="routeDuration">-- min</strong>
+              </div>
+            </div>
+
+            <div class="trip-metric">
+              <i class="fa-solid fa-car-side"></i>
+              <div>
+                <span>Est. Arrival</span>
+                <strong id="routeEta">--:--</strong>
+              </div>
+            </div>
+
+            <div class="trip-metric">
+              <i class="fa-solid fa-shield-halved text-purple"></i>
+              <div>
+                <span>Safety Rating</span>
+                <strong id="routeSafetyScore">88% Safe</strong>
+              </div>
+            </div>
+          </div>
+        </article>
+
       </div>
 
-      <!-- Floating AI Route Recommendation Overlay Card -->
-      <aside class="floating-route-card panel-card">
-        <h3><i class="fa-solid fa-brain"></i> AI Route Options</h3>
-        
-        <div class="route-option-card active">
-          <div class="route-option-header">
-            <span class="route-tag badge-success-soft">🟢 Safest</span>
-            <strong>5.8 km</strong>
-          </div>
-          <p>0 Major Potholes • Bypass Corridor</p>
-        </div>
+      <!-- Right Column: AI Backend Placeholders & Route Options -->
+      <div class="map-secondary-column">
 
-        <div class="route-option-card">
-          <div class="route-option-header">
-            <span class="route-tag badge-warning-soft">🟡 Balanced</span>
-            <strong>5.2 km</strong>
+        <!-- Placeholder 1: AI Recommendation Card -->
+        <article class="panel-card ai-recommendation-widget">
+          <div class="panel-header-bar">
+            <h2><i class="fa-solid fa-brain"></i> AI Route Intelligence</h2>
+            <span class="badge-tag badge-success-soft">Optimized</span>
           </div>
-          <p>1 Medium Pothole • Standard Route</p>
-        </div>
 
-        <div class="route-option-card">
-          <div class="route-option-header">
-            <span class="route-tag badge-danger-soft">🔴 Fastest</span>
-            <strong>4.9 km</strong>
+          <!-- Future FastAPI / AI Backend Hook comment -->
+          <!-- Fast API: GET /api/v1/route/optimize?origin={lat,lng}&dest={lat,lng} -->
+          <div class="ai-recommendation-content">
+            <p id="aiRecommendationText">
+              Take <strong>Bypass Corridor B</strong> via Phool Bagh Crossing to save 4 minutes and avoid 3 high-severity potholes.
+            </p>
           </div>
-          <p>4 Potholes • GT Road Highway</p>
-        </div>
-      </aside>
+        </article>
+
+        <!-- Placeholder 2: Road Safety & Hazard Risk Score Card -->
+        <article class="panel-card risk-score-widget">
+          <div class="panel-header-bar">
+            <h2><i class="fa-solid fa-chart-line"></i> Route Safety Scorecard</h2>
+          </div>
+
+          <ul class="metric-list">
+            <!-- Future PostgreSQL DB Hook: SELECT count(*) FROM potholes WHERE ST_DWithin(route_geom, pothole_geom, 50) -->
+            <li class="metric-row">
+              <span class="metric-label">Road Safety Score</span>
+              <strong id="safetyScoreValue" class="metric-value text-purple">88 / 100</strong>
+            </li>
+            <li class="metric-row">
+              <span class="metric-label">Total Potholes on Route</span>
+              <strong id="potholesOnRoute" class="metric-value">2 Minor, 0 Critical</strong>
+            </li>
+            <li class="metric-row">
+              <span class="metric-label">Nearby Hazards (2km)</span>
+              <strong id="nearbyHazardsValue" class="metric-value">5 Hazards</strong>
+            </li>
+            <li class="metric-row">
+              <span class="metric-label">Estimated Risk Level</span>
+              <strong id="estimatedRiskLevel" class="metric-value badge-tag badge-success-soft">Low Risk</strong>
+            </li>
+          </ul>
+        </article>
+
+        <!-- Placeholder 3: Weather & Traffic Environment Widgets -->
+        <article class="panel-card environment-widgets">
+          <div class="panel-header-bar">
+            <h2><i class="fa-solid fa-cloud-sun-rain"></i> Environmental Context</h2>
+          </div>
+
+          <div class="env-widgets-grid">
+            <div class="env-widget">
+              <i class="fa-solid fa-sun text-warning"></i>
+              <div>
+                <strong>Clear 28°C</strong>
+                <p>High Visibility</p>
+              </div>
+            </div>
+
+            <div class="env-widget">
+              <i class="fa-solid fa-car text-info"></i>
+              <div>
+                <strong>Moderate Flow</strong>
+                <p>18 km/h Avg Speed</p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Hazard Legend Bar Card -->
+        <article class="panel-card legend-panel">
+          <div class="panel-header-bar">
+            <h2><i class="fa-solid fa-layer-group"></i> Hazard Legend</h2>
+          </div>
+          <div class="legend-list">
+            <div class="legend-item"><span class="legend-dot red"></span> High Hazard Zone</div>
+            <div class="legend-item"><span class="legend-dot orange"></span> Medium Hazard</div>
+            <div class="legend-item"><span class="legend-dot green"></span> Safe Road Segment</div>
+            <div class="legend-item"><span class="legend-dot purple"></span> AI Recommended Route</div>
+          </div>
+        </article>
+
+      </div>
+
     </section>
-
-    <!-- Bottom Map Metrics & Legend Grid -->
-    <section class="stats-grid" aria-label="Map Navigation Metrics">
-      <article class="stat-card">
-        <div class="stat-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
-        <div class="stat-info">
-          <span>Potholes Nearby</span>
-          <strong>27</strong>
-        </div>
-      </article>
-      <article class="stat-card">
-        <div class="stat-icon"><i class="fa-solid fa-shield-halved"></i></div>
-        <div class="stat-info">
-          <span>Road Health</span>
-          <strong>94%</strong>
-        </div>
-      </article>
-      <article class="stat-card">
-        <div class="stat-icon"><i class="fa-solid fa-car"></i></div>
-        <div class="stat-info">
-          <span>Safe Routes</span>
-          <strong>3</strong>
-        </div>
-      </article>
-      <article class="stat-card">
-        <div class="stat-icon"><i class="fa-solid fa-clock"></i></div>
-        <div class="stat-info">
-          <span>Estimated ETA</span>
-          <strong>18 min</strong>
-        </div>
-      </article>
-    </section>
-
-    <!-- Hazard Legend Bar -->
-    <footer class="legend-bar panel-card">
-      <span class="legend-title">Hazard Legend:</span>
-      <div class="legend-item"><span class="legend-dot red"></span> High Hazard Zone</div>
-      <div class="legend-item"><span class="legend-dot orange"></span> Medium Hazard</div>
-      <div class="legend-item"><span class="legend-dot green"></span> Safe Road</div>
-      <div class="legend-item"><span class="legend-dot purple"></span> Recommended AI Route</div>
-    </footer>
 
   </main>
 </div>
@@ -274,11 +352,11 @@
   </div>
 </div>
 
-<!-- Map Engine JS -->
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
 <!-- Application Scripts -->
 <script src="../../js/common.js"></script>
 <script src="../../js/live-map.js"></script>
+
+<!-- Google Maps JS API with Places & Callback -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOVYRIgupAurZup5y1PRh8Ismb1A3lLao&libraries=places&callback=initMap" async defer></script>
 </body>
 </html>
