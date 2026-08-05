@@ -1,161 +1,195 @@
-/* =========================================================
-   RoadSafe AI — common.js (v2)
-   Shared across all pages: mobile sidebar toggle, sidebar collapse,
-   profile dropdown (My Profile / Settings / Sign Out), language +
-   theme switching with persistence, toast helper.
-   ========================================================= */
+// ==========================================================================
+// ROADIES (Road Optimization And Detection Intelligent Evaluation System)
+// Common Application Controller (common.js)
+// Notification Drawer, Command Palette (Ctrl+K), Toast System, & Global UX Micro-Interactions
+// ==========================================================================
 
-const RoadSafeCommon = (function () {
+document.addEventListener("DOMContentLoaded", () => {
+  initNotificationDrawer();
+  initCommandPalette();
+  initGlobalKeyboardShortcuts();
+  syncUserProfileHeader();
+});
 
-  const LANG_KEY  = "roadsafe-lang";
-  const THEME_KEY = "roadsafe-theme";
+// ==========================================================================
+// 1. Floating Toast Notification System
+// ==========================================================================
 
-  function getLang()  { return localStorage.getItem(LANG_KEY)  || "en"; }
-  function getTheme() { return localStorage.getItem(THEME_KEY) || "light"; }
+window.showToast = function(message, type = "purple") {
+  let container = document.querySelector(".roadies-toast-container");
+  if (!container) {
+    container = document.createElement("div");
+    container.className = "roadies-toast-container";
+    document.body.appendChild(container);
+  }
 
-  function applyLang(lang) {
-    document.querySelectorAll("[data-en]").forEach(function (el) {
-      const text = lang === "hi" ? el.dataset.hi : el.dataset.en;
-      if (text) el.textContent = text;
+  const toast = document.createElement("div");
+  toast.className = `roadies-toast ${type}`;
+  
+  let iconClass = "fa-solid fa-circle-info";
+  if (type === "success") iconClass = "fa-solid fa-circle-check";
+  if (type === "danger") iconClass = "fa-solid fa-triangle-exclamation";
+  if (type === "purple") iconClass = "fa-solid fa-road";
+
+  toast.innerHTML = `<i class="${iconClass}"></i> <span>${message}</span>`;
+  container.appendChild(toast);
+
+  setTimeout(() => {
+    toast.style.opacity = "0";
+    setTimeout(() => toast.remove(), 300);
+  }, 3000);
+};
+
+// Sync LocalStorage Profile Name across headers
+function syncUserProfileHeader() {
+  const savedName = localStorage.getItem("roadies_user_fullname");
+  if (savedName) {
+    const profileNames = document.querySelectorAll(".profile-info strong, #headerUserName");
+    profileNames.forEach(el => {
+      el.textContent = savedName;
     });
-    document.querySelectorAll(".lang-btn").forEach(function (b) {
-      b.classList.toggle("active", b.dataset.lang === lang);
-    });
+  }
+}
+
+// ==========================================================================
+// 2. Topbar Notification Slide-Over Drawer
+// ==========================================================================
+
+function initNotificationDrawer() {
+  const bellBtn = document.getElementById("notificationBellBtn");
+  const drawer = document.getElementById("notificationDrawer");
+  const drawerOverlay = document.getElementById("notificationDrawerOverlay");
+  const closeBtn = document.getElementById("closeNotificationDrawer");
+  const markAllBtn = document.getElementById("markAllNotificationsBtn");
+  const badge = document.getElementById("notificationBadgeCount");
+
+  if (!bellBtn || !drawer) return;
+
+  // Toggle Drawer Open
+  bellBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    openDrawer();
+  });
+
+  if (closeBtn) {
+    closeBtn.addEventListener("click", closeDrawer);
   }
 
-  function applyTheme(theme) {
-    document.body.classList.toggle("theme-dark-mode", theme === "dark");
-    const themeSelect = document.getElementById("themePref");
-    if (themeSelect) themeSelect.value = theme;
+  if (drawerOverlay) {
+    drawerOverlay.addEventListener("click", closeDrawer);
   }
 
-  function setLang(lang) {
-    localStorage.setItem(LANG_KEY, lang);
-    applyLang(lang);
-  }
-
-  function setTheme(theme) {
-    localStorage.setItem(THEME_KEY, theme);
-    applyTheme(theme);
-  }
-
-  function showToast(message) {
-    const toast = document.getElementById("toast");
-    if (!toast) return;
-    if (message) {
-      const span = toast.querySelector("span");
-      if (span) span.textContent = message;
-    }
-    toast.classList.add("show");
-    setTimeout(function () { toast.classList.remove("show"); }, 2600);
-  }
-
-  function loadMarkup(containerSelector, partialPath, callback) {
-    const container = document.querySelector(containerSelector);
-    if (!container) return;
-    fetch(partialPath)
-      .then(res => res.text())
-      .then(html => {
-        container.innerHTML = html;
-        if (typeof callback === "function") {
-          callback();
-        }
-      })
-      .catch(() => {
-        console.warn(`Failed to load partial: ${partialPath}`);
+  // Mark All Read Action
+  if (markAllBtn) {
+    markAllBtn.addEventListener("click", () => {
+      const unreadCards = drawer.querySelectorAll(".notification-item.unread");
+      unreadCards.forEach((card) => {
+        card.classList.remove("unread");
+        const dot = card.querySelector(".unread-indicator");
+        if (dot) dot.remove();
       });
-  }
 
-  function loadSidebar() {
-    loadMarkup("#sidebar-container", "../../../partials/html/sidebar.html", window.initSidebar);
-  }
-
-  function loadTopbar(title, subtitle) {
-    loadMarkup("#topbar", "../../../partials/html/Topbar.html", function () {
-      if (title) document.body.dataset.title = title;
-      if (subtitle) document.body.dataset.subtitle = subtitle;
-      if (typeof window.initTopbar === "function") {
-        window.initTopbar();
+      if (badge) {
+        badge.textContent = "0";
+        badge.style.display = "none";
       }
+
+      markAllBtn.innerHTML = `<i class="fa-solid fa-check"></i> All Read`;
+      markAllBtn.disabled = true;
+      window.showToast("All notifications marked as read.", "success");
     });
   }
 
-  window.loadSidebar = loadSidebar;
-  window.loadTopbar = loadTopbar;
-
-  function initMobileSidebar() {
-    const sidebar = document.getElementById("sidebar");
-    const toggleBtn = document.getElementById("sidebarToggle");
-    if (!toggleBtn || !sidebar) return;
-
-    let overlay = document.querySelector(".sidebar-overlay-mobile");
-    if (!overlay) {
-      overlay = document.createElement("div");
-      overlay.className = "sidebar-overlay-mobile";
-      document.body.appendChild(overlay);
-    }
-    const close = () => { sidebar.classList.remove("show"); overlay.classList.remove("show"); };
-    toggleBtn.addEventListener("click", () => {
-      sidebar.classList.toggle("show");
-      overlay.classList.toggle("show");
-    });
-    overlay.addEventListener("click", close);
+  function openDrawer() {
+    drawer.classList.add("active");
+    if (drawerOverlay) drawerOverlay.classList.add("active");
+    document.body.style.overflow = "hidden";
   }
 
-  function initSidebarCollapse() {
-    const btn = document.getElementById("sidebarCollapseBtn");
-    const sidebar = document.getElementById("sidebar");
-    if (!btn || !sidebar) return;
-    btn.addEventListener("click", function () {
-      sidebar.classList.toggle("collapsed");
-      btn.innerHTML = sidebar.classList.contains("collapsed")
-        ? '<svg class="icon"><use href="#i-chevron-right"/></svg>'
-        : '<svg class="icon"><use href="#i-chevron-left"/></svg>';
+  function closeDrawer() {
+    drawer.classList.remove("active");
+    if (drawerOverlay) drawerOverlay.classList.remove("active");
+    document.body.style.overflow = "";
+  }
+}
+
+// ==========================================================================
+// 3. Command Palette (Ctrl+K / Cmd+K)
+// ==========================================================================
+
+function initCommandPalette() {
+  const paletteModal = document.getElementById("commandPaletteModal");
+  const paletteInput = document.getElementById("commandPaletteInput");
+  const paletteBackdrop = document.getElementById("commandPaletteBackdrop");
+  const searchBoxes = document.querySelectorAll(".search-box input");
+
+  // Trigger Command Palette from search boxes or Ctrl+K shortcut
+  searchBoxes.forEach((input) => {
+    input.addEventListener("focus", (e) => {
+      openPalette();
     });
+  });
+
+  if (paletteBackdrop) {
+    paletteBackdrop.addEventListener("click", closePalette);
   }
 
-  // function initProfileDropdown() {
-  //   const trigger  = document.getElementById("profileTriggerBtn");
-  //   const dropdown = document.getElementById("profileDropdown");
-  //   if (!trigger || !dropdown) return;
-
-  //   trigger.addEventListener("click", function (e) {
-  //     e.stopPropagation();
-  //     dropdown.classList.toggle("show");
-  //     trigger.classList.toggle("open");
-  //   });
-  //   document.addEventListener("click", function (e) {
-  //     if (!dropdown.contains(e.target) && !trigger.contains(e.target)) {
-  //       dropdown.classList.remove("show");
-  //       trigger.classList.remove("open");
-  //     }
-  //   });
-  // }
-
-  function initLangToggle() {
-    document.querySelectorAll(".lang-btn").forEach(function (btn) {
-      btn.addEventListener("click", function () { setLang(btn.dataset.lang); });
-    });
-    applyLang(getLang());
-  }
-
-  function initThemeToggle() {
-    applyTheme(getTheme());
-    const themeSelect = document.getElementById("themePref");
-    if (themeSelect) {
-      themeSelect.addEventListener("change", function () { setTheme(themeSelect.value); });
+  function openPalette() {
+    if (!paletteModal) return;
+    paletteModal.classList.add("active");
+    if (paletteInput) {
+      setTimeout(() => paletteInput.focus(), 50);
     }
   }
 
-  function init() {
-    initMobileSidebar();
-    initSidebarCollapse();
-    // initProfileDropdown();
-    initLangToggle();
-    initThemeToggle();
+  function closePalette() {
+    if (!paletteModal) return;
+    paletteModal.classList.remove("active");
   }
 
-  document.addEventListener("DOMContentLoaded", init);
+  // Listen for Ctrl+K or Cmd+K
+  document.addEventListener("keydown", (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+      e.preventDefault();
+      if (paletteModal && paletteModal.classList.contains("active")) {
+        closePalette();
+      } else {
+        openPalette();
+      }
+    }
 
-  return { getLang, getTheme, setLang, setTheme, showToast };
-})();
+    if (e.key === "Escape" && paletteModal && paletteModal.classList.contains("active")) {
+      closePalette();
+    }
+  });
+
+  // Filter palette items dynamically
+  if (paletteInput) {
+    paletteInput.addEventListener("input", (e) => {
+      const query = e.target.value.toLowerCase().trim();
+      const items = paletteModal.querySelectorAll(".command-item");
+
+      items.forEach((item) => {
+        const text = item.innerText.toLowerCase();
+        item.style.display = text.includes(query) ? "flex" : "none";
+      });
+    });
+  }
+}
+
+// Global Keyboard Accessibility
+function initGlobalKeyboardShortcuts() {
+  document.addEventListener("keydown", (e) => {
+    // ESC closes active drawers or modals
+    if (e.key === "Escape") {
+      const drawer = document.getElementById("notificationDrawer");
+      const overlay = document.getElementById("notificationDrawerOverlay");
+      if (drawer && drawer.classList.contains("active")) {
+        drawer.classList.remove("active");
+        if (overlay) overlay.classList.remove("active");
+        document.body.style.overflow = "";
+      }
+    }
+  });
+}

@@ -1,5 +1,7 @@
 // ==========================================================================
-// RoadSafe AI - Scan Road Controller
+// ROADIES (Road Optimization And Detection Intelligent Evaluation System)
+// Scan Road Controller (scan.js)
+// YOLO Detection Simulation, File Drag & Drop, LocalStorage Persistence, & Toast Alerts
 // ==========================================================================
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -33,7 +35,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (cameraActionBtn) {
     cameraActionBtn.addEventListener("click", () => {
-      alert("Camera stream initialized. Position camera towards road surface.");
+      if (window.showToast) {
+        window.showToast("Camera stream initialized. Position camera towards road.", "purple");
+      } else {
+        alert("Camera stream initialized.");
+      }
     });
   }
 
@@ -58,6 +64,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (statusText) {
         statusText.textContent = "Media Ready for Detection";
+      }
+      if (window.showToast) {
+        window.showToast(`Loaded "${file.name}" for YOLO AI analysis`, "success");
       }
     });
   }
@@ -94,7 +103,11 @@ document.addEventListener("DOMContentLoaded", () => {
         previewImage.style.display === "none" &&
         previewVideo.style.display === "none"
       ) {
-        alert("Please upload an image or video file first.");
+        if (window.showToast) {
+          window.showToast("Please upload an image or video file first.", "danger");
+        } else {
+          alert("Please upload an image or video file first.");
+        }
         return;
       }
 
@@ -108,9 +121,11 @@ document.addEventListener("DOMContentLoaded", () => {
         if (potholes) potholes.textContent = count;
         if (confidence) confidence.textContent = `${confidenceVal}%`;
 
+        let severityText = "Low Hazard";
         if (count <= 1) {
+          severityText = "Low Hazard";
           if (severity) {
-            severity.textContent = "Low Hazard";
+            severity.textContent = severityText;
             severity.className = "badge-tag badge-success-soft";
           }
           if (condition) condition.textContent = "Good Road Condition";
@@ -118,8 +133,9 @@ document.addEventListener("DOMContentLoaded", () => {
             recommendation.textContent = "Minor road surface wear. Safe for normal driving speeds.";
           }
         } else if (count <= 3) {
+          severityText = "Medium Hazard";
           if (severity) {
-            severity.textContent = "Medium Hazard";
+            severity.textContent = severityText;
             severity.className = "badge-tag badge-warning-soft";
           }
           if (condition) condition.textContent = "Moderate Damage";
@@ -127,8 +143,9 @@ document.addEventListener("DOMContentLoaded", () => {
             recommendation.textContent = "Multiple shallow potholes detected. Reduce speed to 40 km/h.";
           }
         } else {
+          severityText = "High Hazard";
           if (severity) {
-            severity.textContent = "High Hazard";
+            severity.textContent = severityText;
             severity.className = "badge-tag badge-danger-soft";
           }
           if (condition) condition.textContent = "Severe Surface Degradation";
@@ -140,15 +157,36 @@ document.addEventListener("DOMContentLoaded", () => {
         if (statusText) statusText.textContent = "Scan Complete";
         scanBtn.innerHTML = `<i class="fa-solid fa-check"></i> Scan Complete`;
         scanBtn.disabled = false;
+
+        if (window.showToast) {
+          window.showToast(`YOLO Scan Completed: ${count} Potholes Detected (${confidenceVal}% Confidence)`, "purple");
+        }
       }, 2000);
     });
   }
 
-  // Generate Report Button Action
+  // Generate Report Button Action (Saves report to LocalStorage for Demo Flow)
   if (generateReportBtn) {
     generateReportBtn.addEventListener("click", () => {
-      alert("New Pothole Detection Report generated and saved to 'My Reports'.");
-      window.location.href = "my-reports.html";
+      const reportId = "#10" + (Math.floor(Math.random() * 80) + 25);
+      const newReport = {
+        id: reportId,
+        location: "Mall Road Sector 9",
+        severity: severity ? severity.textContent : "Medium Hazard",
+        status: "Pending",
+        date: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
+      };
+
+      const existing = JSON.parse(localStorage.getItem("roadies_custom_reports") || "[]");
+      existing.push(newReport);
+      localStorage.setItem("roadies_custom_reports", JSON.stringify(existing));
+
+      if (window.showToast) {
+        window.showToast(`Pothole Report ${reportId} generated! Redirecting to My Reports...`, "success");
+      }
+      setTimeout(() => {
+        window.location.href = "my-reports.html";
+      }, 1200);
     });
   }
 

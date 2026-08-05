@@ -1,5 +1,7 @@
 // ==========================================================================
-// RoadSafe AI - My Reports Controller
+// ROADIES (Road Optimization And Detection Intelligent Evaluation System)
+// My Reports Controller (reports.js)
+// Real-time table filters, CSV export, LocalStorage persistence, & Toast alerts
 // ==========================================================================
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -7,6 +9,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const statusFilter = document.getElementById("statusFilter");
   const reportTable = document.getElementById("reportTable");
   const exportCsvBtn = document.getElementById("exportCsvBtn");
+
+  // Load custom reports generated during the demo from LocalStorage
+  loadCustomReports();
 
   // Search Filter
   if (searchInput && reportTable) {
@@ -48,6 +53,31 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+// Load added reports from LocalStorage (Demo Mode dynamic feature)
+function loadCustomReports() {
+  const table = document.getElementById("reportTable");
+  if (!table) return;
+
+  const tbody = table.querySelector("tbody");
+  const savedReports = JSON.parse(localStorage.getItem("roadies_custom_reports") || "[]");
+
+  savedReports.forEach((rep) => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td><strong>${rep.id}</strong></td>
+      <td>${rep.location}</td>
+      <td><span class="badge-tag badge-purple-soft">${rep.severity}</span></td>
+      <td><span class="badge-tag badge-warning-soft">${rep.status}</span></td>
+      <td>${rep.date}</td>
+      <td>
+        <button class="btn btn-sm btn-purple-soft viewBtn"><i class="fa-solid fa-eye"></i> View</button>
+        <button class="btn btn-sm btn-danger-soft deleteBtn"><i class="fa-solid fa-trash"></i> Delete</button>
+      </td>
+    `;
+    tbody.prepend(row);
+  });
+}
+
 // Bind View and Delete Click Events
 function bindTableActions() {
   const reportTable = document.getElementById("reportTable");
@@ -55,12 +85,13 @@ function bindTableActions() {
 
   // Delete Buttons
   reportTable.querySelectorAll(".deleteBtn").forEach((btn) => {
-    btn.onclick = null; // Clear inline fallback
+    btn.onclick = null;
     btn.addEventListener("click", (e) => {
       e.stopPropagation();
       if (confirm("Are you sure you want to delete this pothole report?")) {
         btn.closest("tr").remove();
         updateStats();
+        if (window.showToast) window.showToast("Report deleted successfully.", "danger");
       }
     });
   });
@@ -77,9 +108,11 @@ function bindTableActions() {
       const status = row.cells[3].innerText;
       const date = row.cells[4].innerText;
 
-      alert(
-        `RoadSafe AI Pothole Report Details\n\nReport ID: ${reportId}\nLocation: ${location}\nSeverity: ${severity}\nStatus: ${status}\nDate Submitted: ${date}\n\nAI Vision Confidence: 96%`
-      );
+      if (window.showToast) {
+        window.showToast(`Report ${reportId} (${severity}): ${location}`, "purple");
+      } else {
+        alert(`ROADIES Pothole Report\nID: ${reportId}\nLocation: ${location}\nSeverity: ${severity}\nStatus: ${status}`);
+      }
     });
   });
 }
@@ -111,7 +144,6 @@ function exportCSV() {
     let cols = row.querySelectorAll("th, td");
     let data = [];
     cols.forEach((col, index) => {
-      // Exclude Actions column (index 5)
       if (index < 5) {
         data.push(`"${col.innerText.trim()}"`);
       }
@@ -122,6 +154,10 @@ function exportCSV() {
   const blob = new Blob([csv.join("\n")], { type: "text/csv" });
   const link = document.createElement("a");
   link.href = URL.createObjectURL(blob);
-  link.download = "RoadSafeAI_Driver_Reports.csv";
+  link.download = "ROADIES_Driver_Pothole_Reports.csv";
   link.click();
+
+  if (window.showToast) {
+    window.showToast("Exported ROADIES CSV Report to your downloads.", "success");
+  }
 }
