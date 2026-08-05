@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pothole Analysis & Details | RoadSafe AI</title>
+    <title>Pothole Analysis & Details | ROADIES</title>
 
     <!-- Leaflet & FontAwesome & Google Fonts -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -36,11 +36,7 @@
         .nav-item:hover { background: #f8fafc; color: var(--purple); }
         .nav-item.active { background: var(--purple-light); color: var(--purple); font-weight: 600; }
         .nav-item.active i { color: var(--purple); }
-        .logout-btn { display: flex; align-items: center; gap: 12px; padding: 10px 16px; border-radius: 12px; color: #ef4444; background: #fef2f2; border: 1px solid #fee2e2; text-decoration: none; font-size: 13px; font-weight: 600; margin-bottom: 12px; cursor: pointer; transition: all 0.2s ease; }
-        .logout-btn:hover { background: #fee2e2; color: #dc2626; }
-        .status-card { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 14px; background: #f8fafc; color: var(--text); font-size: 12px; border: 1px solid var(--line); }
-        .status-card .online { width: 10px; height: 10px; border-radius: 50%; background: var(--green); }
-        /* Screenshot-matched Header & Layout Styles */
+
         .main-wrapper { flex: 1; display: flex; flex-direction: column; height: 100vh; overflow-y: auto; background: #f8fafc; }
         .admin-topbar { height: 76px; padding: 0 32px; background: #ffffff; border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 90; flex-shrink: 0; }
         .topbar-page-title { font-size: 22px; font-weight: 700; color: var(--purple); margin: 0; }
@@ -60,53 +56,37 @@
         .badge-warning { background: #fef3c7; color: #d97706; }
         .badge-success { background: #dcfce7; color: #16a34a; }
         .badge-info { background: #e0f2fe; color: #0284c7; }
-
-        /* Navigation Header Bar */
-        .map-nav-header { display: flex; align-items: center; justify-content: space-between; background: #ffffff; padding: 12px 20px; border-radius: 16px; border: 1px solid var(--line); box-shadow: 0 4px 16px rgba(0,0,0,0.03); }
-        .map-nav-links { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-        .map-nav-link { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 12px; font-size: 13px; font-weight: 500; color: var(--muted); text-decoration: none; transition: all 0.2s ease; }
-        .map-nav-link:hover { background: #f8fafc; color: var(--purple); }
-        .map-nav-link.active { background: var(--purple-gradient); color: #ffffff; font-weight: 600; box-shadow: 0 4px 12px rgba(147, 51, 234, 0.25); }
     </style>
 </head>
 <body>
 
 <div class="app-shell">
 
-    <!-- Sidebar Navigation -->
+    <!-- Universal Sidebar Navigation -->
     <aside class="sidebar">
         <div>
             <div class="brand">
                 <div class="brand-mark"><i class="fa-solid fa-road"></i></div>
                 <div>
-                    <h1>RoadSafe AI</h1>
+                    <h1>ROADIES</h1>
                     <p>Navigation & Maps</p>
                 </div>
             </div>
 
             <nav class="sidebar-nav">
-                <a class="nav-item" href="dashboard.html"><i class="fa-solid fa-gauge-high"></i><span>Dashboard</span></a>
-                <a class="nav-item" href="live-map.html"><i class="fa-solid fa-map-location-dot"></i><span>Map View</span></a>
+                <a class="nav-item" href="../dashboard.html"><i class="fa-solid fa-gauge-high"></i><span>Dashboard</span></a>
+                <a class="nav-item" href="live-map.html"><i class="fa-solid fa-compass"></i><span>Map View</span></a>
                 <a class="nav-item" href="route-planner.html"><i class="fa-solid fa-route"></i><span>Route Planner</span></a>
                 <a class="nav-item" href="route-history.html"><i class="fa-solid fa-clock-rotate-left"></i><span>Route History</span></a>
                 <a class="nav-item active" href="pothole-detail.html"><i class="fa-solid fa-circle-info"></i><span>Pothole Details</span></a>
-                <a class="nav-item" href="scan-road.html"><i class="fa-solid fa-camera"></i><span>Scan Road</span></a>
-                <a class="nav-item" href="my-reports.html"><i class="fa-solid fa-file-lines"></i><span>My Reports</span></a>
+                <a class="nav-item" href="../scan-road.html"><i class="fa-solid fa-camera"></i><span>Scan Road</span></a>
+                <a class="nav-item" href="../my-reports.html"><i class="fa-solid fa-file-lines"></i><span>My Reports</span></a>
             </nav>
         </div>
 
         <div class="sidebar-footer">
-            <div class="profile-card" style="display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 14px; background: #f8fafc; border: 1px solid var(--line); margin-bottom: 12px;">
-                <div style="width: 38px; height: 38px; border-radius: 50%; background: var(--purple-light); color: var(--purple); display: flex; align-items: center; justify-content: center; font-size: 20px;">
-                    <i class="fa-solid fa-circle-user"></i>
-                </div>
-                <div>
-                    <strong style="color: var(--text); font-size: 13px; display: block;">shhio</strong>
-                    <p style="font-size: 11px; color: var(--muted); margin: 0;">Driver</p>
-                </div>
-            </div>
-            <div class="status-card">
-                <span class="online"></span>
+            <div class="status-card" style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 14px; background: #f8fafc; color: var(--text); font-size: 12px; border: 1px solid var(--line);">
+                <span style="width: 10px; height: 10px; border-radius: 50%; background: #22c55e;"></span>
                 <div>
                     <strong>GPS Active</strong>
                     <p>Hazard Zone Mapping</p>
@@ -117,7 +97,6 @@
 
     <!-- Main Content Outer Wrapper -->
     <main class="main-wrapper">
-        <!-- Top Header matching screenshot -->
         <header class="admin-topbar">
             <h2 class="topbar-page-title" id="potholeTitle">Pothole Analysis #POT-101</h2>
             <div class="topbar-right">
@@ -132,73 +111,67 @@
 
         <!-- Page Body Content -->
         <div class="page-body">
+            <div class="detail-grid">
+                <div>
+                    <div class="map-box">
+                        <div id="detailHazardMap"></div>
+                    </div>
 
-        <!-- Main Detail Grid -->
-        <div class="detail-grid">
-            <!-- Left Column: Interactive GPS Hazard Map & Road Analytics -->
-            <div>
-                <div class="map-box">
-                    <div id="detailHazardMap"></div>
+                    <div class="detail-card" style="margin-top: 24px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+                            <h3 style="font-size: 16px; font-weight: 700; color: var(--text);">
+                                <i class="fa-solid fa-shield-cat" style="color: var(--purple);"></i> Driving Hazard Assessment & Safety Guidelines
+                            </h3>
+                            <button onclick="PotholeDetailView.recenterMap()" class="btn-secondary" style="padding: 6px 12px; font-size: 12px;">
+                                <i class="fa-solid fa-crosshairs"></i> Recenter Map
+                            </button>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 16px;">
+                            <div style="background: #f8fafc; padding: 14px; border-radius: 12px; border: 1px solid var(--line);">
+                                <span style="font-size: 11px; color: var(--muted); text-transform: uppercase; font-weight: 700; display: block;">Vehicle Impact Risk</span>
+                                <strong style="font-size: 16px; color: #dc2626; margin-top: 4px; display: block;">Severe Suspension Damage</strong>
+                            </div>
+                            <div style="background: #f8fafc; padding: 14px; border-radius: 12px; border: 1px solid var(--line);">
+                                <span style="font-size: 11px; color: var(--muted); text-transform: uppercase; font-weight: 700; display: block;">Recommended Driving Speed</span>
+                                <strong style="font-size: 16px; color: #9333ea; margin-top: 4px; display: block;">&lt; 20 km/h or Detour</strong>
+                            </div>
+                            <div style="background: #f8fafc; padding: 14px; border-radius: 12px; border: 1px solid var(--line);">
+                                <span style="font-size: 11px; color: var(--muted); text-transform: uppercase; font-weight: 700; display: block;">Municipal Action</span>
+                                <strong style="font-size: 16px; color: #d97706; margin-top: 4px; display: block;">Tier 1 Repair Queue</strong>
+                            </div>
+                        </div>
+
+                        <p style="font-size: 13px; color: #475569; line-height: 1.6;">
+                            This road segment contains a high-depth crater hazard that poses risk to vehicle rims, tires, and undercarriage. The 60-meter red perimeter highlights the caution zone. We recommend selecting the AI-suggested purple detour in Route Planner.
+                        </p>
+                    </div>
                 </div>
 
-                <div class="detail-card" style="margin-top: 24px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-                        <h3 style="font-size: 16px; font-weight: 700; color: var(--text);">
-                            <i class="fa-solid fa-shield-cat" style="color: var(--purple);"></i> Driving Hazard Assessment & Safety Guidelines
-                        </h3>
-                        <button onclick="PotholeDetailView.recenterMap()" class="btn-secondary" style="padding: 6px 12px; font-size: 12px;">
-                            <i class="fa-solid fa-crosshairs"></i> Recenter Map
-                        </button>
-                    </div>
+                <div style="display: flex; flex-direction: column; gap: 20px;">
+                    <div class="detail-card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                            <span id="potholeSeverityBadge" class="badge-pill badge-danger">High Severity</span>
+                            <span id="potholeStatusBadge" class="badge-pill badge-danger">Unrepaired</span>
+                        </div>
 
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 16px;">
-                        <div style="background: #f8fafc; padding: 14px; border-radius: 12px; border: 1px solid var(--line);">
-                            <span style="font-size: 11px; color: var(--muted); text-transform: uppercase; font-weight: 700; display: block;">Vehicle Impact Risk</span>
-                            <strong style="font-size: 16px; color: #dc2626; margin-top: 4px; display: block;">Severe Suspension Damage</strong>
+                        <div style="font-size: 13px; display: flex; flex-direction: column; gap: 12px;">
+                            <div style="display: flex; justify-content: space-between; padding-bottom: 8px; border-bottom: 1px solid var(--line);">
+                                <span style="color: #64748b;">Est. Depth</span><strong id="metricDepth">14.5 cm</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding-bottom: 8px; border-bottom: 1px solid var(--line);">
+                                <span style="color: #64748b;">Est. Diameter</span><strong id="metricWidth">65 cm</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding-bottom: 8px; border-bottom: 1px solid var(--line);">
+                                <span style="color: #64748b;">AI Confidence</span><strong id="metricConfidence" style="color: var(--purple);">97.4%</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding-bottom: 8px; border-bottom: 1px solid var(--line);">
+                                <span style="color: #64748b;">Detected At</span><strong id="metricDetectedAt">2026-07-20 14:32</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span style="color: #64748b;">GPS Location</span><strong id="metricCoordinates">26.4524° N, 80.3345° E</strong>
+                            </div>
                         </div>
-                        <div style="background: #f8fafc; padding: 14px; border-radius: 12px; border: 1px solid var(--line);">
-                            <span style="font-size: 11px; color: var(--muted); text-transform: uppercase; font-weight: 700; display: block;">Recommended Driving Speed</span>
-                            <strong style="font-size: 16px; color: #9333ea; margin-top: 4px; display: block;">&lt; 20 km/h or Detour</strong>
-                        </div>
-                        <div style="background: #f8fafc; padding: 14px; border-radius: 12px; border: 1px solid var(--line);">
-                            <span style="font-size: 11px; color: var(--muted); text-transform: uppercase; font-weight: 700; display: block;">Municipal Action</span>
-                            <strong style="font-size: 16px; color: #d97706; margin-top: 4px; display: block;">Tier 1 Repair Queue</strong>
-                        </div>
-                    </div>
-
-                    <p style="font-size: 13px; color: #475569; line-height: 1.6;">
-                        This road segment contains a high-depth crater hazard that poses risk to vehicle rims, tires, and undercarriage. The 60-meter red perimeter highlights the caution zone. We recommend selecting the AI-suggested purple detour in Route Planner.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Right Column: Pothole Metadata Sidebar -->
-            <div style="display: flex; flex-direction: column; gap: 20px;">
-                <!-- Status Card -->
-                <div class="detail-card">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-                        <span id="potholeSeverityBadge" class="badge-pill badge-danger">High Severity</span>
-                        <span id="potholeStatusBadge" class="badge-pill badge-danger">Unrepaired</span>
-                    </div>
-
-                    <div style="font-size: 13px; display: flex; flex-direction: column; gap: 12px;">
-                        <div style="display: flex; justify-content: space-between; padding-bottom: 8px; border-bottom: 1px solid var(--line);">
-                            <span style="color: #64748b;">Est. Depth</span><strong id="metricDepth">14.5 cm</strong>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; padding-bottom: 8px; border-bottom: 1px solid var(--line);">
-                            <span style="color: #64748b;">Est. Diameter</span><strong id="metricWidth">65 cm</strong>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; padding-bottom: 8px; border-bottom: 1px solid var(--line);">
-                            <span style="color: #64748b;">AI Confidence</span><strong id="metricConfidence" style="color: var(--purple);">97.4%</strong>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; padding-bottom: 8px; border-bottom: 1px solid var(--line);">
-                            <span style="color: #64748b;">Detected At</span><strong id="metricDetectedAt">2026-07-20 14:32</strong>
-                        </div>
-                        <div style="display: flex; justify-content: space-between;">
-                            <span style="color: #64748b;">GPS Location</span><strong id="metricCoordinates">26.4524° N, 80.3345° E</strong>
-                        </div>
-                    </div>
-
                     </div>
                 </div>
             </div>

@@ -20,8 +20,8 @@
 
 <div class="app-shell">
 
-  <!-- Sidebar Navigation -->
-  <aside class="sidebar">
+  <!-- Primary Universal Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <div class="brand">
         <div class="brand-mark"><i class="fa-solid fa-road"></i></div>
@@ -33,15 +33,12 @@
     </div>
 
     <nav class="sidebar-nav" aria-label="Main Navigation">
-      <a class="nav-item" href="../dashboard.html"><i class="fa-solid fa-gauge-high"></i><span>Dashboard</span></a>
-      <a class="nav-item" href="../Navigation/live-map.html"><i class="fa-solid fa-compass"></i><span>Map View</span></a>
-      <a class="nav-item" href="../Navigation/route-planner.html"><i class="fa-solid fa-route"></i><span>Route Planner</span></a>
-      <a class="nav-item" href="../Navigation/route-history.html"><i class="fa-solid fa-clock-rotate-left"></i><span>Route History</span></a>
-      <a class="nav-item" href="../Navigation/pothole-detail.html"><i class="fa-solid fa-circle-info"></i><span>Pothole Details</span></a>
-      <a class="nav-item" href="../scan-road.html"><i class="fa-solid fa-camera"></i><span>Scan Road</span></a>
-      <a class="nav-item active" href="my-reports.html"><i class="fa-solid fa-file-lines"></i><span>My Reports</span></a>
-      <a class="nav-item" href="../profile/profile.html"><i class="fa-solid fa-user"></i><span>Profile</span></a>
-      <a class="nav-item" href="../profile/settings.html"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+      <a class="nav-item" href="../dashboard.html" data-page="dashboard"><i class="fa-solid fa-gauge-high"></i><span>Dashboard</span></a>
+      <a class="nav-item" href="../live-map.html" data-page="live-map"><i class="fa-solid fa-compass"></i><span>Map View</span></a>
+      <a class="nav-item" href="../Navigation/route-planner.html" data-page="route-planner"><i class="fa-solid fa-route"></i><span>Route Planner</span></a>
+      <a class="nav-item" href="../Navigation/route-history.html" data-page="route-history"><i class="fa-solid fa-clock-rotate-left"></i><span>Route History</span></a>
+      <a class="nav-item" href="../scan-road.html" data-page="scan-road"><i class="fa-solid fa-camera"></i><span>Scan Road</span></a>
+      <a class="nav-item active" href="my-reports.html" data-page="my-reports"><i class="fa-solid fa-file-lines"></i><span>My Reports</span></a>
     </nav>
 
     <div class="sidebar-footer">
@@ -49,7 +46,7 @@
         <span class="dot"></span>
         <div>
           <strong>GPS Connected</strong>
-          <p>Live location enabled</p>
+          <p>Live Telemetry Active</p>
         </div>
       </div>
     </div>
@@ -61,14 +58,16 @@
     <!-- Topbar Header -->
     <header class="topbar">
       <div class="topbar-title-section">
-        <h1 class="page-title">My Reports & Hazard Log 📑</h1>
-        <p class="page-subtitle">Track submitted pothole reports, verification status, and repair updates</p>
+        <h1 class="page-title">My Pothole Reports 📋</h1>
+        <p class="page-subtitle">Track submitted road damage reports, verification status, & municipal action logs</p>
       </div>
 
       <div class="topbar-actions">
-        <button id="exportCsvBtn" class="btn btn-purple-soft">
-          <i class="fa-solid fa-download"></i> Export CSV
-        </button>
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="searchInput" placeholder="Search report ID, location, or status..." />
+          <span class="search-shortcut-hint">Ctrl K</span>
+        </div>
 
         <div class="icon-btn-wrapper">
           <button id="notificationBellBtn" class="icon-btn" aria-label="Notifications">
@@ -77,7 +76,7 @@
           </button>
         </div>
 
-        <a href="../profile/profile.html" class="profile-pill">
+        <div id="profilePill" class="profile-pill">
           <div class="avatar-circle">
             <i class="fa-solid fa-user"></i>
           </div>
@@ -85,110 +84,132 @@
             <strong>Archita Trivedi</strong>
             <p>Driver / Member #1042</p>
           </div>
-        </a>
+        </div>
       </div>
     </header>
 
     <!-- Overview Statistics Grid -->
-    <section class="stats-grid" aria-label="Reports Overview">
+    <section class="stats-grid" aria-label="Report Statistics">
       <article class="stat-card">
-        <div class="stat-icon"><i class="fa-solid fa-folder-open"></i></div>
+        <div class="stat-icon"><i class="fa-solid fa-file-lines"></i></div>
         <div class="stat-info">
           <span>Total Reports</span>
-          <strong id="totalReports">3</strong>
+          <strong id="totalReports">4</strong>
         </div>
       </article>
       <article class="stat-card">
-        <div class="stat-icon"><i class="fa-solid fa-hourglass-half"></i></div>
+        <div class="stat-icon"><i class="fa-solid fa-clock"></i></div>
         <div class="stat-info">
-          <span>Pending</span>
+          <span>Pending Review</span>
           <strong id="pendingReports">1</strong>
+        </div>
+      </article>
+      <article class="stat-card">
+        <div class="stat-icon"><i class="fa-solid fa-user-check"></i></div>
+        <div class="stat-info">
+          <span>Verified</span>
+          <strong id="verifiedReports">2</strong>
         </div>
       </article>
       <article class="stat-card">
         <div class="stat-icon"><i class="fa-solid fa-circle-check"></i></div>
         <div class="stat-info">
-          <span>Verified</span>
-          <strong id="verifiedReports">1</strong>
-        </div>
-      </article>
-      <article class="stat-card">
-        <div class="stat-icon"><i class="fa-solid fa-wrench"></i></div>
-        <div class="stat-info">
-          <span>Resolved</span>
+          <span>Resolved / Repaired</span>
           <strong id="resolvedReports">1</strong>
         </div>
       </article>
     </section>
 
-    <!-- Search & Filter Toolbar -->
-    <section class="reports-filter-bar">
-      <div class="search-box">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <input type="text" id="searchInput" placeholder="Search reports by location, severity or ID..." />
-        <span class="search-shortcut-hint">Ctrl K</span>
-      </div>
+    <!-- Filter Bar Card -->
+    <section class="panel-card filter-bar-panel">
+      <div class="filter-controls-row">
+        <div class="filter-group">
+          <label for="statusFilter"><i class="fa-solid fa-filter"></i> Filter by Status:</label>
+          <select id="statusFilter" class="form-control select-control">
+            <option value="All">All Statuses</option>
+            <option value="Pending">Pending</option>
+            <option value="Verified">Verified</option>
+            <option value="Resolved">Resolved</option>
+          </select>
+        </div>
 
-      <div class="filter-controls">
-        <label for="statusFilter" class="filter-label">Status Filter:</label>
-        <select id="statusFilter" class="form-select">
-          <option value="All">All Statuses</option>
-          <option value="Pending">Pending</option>
-          <option value="Verified">Verified</option>
-          <option value="Resolved">Resolved</option>
-        </select>
+        <div class="filter-actions">
+          <button id="exportCsvBtn" class="btn btn-purple-soft">
+            <i class="fa-solid fa-file-csv"></i> Export CSV
+          </button>
+          <a href="../scan-road.html" class="btn btn-purple-gradient">
+            <i class="fa-solid fa-plus"></i> New Report
+          </a>
+        </div>
       </div>
     </section>
 
-    <!-- Reports Data Table Card -->
-    <section class="table-card">
-      <table id="reportTable" class="data-table">
-        <thead>
-          <tr>
-            <th>Report ID</th>
-            <th>Location</th>
-            <th>Severity</th>
-            <th>Status</th>
-            <th>Date</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>#1021</strong></td>
-            <td>GT Road Mall Crossing</td>
-            <td><span class="badge-tag badge-danger-soft">High</span></td>
-            <td><span class="badge-tag badge-warning-soft">Pending</span></td>
-            <td>13 Jul 2026</td>
-            <td>
-              <button class="btn btn-sm btn-purple-soft viewBtn"><i class="fa-solid fa-eye"></i> View</button>
-              <button class="btn btn-sm btn-danger-soft deleteBtn"><i class="fa-solid fa-trash"></i> Delete</button>
-            </td>
-          </tr>
-          <tr>
-            <td><strong>#1018</strong></td>
-            <td>Civil Lines Sector 4</td>
-            <td><span class="badge-tag badge-warning-soft">Medium</span></td>
-            <td><span class="badge-tag badge-purple-soft">Verified</span></td>
-            <td>12 Jul 2026</td>
-            <td>
-              <button class="btn btn-sm btn-purple-soft viewBtn"><i class="fa-solid fa-eye"></i> View</button>
-              <button class="btn btn-sm btn-danger-soft deleteBtn"><i class="fa-solid fa-trash"></i> Delete</button>
-            </td>
-          </tr>
-          <tr>
-            <td><strong>#1012</strong></td>
-            <td>Kidwai Nagar Main Road</td>
-            <td><span class="badge-tag badge-success-soft">Low</span></td>
-            <td><span class="badge-tag badge-success-soft">Resolved</span></td>
-            <td>10 Jul 2026</td>
-            <td>
-              <button class="btn btn-sm btn-purple-soft viewBtn"><i class="fa-solid fa-eye"></i> View</button>
-              <button class="btn btn-sm btn-danger-soft deleteBtn"><i class="fa-solid fa-trash"></i> Delete</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <!-- Pothole Reports Data Table Card -->
+    <section class="panel-card table-panel-card">
+      <div class="panel-header-bar">
+        <h2><i class="fa-solid fa-list-check"></i> Pothole Hazard Log</h2>
+      </div>
+
+      <div class="table-responsive">
+        <table id="reportTable" class="data-table">
+          <thead>
+            <tr>
+              <th>Report ID</th>
+              <th>Location</th>
+              <th>Severity</th>
+              <th>Status</th>
+              <th>Date Submitted</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>#1024</strong></td>
+              <td>GT Road Mall Crossing, Kanpur</td>
+              <td><span class="badge-tag badge-danger-soft">High Severity</span></td>
+              <td><span class="badge-tag badge-warning-soft">Pending</span></td>
+              <td>02 Aug 2026</td>
+              <td>
+                <button class="btn btn-sm btn-purple-soft viewBtn"><i class="fa-solid fa-eye"></i> View</button>
+                <button class="btn btn-sm btn-danger-soft deleteBtn"><i class="fa-solid fa-trash"></i> Delete</button>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>#1021</strong></td>
+              <td>Civil Lines Sector 4, Kanpur</td>
+              <td><span class="badge-tag badge-warning-soft">Medium Severity</span></td>
+              <td><span class="badge-tag badge-purple-soft">Verified</span></td>
+              <td>28 Jul 2026</td>
+              <td>
+                <button class="btn btn-sm btn-purple-soft viewBtn"><i class="fa-solid fa-eye"></i> View</button>
+                <button class="btn btn-sm btn-danger-soft deleteBtn"><i class="fa-solid fa-trash"></i> Delete</button>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>#1018</strong></td>
+              <td>Kidwai Nagar Main Road</td>
+              <td><span class="badge-tag badge-success-soft">Low Severity</span></td>
+              <td><span class="badge-tag badge-success-soft">Resolved</span></td>
+              <td>20 Jul 2026</td>
+              <td>
+                <button class="btn btn-sm btn-purple-soft viewBtn"><i class="fa-solid fa-eye"></i> View</button>
+                <button class="btn btn-sm btn-danger-soft deleteBtn"><i class="fa-solid fa-trash"></i> Delete</button>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>#1012</strong></td>
+              <td>IIT Kanpur Bypass Road</td>
+              <td><span class="badge-tag badge-danger-soft">High Severity</span></td>
+              <td><span class="badge-tag badge-purple-soft">Verified</span></td>
+              <td>15 Jul 2026</td>
+              <td>
+                <button class="btn btn-sm btn-purple-soft viewBtn"><i class="fa-solid fa-eye"></i> View</button>
+                <button class="btn btn-sm btn-danger-soft deleteBtn"><i class="fa-solid fa-trash"></i> Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </section>
 
   </main>
@@ -258,20 +279,17 @@
       <a href="../dashboard.html" class="command-item">
         <i class="fa-solid fa-gauge-high"></i> Go to Dashboard <span class="command-shortcut">Jump</span>
       </a>
+      <a href="../live-map.html" class="command-item">
+        <i class="fa-solid fa-compass"></i> Open Live Map Navigation <span class="command-shortcut">Map</span>
+      </a>
+      <a href="../Navigation/route-planner.html" class="command-item">
+        <i class="fa-solid fa-route"></i> AI Route Planner <span class="command-shortcut">Route</span>
+      </a>
       <a href="../scan-road.html" class="command-item">
         <i class="fa-solid fa-camera"></i> Scan Road with AI <span class="command-shortcut">Action</span>
       </a>
-      <a href="../Navigation/live-map.html" class="command-item">
-        <i class="fa-solid fa-compass"></i> Open Live Map Navigation <span class="command-shortcut">Map</span>
-      </a>
       <a href="my-reports.html" class="command-item">
         <i class="fa-solid fa-file-lines"></i> View My Pothole Reports <span class="command-shortcut">Reports</span>
-      </a>
-      <a href="../profile/profile.html" class="command-item">
-        <i class="fa-solid fa-user"></i> View Driver Profile <span class="command-shortcut">Profile</span>
-      </a>
-      <a href="../profile/settings.html" class="command-item">
-        <i class="fa-solid fa-gear"></i> Open Settings & Preferences <span class="command-shortcut">Config</span>
       </a>
     </div>
   </div>

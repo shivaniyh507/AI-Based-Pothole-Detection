@@ -20,8 +20,8 @@
 
 <div class="app-shell">
 
-  <!-- Sidebar Navigation -->
-  <aside class="sidebar">
+  <!-- Primary Universal Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <div class="brand">
         <div class="brand-mark"><i class="fa-solid fa-road"></i></div>
@@ -33,15 +33,12 @@
     </div>
 
     <nav class="sidebar-nav" aria-label="Main Navigation">
-      <a class="nav-item" href="dashboard.html"><i class="fa-solid fa-gauge-high"></i><span>Dashboard</span></a>
-      <a class="nav-item" href="live-map.html"><i class="fa-solid fa-compass"></i><span>Map View</span></a>
-      <a class="nav-item" href="live-map.html"><i class="fa-solid fa-route"></i><span>Route Planner</span></a>
-      <a class="nav-item" href="my-reports.html"><i class="fa-solid fa-clock-rotate-left"></i><span>Route History</span></a>
-      <a class="nav-item" href="dashboard.html"><i class="fa-solid fa-circle-info"></i><span>Pothole Details</span></a>
-      <a class="nav-item active" href="scan-road.html"><i class="fa-solid fa-camera"></i><span>Scan Road</span></a>
-      <a class="nav-item" href="my-reports.html"><i class="fa-solid fa-file-lines"></i><span>My Reports</span></a>
-      <a class="nav-item" href="profile.html"><i class="fa-solid fa-user"></i><span>Profile</span></a>
-      <a class="nav-item" href="settings.html"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+      <a class="nav-item" href="dashboard.html" data-page="dashboard"><i class="fa-solid fa-gauge-high"></i><span>Dashboard</span></a>
+      <a class="nav-item" href="live-map.html" data-page="live-map"><i class="fa-solid fa-compass"></i><span>Map View</span></a>
+      <a class="nav-item" href="Navigation/route-planner.html" data-page="route-planner"><i class="fa-solid fa-route"></i><span>Route Planner</span></a>
+      <a class="nav-item" href="Navigation/route-history.html" data-page="route-history"><i class="fa-solid fa-clock-rotate-left"></i><span>Route History</span></a>
+      <a class="nav-item active" href="scan-road.html" data-page="scan-road"><i class="fa-solid fa-camera"></i><span>Scan Road</span></a>
+      <a class="nav-item" href="my-reports.html" data-page="my-reports"><i class="fa-solid fa-file-lines"></i><span>My Reports</span></a>
     </nav>
 
     <div class="sidebar-footer">
@@ -49,7 +46,7 @@
         <span class="dot"></span>
         <div>
           <strong>GPS Connected</strong>
-          <p>Live location enabled</p>
+          <p>Live Telemetry Active</p>
         </div>
       </div>
     </div>
@@ -79,7 +76,7 @@
           </button>
         </div>
 
-        <a href="profile.html" class="profile-pill">
+        <div id="profilePill" class="profile-pill">
           <div class="avatar-circle">
             <i class="fa-solid fa-user"></i>
           </div>
@@ -87,14 +84,14 @@
             <strong>Archita Trivedi</strong>
             <p>Driver / Member #1042</p>
           </div>
-        </a>
+        </div>
       </div>
     </header>
 
     <!-- AI Detection Hero Banner -->
     <section class="hero-banner-card">
       <div class="hero-banner-content">
-        <p class="hero-eyebrow">AI Powered Analytics</p>
+        <p class="hero-eyebrow">AI POWERED VISION ENGINE</p>
         <h2>Automated Road Detection & Assessment</h2>
         <p>ROADIES uses YOLO deep learning vision models to instantly identify potholes, estimate depth severity, and generate repair reports.</p>
         <div class="hero-banner-actions">
@@ -304,20 +301,17 @@
       <a href="dashboard.html" class="command-item">
         <i class="fa-solid fa-gauge-high"></i> Go to Dashboard <span class="command-shortcut">Jump</span>
       </a>
-      <a href="scan-road.html" class="command-item">
-        <i class="fa-solid fa-camera"></i> Scan Road with AI <span class="command-shortcut">Action</span>
-      </a>
       <a href="live-map.html" class="command-item">
         <i class="fa-solid fa-compass"></i> Open Live Map Navigation <span class="command-shortcut">Map</span>
       </a>
+      <a href="Navigation/route-planner.html" class="command-item">
+        <i class="fa-solid fa-route"></i> AI Route Planner <span class="command-shortcut">Route</span>
+      </a>
+      <a href="scan-road.html" class="command-item">
+        <i class="fa-solid fa-camera"></i> Scan Road with AI <span class="command-shortcut">Action</span>
+      </a>
       <a href="my-reports.html" class="command-item">
         <i class="fa-solid fa-file-lines"></i> View My Pothole Reports <span class="command-shortcut">Reports</span>
-      </a>
-      <a href="profile.html" class="command-item">
-        <i class="fa-solid fa-user"></i> View Driver Profile <span class="command-shortcut">Profile</span>
-      </a>
-      <a href="settings.html" class="command-item">
-        <i class="fa-solid fa-gear"></i> Open Settings & Preferences <span class="command-shortcut">Config</span>
       </a>
     </div>
   </div>

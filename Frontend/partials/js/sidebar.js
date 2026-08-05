@@ -1,5 +1,6 @@
 /* =========================================================
    ROADIES (RoadSafe AI) — sidebar.js
+   Unified Driver Module Navigation & Auth Management
    ========================================================= */
 
 window.initSidebar = function () {
@@ -86,36 +87,18 @@ window.initSidebar = function () {
   pageItems.forEach(item => {
     const page = item.dataset.page;
     if (!page) return;
+
     if (
       currentPath.includes(page) ||
       (page === "dashboard" && currentPath.includes("dashboard")) ||
-      (page === "settings" && currentPath.includes("settings"))
+      (page === "live-map" && currentPath.includes("live-map")) ||
+      (page === "scan-road" && currentPath.includes("scan-road")) ||
+      (page === "my-reports" && currentPath.includes("my-reports"))
     ) {
       item.classList.add("active");
     } else {
       item.classList.remove("active");
     }
-
-    // Navigation click handler
-    item.addEventListener("click", function (e) {
-      const targetPage = this.dataset.page;
-      if (targetPage) {
-        e.preventDefault();
-        pageItems.forEach(b => b.classList.remove("active"));
-        this.classList.add("active");
-
-        const path = window.location.pathname;
-        const pagesIdx = path.indexOf('/pages/');
-        if (pagesIdx !== -1) {
-          const afterPages = path.substring(pagesIdx + 7);
-          const depth = afterPages.split('/').filter(Boolean).length;
-          const prefix = '../'.repeat(depth);
-          window.location.href = `${prefix}${targetPage}.html`;
-        } else {
-          window.location.href = `${targetPage}.html`;
-        }
-      }
-    });
   });
 
   // Collapse functionality
