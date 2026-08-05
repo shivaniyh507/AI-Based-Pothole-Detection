@@ -1,6 +1,6 @@
 // ==========================================================================
 // ROADIES (Road Optimization And Detection Intelligent Evaluation System)
-// Production Navigation Controller (live-map.js)
+// Production Navigation Controller (map/live-map.js)
 // Google Maps API Integration + Automatic Leaflet Fallback Engine + Live GPS Tracking
 // ==========================================================================
 
@@ -334,7 +334,11 @@ function calculateRoute() {
   }
 
   if (!destinationVal) {
-    alert("Please enter a Destination to calculate a route.");
+    if (window.showToast) {
+      window.showToast("Please enter a destination to calculate route.", "warning");
+    } else {
+      alert("Please enter a Destination to calculate a route.");
+    }
     return;
   }
 
@@ -361,7 +365,6 @@ function calculateRoute() {
           destinationName: leg.end_address.split(',')[0]
         });
       } else {
-        alert("Could not calculate Google Maps route. Switching to fallback routing.");
         calculateFallbackRoute(destinationVal);
       }
     });
@@ -375,7 +378,6 @@ function calculateRoute() {
 function calculateFallbackRoute(destinationVal) {
   const spinner = document.getElementById("routeLoadingSpinner");
 
-  // Geocode destination name or simulate coordinates
   const destCoords = getSimulatedDestinationCoords(destinationVal);
 
   fetch(`https://router.project-osrm.org/route/v1/driving/${currentGeoLocation.lng},${currentGeoLocation.lat};${destCoords.lng},${destCoords.lat}?overview=full&geometries=geojson`)
@@ -415,7 +417,9 @@ function calculateFallbackRoute(destinationVal) {
           destinationName: destinationVal
         });
       } else {
-        alert("Unable to calculate route. Please try another destination.");
+        if (window.showToast) {
+          window.showToast("Unable to calculate route for destination.", "danger");
+        }
       }
     })
     .catch((err) => {
@@ -432,16 +436,13 @@ function calculateFallbackRoute(destinationVal) {
     });
 }
 
-// Generate fallback destination coordinates for testing
 function getSimulatedDestinationCoords(destName) {
-  // Kanpur offset simulation for demo
   return {
     lat: currentGeoLocation.lat + 0.035,
     lng: currentGeoLocation.lng + 0.025
   };
 }
 
-// Update Route Information Panel & AI Placeholders
 function updateRouteInfoPanel(info) {
   const routeDistance = document.getElementById("routeDistance");
   const routeDuration = document.getElementById("routeDuration");
@@ -458,7 +459,6 @@ function updateRouteInfoPanel(info) {
     routeEta.textContent = `${hours}:${minutes}`;
   }
 
-  // Update AI Backend Integration Placeholders
   updateAiPlaceholders({
     safetyScore: "88 / 100",
     potholesOnRoute: "2 Minor, 0 Critical",
@@ -468,7 +468,6 @@ function updateRouteInfoPanel(info) {
   });
 }
 
-// Update AI Placeholder Cards
 function updateAiPlaceholders(data) {
   const safetyScoreValue = document.getElementById("safetyScoreValue");
   const potholesOnRoute = document.getElementById("potholesOnRoute");

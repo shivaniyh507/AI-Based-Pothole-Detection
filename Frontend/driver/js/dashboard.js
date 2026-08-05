@@ -8,8 +8,8 @@
 // Centralized Data Model (Populated dynamically via API fetch or default fallback)
 const dashboardData = {
   driver: {
-    name: "shhio",
-    role: "Driver / Member 3",
+    name: "Archita Trivedi",
+    role: "Driver / Member #1042",
     score: "95%"
   },
   pothole: {
@@ -34,8 +34,8 @@ const dashboardData = {
   stats: {
     nearby: 12,
     reports: 8,
-    routes: "94%",
-    score: "95%"
+    routes: 94,
+    score: 95
   }
 };
 
@@ -45,16 +45,12 @@ let mapInstance = null;
 document.addEventListener("DOMContentLoaded", () => {
   loadDashboardData();
   setupEventListeners();
+  animateCounterMetrics();
 });
 
 // Async API Readiness Hook for FastAPI backend integration
 async function loadDashboardData() {
   try {
-    // Backend API Integration Point (Uncomment when FastAPI endpoint is live):
-    // const response = await fetch('/api/v1/driver/dashboard');
-    // const apiData = await response.json();
-    // Object.assign(dashboardData, apiData);
-
     renderDashboardUI(dashboardData);
     initMapEngine(dashboardData.pothole);
   } catch (error) {
@@ -70,10 +66,12 @@ function renderDashboardUI(data) {
   const d = data.driver;
   const s = data.stats;
 
+  const savedName = localStorage.getItem("roadies_user_fullname") || d.name;
+
   // Header & User info
   setTextContent("potholeTitle", `${p.title} ${p.id}`);
   setTextContent("potholeLocation", p.location);
-  setTextContent("userName", d.name);
+  setTextContent("userName", savedName);
   setTextContent("userRole", d.role);
 
   // Metrics & Badges
@@ -85,12 +83,33 @@ function renderDashboardUI(data) {
   setTextContent("detectedTime", p.detectedAt);
   setTextContent("gpsCoordinates", p.gps.formatted);
   setTextContent("confirmCount", p.confirmations);
+}
 
-  // Quick Stats
-  setTextContent("statNearby", s.nearby);
-  setTextContent("statReports", s.reports);
-  setTextContent("statRoutes", s.routes);
-  setTextContent("statScore", s.score);
+// Animated Counter Micro-Interaction for Overview Stat Cards
+function animateCounterMetrics() {
+  const statNearby = document.getElementById("statNearby");
+  const statRoutes = document.getElementById("statRoutes");
+  const statReports = document.getElementById("statReports");
+  const statScore = document.getElementById("statScore");
+
+  if (statNearby) animateSingleValue(statNearby, 0, 12, 1000, "");
+  if (statRoutes) animateSingleValue(statRoutes, 0, 94, 1200, "%");
+  if (statReports) animateSingleValue(statReports, 0, 8, 800, "");
+  if (statScore) animateSingleValue(statScore, 0, 95, 1400, "%");
+}
+
+function animateSingleValue(elem, start, end, duration, suffix) {
+  let startTime = null;
+  function step(timestamp) {
+    if (!startTime) startTime = timestamp;
+    const progress = Math.min((timestamp - startTime) / duration, 1);
+    const current = Math.floor(progress * (end - start) + start);
+    elem.textContent = `${current}${suffix}`;
+    if (progress < 1) {
+      window.requestAnimationFrame(step);
+    }
+  }
+  window.requestAnimationFrame(step);
 }
 
 // Map Engine Initialization (Leaflet / Google Maps API ready)
@@ -137,14 +156,6 @@ function initMapEngine(pothole) {
     `;
 
     marker.bindPopup(popupHTML, { closeButton: true, autoClose: false }).openPopup();
-  } else {
-    // Fallback static map view (Prepared for Google Maps JS API script injection)
-    mapElement.innerHTML = `
-      <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; color:var(--text-muted);">
-        <i class="fa-solid fa-map-location-dot" style="font-size:36px; margin-bottom:10px; color:var(--primary-purple);"></i>
-        <p>Google Maps / Leaflet API Viewport centered at ${pothole.gps.formatted}</p>
-      </div>
-    `;
   }
 }
 
@@ -159,10 +170,12 @@ function setupEventListeners() {
         p.confirmations += 1;
         p.isConfirmed = true;
         confirmBtn.classList.add("btn-confirmed");
+        if (window.showToast) window.showToast("Pothole confirmation recorded!", "success");
       } else {
         p.confirmations -= 1;
         p.isConfirmed = false;
         confirmBtn.classList.remove("btn-confirmed");
+        if (window.showToast) window.showToast("Pothole vote removed.", "purple");
       }
       setTextContent("confirmCount", p.confirmations);
     });
@@ -172,7 +185,11 @@ function setupEventListeners() {
   const avoidBtn = document.getElementById("avoidRouteBtn");
   if (avoidBtn) {
     avoidBtn.addEventListener("click", () => {
-      alert(`Pothole ${dashboardData.pothole.id} added to route planner avoidance filter.`);
+      if (window.showToast) {
+        window.showToast(`Pothole ${dashboardData.pothole.id} added to route avoidance filter.`, "purple");
+      } else {
+        alert(`Pothole ${dashboardData.pothole.id} added to route avoidance filter.`);
+      }
     });
   }
 
@@ -184,6 +201,7 @@ function setupEventListeners() {
         mapInstance.setView([dashboardData.pothole.gps.lat, dashboardData.pothole.gps.lng], 14, {
           animate: true
         });
+        if (window.showToast) window.showToast("Map camera recentered to Mall Road hazard zone.", "purple");
       }
     });
   }
@@ -208,7 +226,11 @@ function setupEventListeners() {
   if (dashboardSearch) {
     dashboardSearch.addEventListener("keypress", (e) => {
       if (e.key === "Enter" && dashboardSearch.value.trim() !== "") {
-        alert(`Searching ROADIES database for: "${dashboardSearch.value.trim()}"`);
+        if (window.showToast) {
+          window.showToast(`Searching ROADIES database for: "${dashboardSearch.value.trim()}"`, "purple");
+        } else {
+          alert(`Searching ROADIES database for: "${dashboardSearch.value.trim()}"`);
+        }
       }
     });
   }
