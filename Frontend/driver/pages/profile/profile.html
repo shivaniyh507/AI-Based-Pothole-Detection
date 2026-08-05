@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Profile | ROADIES</title>
+
+  <!-- Typography & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- App Stylesheets -->
+  <link rel="stylesheet" href="../../css/common.css" />
+  <link rel="stylesheet" href="../../css/profile.css" />
+  <link rel="stylesheet" href="../../css/responsive.css" />
+</head>
+<body>
+
+<div class="app-shell">
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="brand">
+        <div class="brand-mark"><i class="fa-solid fa-road"></i></div>
+        <div class="brand-info">
+          <h1>ROADIES</h1>
+          <p>Navigation & Maps</p>
+        </div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav" aria-label="Main Navigation">
+      <a class="nav-item" href="../dashboard.html"><i class="fa-solid fa-gauge-high"></i><span>Dashboard</span></a>
+      <a class="nav-item" href="../Navigation/live-map.html"><i class="fa-solid fa-compass"></i><span>Map View</span></a>
+      <a class="nav-item" href="../Navigation/route-planner.html"><i class="fa-solid fa-route"></i><span>Route Planner</span></a>
+      <a class="nav-item" href="../Navigation/route-history.html"><i class="fa-solid fa-clock-rotate-left"></i><span>Route History</span></a>
+      <a class="nav-item" href="../Navigation/pothole-detail.html"><i class="fa-solid fa-circle-info"></i><span>Pothole Details</span></a>
+      <a class="nav-item" href="../scan-road.html"><i class="fa-solid fa-camera"></i><span>Scan Road</span></a>
+      <a class="nav-item" href="../router/my-reports.html"><i class="fa-solid fa-file-lines"></i><span>My Reports</span></a>
+      <a class="nav-item active" href="profile.html"><i class="fa-solid fa-user"></i><span>Profile</span></a>
+      <a class="nav-item" href="settings.html"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="status-card">
+        <span class="dot"></span>
+        <div>
+          <strong>GPS Connected</strong>
+          <p>Live location enabled</p>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Shell -->
+  <main class="main-content">
+
+    <!-- Topbar Header -->
+    <header class="topbar">
+      <div class="topbar-title-section">
+        <h1 class="page-title">User Profile & Activity 👤</h1>
+        <p class="page-subtitle">Manage driver account credentials, achievements, and road scan contributions</p>
+      </div>
+
+      <div class="topbar-actions">
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" placeholder="Search destination, road ID, or report..." />
+          <span class="search-shortcut-hint">Ctrl K</span>
+        </div>
+
+        <div class="icon-btn-wrapper">
+          <button id="notificationBellBtn" class="icon-btn" aria-label="Notifications">
+            <i class="fa-solid fa-bell"></i>
+            <span id="notificationBadgeCount" class="notification-badge">2</span>
+          </button>
+        </div>
+
+        <a href="profile.html" class="profile-pill">
+          <div class="avatar-circle">
+            <i class="fa-solid fa-user"></i>
+          </div>
+          <div class="profile-info">
+            <strong id="headerUserName">Archita Trivedi</strong>
+            <p id="headerUserRole">Driver / Member #1042</p>
+          </div>
+        </a>
+      </div>
+    </header>
+
+    <!-- Profile Header Banner Card -->
+    <section class="hero-banner-card profile-banner">
+      <div class="profile-avatar-large">
+        <i class="fa-solid fa-user-gear"></i>
+      </div>
+      <div class="hero-banner-content">
+        <p class="hero-eyebrow">ROADIES Safety Network Member</p>
+        <h2 id="profileName">Archita Trivedi</h2>
+        <p id="profileBio">Senior Road Inspector & Active Driver Contributor. Joined July 2026.</p>
+        <div class="profile-badges">
+          <span class="badge-tag badge-purple-soft"><i class="fa-solid fa-award"></i> Gold Inspector</span>
+          <span class="badge-tag badge-success-soft"><i class="fa-solid fa-shield-check"></i> 98% Accuracy Rating</span>
+        </div>
+      </div>
+
+      <div class="hero-side-card">
+        <span>Contribution Score</span>
+        <strong>1,450</strong>
+        <p>Points Earned</p>
+      </div>
+    </section>
+
+    <!-- Contribution Statistics Grid -->
+    <section class="stats-grid" aria-label="Driver Activity Statistics">
+      <article class="stat-card">
+        <div class="stat-icon"><i class="fa-solid fa-route"></i></div>
+        <div class="stat-info">
+          <span>Roads Scanned</span>
+          <strong id="statDistance">48.2 km</strong>
+        </div>
+      </article>
+      <article class="stat-card">
+        <div class="stat-icon"><i class="fa-solid fa-file-circle-check"></i></div>
+        <div class="stat-info">
+          <span>Reports Submitted</span>
+          <strong id="statSubmitted">34</strong>
+        </div>
+      </article>
+      <article class="stat-card">
+        <div class="stat-icon"><i class="fa-solid fa-circle-check"></i></div>
+        <div class="stat-info">
+          <span>Verified Hazards</span>
+          <strong id="statVerified">29</strong>
+        </div>
+      </article>
+      <article class="stat-card">
+        <div class="stat-icon"><i class="fa-solid fa-trophy"></i></div>
+        <div class="stat-info">
+          <span>Rank</span>
+          <strong>#4 Citywide</strong>
+        </div>
+      </article>
+    </section>
+
+    <!-- Main Profile Grid (Form Settings + Achievements Timeline) -->
+    <section class="profile-main-grid">
+
+      <!-- Left Column: Edit Profile & Security Forms -->
+      <div class="profile-forms-column">
+
+        <!-- Personal Info Card -->
+        <article class="panel-card">
+          <div class="panel-header-bar">
+            <h2><i class="fa-solid fa-user-pen"></i> Personal Information</h2>
+          </div>
+
+          <form id="profileForm" class="profile-form">
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="inputFullName">Full Name</label>
+                <input type="text" id="inputFullName" class="form-control" value="Archita Trivedi" required />
+              </div>
+              <div class="form-group">
+                <label for="inputEmail">Email Address</label>
+                <input type="email" id="inputEmail" class="form-control" value="archita.trivedi@roadies.ai" required />
+              </div>
+              <div class="form-group">
+                <label for="inputPhone">Phone Number</label>
+                <input type="tel" id="inputPhone" class="form-control" value="+91 98765 43210" />
+              </div>
+              <div class="form-group">
+                <label for="inputVehicle">Vehicle Model</label>
+                <input type="text" id="inputVehicle" class="form-control" value="Honda City (SUV/Sedan)" />
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" id="saveProfileBtn" class="btn btn-purple-gradient">
+                <i class="fa-solid fa-floppy-disk"></i> Save Profile Changes
+              </button>
+            </div>
+          </form>
+        </article>
+
+        <!-- Password & Security Card -->
+        <article class="panel-card">
+          <div class="panel-header-bar">
+            <h2><i class="fa-solid fa-lock"></i> Security & Password</h2>
+          </div>
+
+          <form id="passwordForm" class="profile-form">
+            <div class="form-group">
+              <label for="inputCurrentPass">Current Password</label>
+              <input type="password" id="inputCurrentPass" class="form-control" placeholder="••••••••" required />
+            </div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="inputNewPass">New Password</label>
+                <input type="password" id="inputNewPass" class="form-control" placeholder="••••••••" required />
+              </div>
+              <div class="form-group">
+                <label for="inputConfirmPass">Confirm New Password</label>
+                <input type="password" id="inputConfirmPass" class="form-control" placeholder="••••••••" required />
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" id="updatePasswordBtn" class="btn btn-secondary">
+                <i class="fa-solid fa-key"></i> Update Password
+              </button>
+            </div>
+          </form>
+        </article>
+
+      </div>
+
+      <!-- Right Column: Achievements & Activity Feed -->
+      <div class="profile-sidebar-column">
+
+        <!-- Achievements Card -->
+        <article class="panel-card">
+          <div class="panel-header-bar">
+            <h2><i class="fa-solid fa-medal"></i> Achievements</h2>
+          </div>
+
+          <div class="achievements-list">
+            <div class="achievement-item">
+              <div class="achievement-icon gold"><i class="fa-solid fa-trophy"></i></div>
+              <div>
+                <strong>Gold Road Inspector</strong>
+                <p>Scanned over 40 km of city roads</p>
+              </div>
+            </div>
+
+            <div class="achievement-item">
+              <div class="achievement-icon purple"><i class="fa-solid fa-eye"></i></div>
+              <div>
+                <strong>Eagle Eye Detector</strong>
+                <p>Reported 25+ verified high severity potholes</p>
+              </div>
+            </div>
+
+            <div class="achievement-item">
+              <div class="achievement-icon green"><i class="fa-solid fa-shield-halved"></i></div>
+              <div>
+                <strong>Community Sentinel</strong>
+                <p>98% AI verification accuracy rate</p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Activity Timeline Card -->
+        <article class="panel-card">
+          <div class="panel-header-bar">
+            <h2><i class="fa-solid fa-clock-rotate-left"></i> Driver Activity History</h2>
+          </div>
+
+          <ul class="timeline-list">
+            <li class="timeline-item">Scanned Mall Road & detected 1 high hazard pothole (Today)</li>
+            <li class="timeline-item">Submitted Report #1021 — Approved by Kanpur Works (Yesterday)</li>
+            <li class="timeline-item">Earned "Gold Road Inspector" Badge (12 Jul 2026)</li>
+            <li class="timeline-item">Completed 10 km live navigation scan route (10 Jul 2026)</li>
+          </ul>
+        </article>
+
+      </div>
+
+    </section>
+
+  </main>
+</div>
+
+<!-- Topbar Notification Slide-Over Drawer -->
+<div id="notificationDrawerOverlay" class="notification-drawer-overlay"></div>
+<aside id="notificationDrawer" class="notification-drawer">
+  <div class="drawer-header">
+    <h3><i class="fa-solid fa-bell"></i> Notifications & Alerts</h3>
+    <div style="display:flex; gap:8px; align-items:center;">
+      <button id="markAllNotificationsBtn" class="btn btn-sm btn-purple-soft">
+        <i class="fa-solid fa-check-double"></i> Mark Read
+      </button>
+      <button id="closeNotificationDrawer" class="btn btn-sm btn-secondary">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="drawer-body">
+    <article class="notification-item unread">
+      <div class="notification-icon-badge danger"><i class="fa-solid fa-triangle-exclamation"></i></div>
+      <div class="notification-text">
+        <h4>High Severity Pothole Detected</h4>
+        <p>GT Road Mall Crossing • 2 mins ago</p>
+      </div>
+      <span class="unread-indicator"></span>
+    </article>
+
+    <article class="notification-item unread">
+      <div class="notification-icon-badge warning"><i class="fa-solid fa-road-circle-exclamation"></i></div>
+      <div class="notification-text">
+        <h4>Road Repair Works Active</h4>
+        <p>Civil Lines Sector 4 • 15 mins ago</p>
+      </div>
+      <span class="unread-indicator"></span>
+    </article>
+
+    <article class="notification-item">
+      <div class="notification-icon-badge success"><i class="fa-solid fa-circle-check"></i></div>
+      <div class="notification-text">
+        <h4>Pothole Report #1021 Verified</h4>
+        <p>Approved by Kanpur Municipal Works</p>
+      </div>
+    </article>
+
+    <article class="notification-item">
+      <div class="notification-icon-badge purple"><i class="fa-solid fa-route"></i></div>
+      <div class="notification-text">
+        <h4>AI Safe Route Recommendation</h4>
+        <p>Bypass Corridor B recommended (+2 min time)</p>
+      </div>
+    </article>
+  </div>
+</aside>
+
+<!-- Command Palette Modal (Ctrl+K) -->
+<div id="commandPaletteModal" class="command-palette-modal">
+  <div id="commandPaletteBackdrop" class="command-palette-backdrop"></div>
+  <div class="command-palette-card">
+    <div class="command-palette-header">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" id="commandPaletteInput" placeholder="Type a command or search ROADIES..." />
+    </div>
+    <div class="command-palette-list">
+      <a href="../dashboard.html" class="command-item">
+        <i class="fa-solid fa-gauge-high"></i> Go to Dashboard <span class="command-shortcut">Jump</span>
+      </a>
+      <a href="../scan-road.html" class="command-item">
+        <i class="fa-solid fa-camera"></i> Scan Road with AI <span class="command-shortcut">Action</span>
+      </a>
+      <a href="../Navigation/live-map.html" class="command-item">
+        <i class="fa-solid fa-compass"></i> Open Live Map Navigation <span class="command-shortcut">Map</span>
+      </a>
+      <a href="../router/my-reports.html" class="command-item">
+        <i class="fa-solid fa-file-lines"></i> View My Pothole Reports <span class="command-shortcut">Reports</span>
+      </a>
+      <a href="profile.html" class="command-item">
+        <i class="fa-solid fa-user"></i> View Driver Profile <span class="command-shortcut">Profile</span>
+      </a>
+      <a href="settings.html" class="command-item">
+        <i class="fa-solid fa-gear"></i> Open Settings & Preferences <span class="command-shortcut">Config</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Application Scripts -->
+<script src="../../js/common.js"></script>
+<script src="../../js/profile.js"></script>
+</body>
+</html>

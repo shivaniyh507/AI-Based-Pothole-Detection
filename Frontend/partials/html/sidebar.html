@@ -1,0 +1,134 @@
+<!-- ===================================
+    SIDEBAR
+=================================== -->
+
+<aside class="sidebar" id="sidebar">
+
+    <!-- Logo -->
+    <div class="sidebar-header">
+        <div class="logo-full" id="logoFull">
+            <div class="logo-box">
+                <i class="fa-solid fa-road"></i>
+            </div>
+            <div class="logo-text">
+                <h2>
+                    RoadSafe <span>AI</span>
+                </h2>
+                <p>SMART MONITORING</p>
+            </div>
+        </div>
+
+        <!-- Collapse Logo -->
+        <div class="logo-collapse" id="logoCollapse">
+            <div class="logo-box">
+                <i class="fa-solid fa-road"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================
+        Navigation
+    =========================== -->
+    <nav class="sidebar-nav" id="sidebarNav">
+
+        <!-- Driver Menu -->
+        <div class="driver-menu" id="driverMenu">
+            <button class="nav-item" data-page="dashboard">
+                <i class="fa-solid fa-table-columns"></i>
+                <span>Dashboard</span>
+            </button>
+
+            <button class="nav-item" data-page="detection-log">
+                <i class="fa-solid fa-magnifying-glass-chart"></i>
+                <span>Detection Log</span>
+                
+            </button>
+
+            <button class="nav-item" data-page="analytics">
+                <i class="fa-solid fa-chart-column"></i>
+                <span>Analytics & Reports</span>
+                
+            </button>
+
+            <button class="nav-item" data-page="repair-workflow">
+                <i class="fa-solid fa-screwdriver-wrench"></i>
+                <span>Repair Workflow</span>
+                
+            </button>
+
+            <!-- <button class="nav-item" data-page="settings">
+                <i class="fa-solid fa-gear"></i>
+                <span>Settings</span>
+            </button> -->
+        </div>
+
+        <!-- Admin Menu -->
+        <div class="admin-menu" id="adminMenu" style="display:none;">
+            <button class="nav-item" data-page="dashboard">
+                <i class="fa-solid fa-table-columns"></i>
+                <span>Dashboard</span>
+                
+            </button>
+
+            <button class="nav-item" data-page="driver-management">
+                <i class="fa-solid fa-users"></i>
+                <span>Driver Management</span>
+                
+            </button>
+
+            <button class="nav-item" data-page="reports">
+                <i class="fa-solid fa-file-invoice"></i>
+                <span>Reports</span>
+                
+            </button>
+
+            <button class="nav-item" data-page="analytics">
+                <i class="fa-solid fa-chart-column"></i>
+                <span>Analytics</span>
+               
+            </button>
+
+            <!-- <button class="nav-item" data-page="settings">
+                <i class="fa-solid fa-gear"></i>
+                <span>Settings</span>
+            </button> -->
+        </div>
+    </nav>
+
+    <!-- ==========================
+        PROFILE (BOTTOM DISPLAY ONLY)
+    =========================== -->
+    <div class="sidebar-profile" id="sidebarProfile">
+        <div class="profile-card">
+            <div class="profile-avatar" id="sidebarAvatar">
+                RT
+            </div>
+           <div class="profile-details">
+                <h4 id="sidebarName">
+                    Ritika Tripathi
+                </h4>
+                <p id="sidebarRole">
+                    Driver Account
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================
+        COLLAPSE BUTTON
+    =========================== -->
+    <button class="collapse-btn" id="collapseBtn" title="Collapse Sidebar">
+        <i class="fa-solid fa-chevron-left" id="collapseIcon"></i>
+    </button>
+
+</aside>
+
+<!-- ==========================
+    MOBILE BUTTON & OVERLAY
+========================== -->
+<button class="mobile-menu-btn" id="mobileMenuBtn">
+    <i class="fa-solid fa-bars" id="menuIcon"></i>
+</button>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+

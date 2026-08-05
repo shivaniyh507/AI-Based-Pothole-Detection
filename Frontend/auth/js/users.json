@@ -1,0 +1,19 @@
+[
+  {
+    "id": "DRV-6D8AD975",
+    "fullName": "Ritika Tripathi",
+    "email": "rtktripathi2227@gmail.com",
+    "phone": "+918756155673",
+    "password": "Driver@123",
+    "driverId": "DRV-6D8AD975",
+    "createdDate": "17 Jul 2026",
+    "status": "Active",
+    "vehicle": "Car",
+    "city": "Kanpur",
+    "state": "Uttar Pradesh",
+    "emergencyContact": "—",
+    "vehicleNumber": "UP78 AB 1234",
+    "licenseNumber": "DL-0123456789",
+    "avatar": ""
+  }
+]
