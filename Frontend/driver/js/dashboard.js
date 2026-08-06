@@ -219,7 +219,7 @@ function setupEventListeners() {
 
   if (planRouteHeaderBtn) {
     planRouteHeaderBtn.addEventListener("click", () => {
-      window.location.href = "live-map.html";
+      window.location.href = "Navigation/route-planner3.html";
     });
   }
 

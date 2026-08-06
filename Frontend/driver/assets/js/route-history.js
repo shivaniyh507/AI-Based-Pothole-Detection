@@ -81,7 +81,7 @@ const RouteHistoryManager = {
                         <button onclick="RouteHistoryManager.previewTripModal('${t.id}')" class="btn-secondary" style="padding: 8px 14px; font-size: 13px;">
                             <i class="fa-solid fa-eye"></i> Map Preview
                         </button>
-                        <a href="route-planner.html?from=${encodeURIComponent(t.from)}&to=${encodeURIComponent(t.to)}" class="btn-primary" style="padding: 8px 14px; font-size: 13px; text-decoration: none;">
+                        <a href="route-planner3.html?from=${encodeURIComponent(t.from)}&to=${encodeURIComponent(t.to)}" class="btn-primary" style="padding: 8px 14px; font-size: 13px; text-decoration: none;">
                             <i class="fa-solid fa-rotate-right"></i> Re-Plan
                         </a>
                     </div>
@@ -143,7 +143,7 @@ const RouteHistoryManager = {
 
                 <div style="display: flex; justify-content: flex-end; gap: 12px;">
                     <button onclick="document.getElementById('tripPreviewModal').classList.remove('show')" class="btn-secondary">Close</button>
-                    <a href="route-planner.html?from=${encodeURIComponent(trip.from)}&to=${encodeURIComponent(trip.to)}" class="btn-primary" style="text-decoration:none;">
+                    <a href="route-planner3.html?from=${encodeURIComponent(trip.from)}&to=${encodeURIComponent(trip.to)}" class="btn-primary" style="text-decoration:none;">
                         Drive Again
                     </a>
                 </div>

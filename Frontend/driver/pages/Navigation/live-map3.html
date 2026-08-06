@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Live Map & Navigation | ROADIES</title>
+
+    <!-- Leaflet & FontAwesome & Google Fonts -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <!-- CSS Dependencies -->
+    <link rel="stylesheet" href="../../assets/css/common.css" />
+    <link rel="stylesheet" href="../../assets/css/navigation-maps.css" />
+
+    <!-- Embedded Theme Styles matching Route Planner -->
+    <style>
+        :root {
+            --bg: #f1f5f9; --sidebar: #ffffff; --card: #ffffff; --text: #1e293b;
+            --muted: #64748b; --line: #e2e8f0; --purple: #9333ea; --purple-light: #f3e8ff;
+            --purple-gradient: linear-gradient(135deg, #a855f7, #7e22ce);
+            --blue: #2563eb; --green: #22c55e; --yellow: #f59e0b; --red: #ef4444;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.04); --radius: 18px;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+        body { background: var(--bg); color: var(--text); min-height: 100vh; }
+        .app-shell { display: flex; min-height: 100vh; }
+
+        /* Universal Sidebar matching Route Planner */
+        .sidebar { width: 270px; height: 100vh; position: sticky; top: 0; align-self: flex-start; overflow-y: auto; z-index: 100; background: var(--sidebar); color: var(--text); padding: 24px; display: flex; flex-direction: column; justify-content: space-between; flex-shrink: 0; border-right: 1px solid var(--line); }
+        .brand { display: flex; align-items: center; gap: 14px; margin-bottom: 30px; }
+        .brand-mark { width: 48px; height: 48px; border-radius: 14px; background: var(--purple-gradient); color: white; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+        .brand h1 { font-size: 20px; font-weight: 700; color: var(--purple); margin: 0; }
+        .brand p { font-size: 12px; color: var(--muted); margin: 0; }
+        .sidebar-nav { display: flex; flex-direction: column; gap: 6px; }
+        .nav-item { display: flex; align-items: center; gap: 14px; padding: 12px 16px; border-radius: 12px; color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: all 0.2s ease; }
+        .nav-item:hover { background: #f8fafc; color: var(--purple); }
+        .nav-item.active { background: var(--purple-light); color: var(--purple); font-weight: 600; }
+        .nav-item.active i { color: var(--purple); }
+
+        /* Main Outer Wrapper matching Route Planner */
+        .main-wrapper { flex: 1; display: flex; flex-direction: column; height: 100vh; overflow-y: auto; background: #f8fafc; }
+        .admin-topbar { height: 76px; padding: 0 32px; background: #ffffff; border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 90; flex-shrink: 0; }
+        .topbar-page-title { font-size: 22px; font-weight: 700; color: var(--purple); margin: 0; }
+        .topbar-right { display: flex; align-items: center; gap: 16px; }
+        .btn-topbar-action { background: var(--purple-gradient); color: #ffffff; border: none; padding: 10px 20px; border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; box-shadow: 0 4px 14px rgba(147, 51, 234, 0.25); transition: all 0.2s ease; }
+        .btn-topbar-action:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(147, 51, 234, 0.35); }
+        .user-avatar-pill { width: 42px; height: 42px; border-radius: 50%; overflow: hidden; border: 2px solid var(--purple-light); display: flex; align-items: center; justify-content: center; }
+        .user-avatar-pill img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* Page Body Content matching Route Planner */
+        .page-body { padding: 28px 36px; display: flex; flex-direction: column; gap: 24px; }
+        .btn-primary { background: var(--purple-gradient); color: white; border: none; padding: 12px 22px; border-radius: 12px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-size: 14px; box-shadow: 0 4px 14px rgba(147, 51, 234, 0.25); }
+        .btn-secondary { background: var(--purple-light); color: var(--purple); border: 1px solid #e9d5ff; padding: 12px 22px; border-radius: 12px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-size: 14px; }
+        .detail-card { background: #fff; border-radius: 20px; padding: 26px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); border: 1px solid var(--line); }
+
+        /* Live Map Grid & Viewport matching Route Planner */
+        .live-map-grid { display: grid; grid-template-columns: 1fr 380px; gap: 24px; }
+        .map-wrapper { position: relative; width: 100%; height: 480px; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.04); border: 1px solid var(--line); background: #fff; }
+        #map { width: 100%; height: 100%; z-index: 1; }
+
+        .badge-pill { padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; display: inline-block; }
+        .badge-success { background: #dcfce7; color: #16a34a; }
+        .badge-info { background: #e0f2fe; color: #0284c7; }
+        .badge-warning { background: #fef3c7; color: #d97706; }
+        .badge-purple { background: var(--purple-light); color: var(--purple); }
+
+        .trip-metrics-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 16px; background: #f8fafc; padding: 16px 20px; border-radius: 14px; border: 1px solid var(--line); }
+        .trip-metric-item { display: flex; align-items: center; gap: 12px; }
+        .trip-metric-item i { font-size: 20px; color: var(--purple); }
+        .trip-metric-item span { font-size: 11px; color: var(--muted); display: block; }
+        .trip-metric-item strong { font-size: 15px; font-weight: 700; color: var(--text); }
+
+        .floating-map-controls { position: absolute; top: 16px; right: 16px; z-index: 10; display: flex; gap: 10px; }
+        .map-ctrl-btn { background: #ffffff; color: var(--text); border: 1px solid var(--line); padding: 8px 14px; border-radius: 10px; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); transition: all 0.2s; }
+        .map-ctrl-btn:hover { border-color: var(--purple); color: var(--purple); }
+        .map-ctrl-btn.active { background: var(--purple); color: #fff; border-color: var(--purple); }
+
+        .legend-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; font-size: 12px; margin-top: 10px; }
+        .legend-item { display: flex; align-items: center; gap: 8px; color: var(--muted); }
+        .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+        .dot-red { background: var(--red); }
+        .dot-yellow { background: var(--yellow); }
+        .dot-green { background: var(--green); }
+        .dot-purple { background: var(--purple); }
+
+        /* Fix for Google Places Autocomplete repeating background icons */
+        input.pac-target-input,
+        .pac-target-input,
+        #originInput,
+        #destinationInput {
+            background-image: none !important;
+            background-repeat: no-repeat !important;
+            background-color: transparent !important;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-shell">
+
+    <!-- Universal Sidebar Navigation matching Route Planner -->
+    <aside class="sidebar">
+        <div>
+            <div class="brand">
+                <div class="brand-mark"><i class="fa-solid fa-road"></i></div>
+                <div>
+                    <h1>ROADIES</h1>
+                    <p>Navigation & Maps</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a class="nav-item" href="../dashboard.html"><i class="fa-solid fa-gauge-high"></i><span>Dashboard</span></a>
+                <a class="nav-item active" href="live-map3.html"><i class="fa-solid fa-compass"></i><span>Map View</span></a>
+                <a class="nav-item" href="route-planner3.html"><i class="fa-solid fa-route"></i><span>Route Planner</span></a>
+                <a class="nav-item" href="route-history3.html"><i class="fa-solid fa-clock-rotate-left"></i><span>Route History</span></a>
+                <a class="nav-item" href="pothole-detail3.html"><i class="fa-solid fa-circle-info"></i><span>Pothole Details</span></a>
+                <a class="nav-item" href="../scan-road.html"><i class="fa-solid fa-camera"></i><span>Scan Road</span></a>
+                <a class="nav-item" href="../my-reports.html"><i class="fa-solid fa-file-lines"></i><span>My Reports</span></a>
+            </nav>
+        </div>
+
+        <div class="sidebar-footer">
+            <div class="status-card" style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 14px; background: #f8fafc; color: var(--text); font-size: 12px; border: 1px solid var(--line);">
+                <span style="width: 10px; height: 10px; border-radius: 50%; background: #22c55e;"></span>
+                <div>
+                    <strong>GPS Active</strong>
+                    <p>Live Telemetry Active</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content Outer Wrapper matching Route Planner -->
+    <main class="main-wrapper">
+        <header class="admin-topbar">
+            <h2 class="topbar-page-title">Live Navigation & Map View</h2>
+            <div class="topbar-right">
+                <button id="findRouteHeaderBtn" onclick="document.getElementById('findRouteBtn').click()" class="btn-topbar-action">
+                    <i class="fa-solid fa-route"></i> Calculate Safe Route
+                </button>
+                <div class="user-avatar-pill">
+                    <img src="https://i.pravatar.cc/80?img=32" alt="User Avatar">
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Body Content matching Route Planner -->
+        <div class="page-body">
+
+            <!-- Route Inputs Card matching Route Planner -->
+            <div class="detail-card">
+                <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 240px;">
+                        <label style="font-size: 11px; font-weight: 700; color: #64748b; display: block; margin-bottom: 6px;">START LOCATION</label>
+                        <div style="display: flex; align-items: center; gap: 10px; background: #f8fafc; padding: 12px 16px; border-radius: 12px; border: 1px solid var(--line); position: relative;">
+                            <i class="fa-solid fa-location-dot" style="color: var(--purple); flex-shrink: 0;"></i>
+                            <input type="text" id="originInput" value="Panki, Kanpur" style="border:none !important; background:transparent !important; background-image:none !important; outline:none; width:100%; font-weight: 500; font-size: 14px; color: var(--text);">
+                            <button id="useMyLocationBtn" class="btn-secondary" style="padding: 6px 12px; font-size: 12px; flex-shrink: 0;" title="Use My Live Location">
+                                <i class="fa-solid fa-crosshairs"></i> GPS
+                            </button>
+                        </div>
+                    </div>
+
+                    <div style="flex: 1; min-width: 240px;">
+                        <label style="font-size: 11px; font-weight: 700; color: #64748b; display: block; margin-bottom: 6px;">DESTINATION</label>
+                        <div style="display: flex; align-items: center; gap: 10px; background: #f8fafc; padding: 12px 16px; border-radius: 12px; border: 1px solid var(--line); position: relative;">
+                            <i class="fa-solid fa-flag-checkered" style="color: var(--red); flex-shrink: 0;"></i>
+                            <input type="text" id="destinationInput" value="Mall Road, Kanpur" style="border:none !important; background:transparent !important; background-image:none !important; outline:none; width:100%; font-weight: 500; font-size: 14px; color: var(--text);">
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 20px;">
+                        <button id="findRouteBtn" class="btn-primary">
+                            <i class="fa-solid fa-route"></i> Find Route
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Live Map & AI Side Panels Grid matching Route Planner -->
+            <div class="live-map-grid">
+
+                <!-- Left Column: Map Viewport & Trip Metrics Bar -->
+                <div>
+                    <div class="map-wrapper">
+                        <!-- Floating Navigation Controls Overlay -->
+                        <div class="floating-map-controls">
+                            <button id="recenterBtn" class="map-ctrl-btn" title="Recenter to GPS Location">
+                                <i class="fa-solid fa-location-crosshairs"></i> Recenter
+                            </button>
+                            <button id="followMeBtn" class="map-ctrl-btn active" title="Toggle Auto-Follow Camera">
+                                <i class="fa-solid fa-location-arrow"></i> Follow Me: ON
+                            </button>
+                        </div>
+
+                        <div id="map"></div>
+                    </div>
+
+                    <!-- Route Trip Metrics Summary Bar -->
+                    <div class="trip-metrics-bar">
+                        <div class="trip-metric-item">
+                            <i class="fa-solid fa-ruler"></i>
+                            <div>
+                                <span>Distance</span>
+                                <strong id="routeDistance">11.3 km</strong>
+                            </div>
+                        </div>
+
+                        <div class="trip-metric-item">
+                            <i class="fa-solid fa-clock"></i>
+                            <div>
+                                <span>Travel Time</span>
+                                <strong id="routeDuration">24 mins</strong>
+                            </div>
+                        </div>
+
+                        <div class="trip-metric-item">
+                            <i class="fa-solid fa-car-side"></i>
+                            <div>
+                                <span>Est. Arrival</span>
+                                <strong id="routeEta">06:15 PM</strong>
+                            </div>
+                        </div>
+
+                        <div class="trip-metric-item">
+                            <i class="fa-solid fa-shield-halved"></i>
+                            <div>
+                                <span>Safety Score</span>
+                                <strong id="routeSafetyScore" style="color: var(--purple);">88% Safe</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: AI Intelligence & Hazard Legend -->
+                <div style="display: flex; flex-direction: column; gap: 20px;">
+
+                    <!-- AI Route Intelligence Card -->
+                    <div class="detail-card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                            <h3 style="font-size: 16px; font-weight: 700;"><i class="fa-solid fa-brain" style="color: var(--purple);"></i> AI Intelligence</h3>
+                            <span class="badge-pill badge-success">Optimized</span>
+                        </div>
+                        <p id="aiRecommendationText" style="font-size: 13px; color: var(--muted); line-height: 1.6;">
+                            Take <strong>Bypass Corridor B</strong> via Phool Bagh Crossing to save 4 minutes and avoid 3 high-severity potholes.
+                        </p>
+                    </div>
+
+                    <!-- Route Safety Scorecard -->
+                    <div class="detail-card">
+                        <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 14px;"><i class="fa-solid fa-chart-line" style="color: var(--purple);"></i> Safety Scorecard</h3>
+                        <div style="display: flex; flex-direction: column; gap: 12px; font-size: 13px;">
+                            <div style="display: flex; justify-content: space-between; padding-bottom: 8px; border-bottom: 1px solid var(--line);">
+                                <span style="color: var(--muted);">Safety Score</span>
+                                <strong id="safetyScoreValue" style="color: var(--purple);">88 / 100</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding-bottom: 8px; border-bottom: 1px solid var(--line);">
+                                <span style="color: var(--muted);">Total Potholes</span>
+                                <strong id="potholesOnRoute">2 Minor, 0 Critical</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding-bottom: 8px; border-bottom: 1px solid var(--line);">
+                                <span style="color: var(--muted);">Hazards (2km)</span>
+                                <strong id="nearbyHazardsValue">5 Hazards</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <span style="color: var(--muted);">Risk Level</span>
+                                <span id="estimatedRiskLevel" class="badge-pill badge-success">Low Risk</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Environmental Context -->
+                    <div class="detail-card">
+                        <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 12px;"><i class="fa-solid fa-cloud-sun-rain" style="color: var(--purple);"></i> Environmental Context</h3>
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; font-size: 12px;">
+                            <div style="background: #f8fafc; padding: 10px 14px; border-radius: 12px; border: 1px solid var(--line); display: flex; align-items: center; gap: 10px;">
+                                <i class="fa-solid fa-sun" style="color: var(--yellow); font-size: 18px;"></i>
+                                <div>
+                                    <strong>Clear 28°C</strong>
+                                    <p style="color: var(--muted); font-size: 11px;">High Visibility</p>
+                                </div>
+                            </div>
+                            <div style="background: #f8fafc; padding: 10px 14px; border-radius: 12px; border: 1px solid var(--line); display: flex; align-items: center; gap: 10px;">
+                                <i class="fa-solid fa-car" style="color: var(--blue); font-size: 18px;"></i>
+                                <div>
+                                    <strong>Moderate Flow</strong>
+                                    <p style="color: var(--muted); font-size: 11px;">18 km/h Avg Speed</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hazard Legend Card -->
+                    <div class="detail-card">
+                        <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 10px;"><i class="fa-solid fa-layer-group" style="color: var(--purple);"></i> Hazard Legend</h3>
+                        <div class="legend-grid">
+                            <div class="legend-item"><span class="legend-dot dot-red"></span> Critical Hazard</div>
+                            <div class="legend-item"><span class="legend-dot dot-yellow"></span> Medium Risk</div>
+                            <div class="legend-item"><span class="legend-dot dot-green"></span> Clear Road</div>
+                            <div class="legend-item"><span class="legend-dot dot-purple"></span> AI Recommended</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </main>
+</div>
+
+<!-- JS Dependencies matching Route Planner -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="../../assets/js/pothole-data.js"></script>
+<script src="../../assets/js/map-engine.js"></script>
+<script src="../../assets/js/route-planner.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // Initialize exact map engine used in route planner
+        if (typeof MapEngine !== 'undefined') {
+            MapEngine.init("map");
+        }
+        if (typeof RoutePlanner !== 'undefined') {
+            RoutePlanner.init();
+        }
+
+        // Connect recenter button to MapEngine
+        const recenterBtn = document.getElementById("recenterBtn");
+        if (recenterBtn) {
+            recenterBtn.addEventListener("click", () => {
+                if (typeof MapEngine !== 'undefined' && MapEngine.map) {
+                    MapEngine.map.setView([26.4499, 80.3319], 14);
+                }
+            });
+        }
+    });
+</script>
+
+</body>
+</html>

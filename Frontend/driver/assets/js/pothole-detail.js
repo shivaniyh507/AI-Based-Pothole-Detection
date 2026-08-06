@@ -62,7 +62,7 @@ const PotholeDetailView = {
         // Action links
         const rerouteBtn = document.getElementById("rerouteButton");
         if (rerouteBtn) {
-            rerouteBtn.href = `route-planner.html?avoid=${p.id}`;
+            rerouteBtn.href = `route-planner3.html?avoid=${p.id}`;
         }
     },
 

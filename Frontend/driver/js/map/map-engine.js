@@ -83,7 +83,7 @@ const MapEngine = {
                         <button onclick="window.MapEngine.openPotholeQuickView('${pothole.id}')" style="background:#9333ea; color:#fff; border:none; padding:6px 12px; border-radius:6px; font-size:12px; font-weight:600; cursor:pointer; flex:1;">
                             Details
                         </button>
-                        <a href="route-planner.html?avoid=${pothole.id}" style="background:#f3e8ff; color:#9333ea; border:1px solid #e9d5ff; padding:6px 10px; border-radius:6px; font-size:12px; font-weight:600; text-decoration:none; display:inline-block;">
+                        <a href="route-planner3.html?avoid=${pothole.id}" style="background:#f3e8ff; color:#9333ea; border:1px solid #e9d5ff; padding:6px 10px; border-radius:6px; font-size:12px; font-weight:600; text-decoration:none; display:inline-block;">
                             Reroute
                         </a>
                     </div>
@@ -256,10 +256,10 @@ const MapEngine = {
                 </div>
 
                 <div style="display:flex; gap:12px; margin-top:20px;">
-                    <a href="pothole-detail.html?id=${pothole.id}" class="btn-primary" style="flex:1; justify-content:center; text-decoration:none;">
+                    <a href="pothole-detail3.html?id=${pothole.id}" class="btn-primary" style="flex:1; justify-content:center; text-decoration:none;">
                         Full AI Analysis
                     </a>
-                    <a href="route-planner.html?avoid=${pothole.id}" class="btn-secondary" style="flex:1; justify-content:center; text-decoration:none;">
+                    <a href="route-planner3.html?avoid=${pothole.id}" class="btn-secondary" style="flex:1; justify-content:center; text-decoration:none;">
                         <i class="fa-solid fa-shield-halved"></i> Avoid Route
                     </a>
                 </div>
