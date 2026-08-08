@@ -1,0 +1,84 @@
+/* ==========================================================================
+   RoadSafe AI — Responsive Layout & Breakpoints System (responsive2.css)
+   ========================================================================== */
+
+/* Laptop & Tablet Desktop View (1200px and below) */
+@media (max-width: 1200px) {
+  .dashboard-main-grid,
+  .live-map-grid,
+  .scan-workspace-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .env-context-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Tablet Portrait View (992px and below) */
+@media (max-width: 992px) {
+  :root {
+    --sidebar-width: 240px;
+  }
+
+  .main-content {
+    margin-left: 0;
+    padding: 20px 16px;
+  }
+
+  .sidebar {
+    transform: translateX(-100%);
+  }
+
+  .sidebar.mobile-open {
+    transform: translateX(0);
+  }
+
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .topbar-actions {
+    width: 100%;
+  }
+
+  .search-box {
+    width: 100%;
+  }
+
+  .route-inputs-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Mobile Screens (640px and below) */
+@media (max-width: 640px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .env-context-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-hero {
+    padding: 24px 20px;
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .hero-side-card {
+    width: 100%;
+  }
+
+  .trip-summary-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

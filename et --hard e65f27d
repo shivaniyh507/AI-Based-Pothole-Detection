@@ -1,0 +1,11 @@
+* [33md4d5f04[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m refactor: complete Driver Module audit, universal sidebar, remove Profile/Settings/Notifications pages, and polish showcase screens
+* [33m300d1a2[m feat: complete Driver Module QA, map fallback, micro-animations, and theme audit
+* [33mad49a35[m fix: resolve audit issues for My Reports, Profile, and Settings with full CSS/JS sync and auth guard fallback
+* [33m1390f5d[m fix: clean leftover merge conflict markers in dashboard.html for presentation demo
+* [33mb44db37[m feat: enable presentation demo mode with toast notifications, LocalStorage persistence, and seamless driver flow
+* [33mcb10273[m feat: enhance Live Map with live GPS watchPosition tracking, Follow Me mode, floating recenter controls, and Leaflet fallback engine
+* [33m6a2a60c[m feat: implement Google Maps driving route navigation with Places Autocomplete and AI placeholders for ROADIES Driver app
+*   [33me65f27d[m Merge remote tracking branch origin/main: integrate auth, partials, and navigation structure with premium ROADIES Driver module SaaS redesign
+[32m|[m[33m\[m  
+[32m|[m * [33mcab1caf[m chore: remove redundant router dashboard page
+[32m|[m * [33me1bcbbd[m fix: fix all CSS/JS broken paths, auth redirects, sidebar/topbar partials loading
