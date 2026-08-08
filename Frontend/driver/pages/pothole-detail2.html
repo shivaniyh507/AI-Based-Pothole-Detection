@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pothole Details | RoadSafe AI</title>
+
+  <!-- Typography & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Leaflet Map CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <!-- App Stylesheets -->
+  <link rel="stylesheet" href="../css/common2.css" />
+  <link rel="stylesheet" href="../css/navigation-maps2.css" />
+  <link rel="stylesheet" href="../css/responsive2.css" />
+</head>
+<body>
+
+<div class="app-shell">
+
+  <!-- Universal Primary Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <a href="dashboard2.html" class="brand">
+        <div class="brand-mark"><i class="fa-solid fa-shield-halved"></i></div>
+        <div class="brand-info">
+          <h1>RoadSafe AI</h1>
+          <p>Driver Safety System</p>
+        </div>
+      </a>
+    </div>
+
+    <nav class="sidebar-nav" aria-label="Main Navigation">
+      <a class="nav-item" href="dashboard2.html" data-page="dashboard"><i class="fa-solid fa-gauge-high"></i><span>Dashboard</span></a>
+      <a class="nav-item" href="live-map2.html" data-page="live-map"><i class="fa-solid fa-compass"></i><span>Map View</span></a>
+      <a class="nav-item" href="route-planner2.html" data-page="route-planner"><i class="fa-solid fa-route"></i><span>Route Planner</span></a>
+      <a class="nav-item" href="route-history2.html" data-page="route-history"><i class="fa-solid fa-clock-rotate-left"></i><span>Route History</span></a>
+      <a class="nav-item active" href="pothole-detail2.html" data-page="pothole-detail"><i class="fa-solid fa-circle-info"></i><span>Pothole Details</span></a>
+      <a class="nav-item" href="scan-road2.html" data-page="scan-road"><i class="fa-solid fa-camera"></i><span>Scan Road</span></a>
+      <a class="nav-item" href="my-reports2.html" data-page="my-reports"><i class="fa-solid fa-file-lines"></i><span>My Reports</span></a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="status-card">
+        <span class="dot"></span>
+        <div>
+          <strong>GPS Telemetry Active</strong>
+          <p>RoadSafe AI Connected</p>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Shell -->
+  <main class="main-content">
+
+    <!-- Common Premium Topbar Header -->
+    <header class="topbar">
+      <div class="topbar-title-section">
+        <h1 class="page-title" id="potholeTitle">Pothole Analysis #POT-101</h1>
+        <p class="page-subtitle" id="potholeAddress">Mall Road near Phool Bagh, Kanpur</p>
+      </div>
+
+      <div class="topbar-actions">
+        <a id="rerouteButton" href="route-planner2.html?avoid=POT-101" class="btn btn-purple-gradient">
+          <i class="fa-solid fa-shield-halved"></i> Avoid in Route Planner
+        </a>
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="globalSearchInput" placeholder="Search destination, road ID, or report..." />
+          <span class="search-shortcut-hint">Ctrl K</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Detail Grid -->
+    <div style="display: grid; grid-template-columns: 1fr 340px; gap: 24px; margin-bottom: 24px;">
+
+      <!-- Center Hazard Map Viewport -->
+      <article class="panel-card" style="padding: 0; overflow: hidden; position: relative;">
+        <div id="detailHazardMap" style="width: 100%; height: 440px;"></div>
+      </article>
+
+      <!-- Right Side Pothole Metrics Card -->
+      <article class="panel-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <span id="potholeSeverityBadge" class="badge-tag badge-danger-soft">High Hazard Level</span>
+            <span id="potholeStatusBadge" class="badge-tag badge-danger-soft">Unrepaired</span>
+          </div>
+
+          <ul class="metric-list" style="margin-bottom: 20px;">
+            <li class="metric-row">
+              <span class="metric-label">Est. Depth</span>
+              <strong id="metricDepth" class="metric-value">14.5 cm</strong>
+            </li>
+            <li class="metric-row">
+              <span class="metric-label">Est. Diameter</span>
+              <strong id="metricWidth" class="metric-value">65 cm</strong>
+            </li>
+            <li class="metric-row">
+              <span class="metric-label">AI Confidence</span>
+              <strong id="metricConfidence" class="metric-value" style="color: var(--purple-primary);">97.4%</strong>
+            </li>
+            <li class="metric-row">
+              <span class="metric-label">Detected At</span>
+              <strong id="metricDetectedAt" class="metric-value">2026-07-20 14:32</strong>
+            </li>
+            <li class="metric-row">
+              <span class="metric-label">GPS Location</span>
+              <strong id="metricCoordinates" class="metric-value">26.4524° N, 80.3345° E</strong>
+            </li>
+          </ul>
+        </div>
+
+        <button id="upvoteBtn" onclick="PotholeDetailView.upvotePothole()" class="btn btn-purple-soft btn-full">
+          <i class="fa-solid fa-thumbs-up"></i> Confirm ( <span id="metricUpvotes">24</span> )
+        </button>
+      </article>
+
+    </div>
+
+    <!-- Bottom Hazard Assessment & Safety Guidelines Card -->
+    <article class="panel-card">
+      <div class="panel-header-bar">
+        <h2><i class="fa-solid fa-shield-halved"></i> Driving Hazard Assessment & Safety Guidelines</h2>
+        <button onclick="PotholeDetailView.recenterMap()" class="btn btn-sm btn-purple-soft">
+          <i class="fa-solid fa-location-crosshairs"></i> Recenter Map
+        </button>
+      </div>
+
+      <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6;">
+        This hazard represents a high-severity pavement structural cavity. Vehicle speed reduction to below 20 km/h is recommended. Alternate routing via Kalyanpur Bypass Corridor B is automatically calculated in the AI Route Planner.
+      </p>
+    </article>
+
+  </main>
+</div>
+
+<!-- Command Palette Modal (Ctrl+K) -->
+<div id="commandPaletteModal" class="command-palette-modal">
+  <div id="commandPaletteBackdrop" class="command-palette-backdrop"></div>
+  <div class="command-palette-card">
+    <div class="command-palette-header">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" id="commandPaletteInput" placeholder="Type a command or search RoadSafe AI..." />
+    </div>
+    <div class="command-palette-list">
+      <a href="dashboard2.html" class="command-item">
+        <i class="fa-solid fa-gauge-high"></i> Go to Dashboard <span class="command-shortcut">Jump</span>
+      </a>
+      <a href="live-map2.html" class="command-item">
+        <i class="fa-solid fa-compass"></i> Open Live Map Navigation <span class="command-shortcut">Map</span>
+      </a>
+      <a href="route-planner2.html" class="command-item">
+        <i class="fa-solid fa-route"></i> AI Route Planner <span class="command-shortcut">Route</span>
+      </a>
+      <a href="scan-road2.html" class="command-item">
+        <i class="fa-solid fa-camera"></i> Scan Road with AI <span class="command-shortcut">Action</span>
+      </a>
+      <a href="my-reports2.html" class="command-item">
+        <i class="fa-solid fa-file-lines"></i> View My Pothole Reports <span class="command-shortcut">Reports</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="../js/common2.js"></script>
+<script src="../js/pothole-data2.js"></script>
+<script src="../js/pothole-detail2.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    PotholeDetailView.init();
+  });
+</script>
+</body>
+</html>
