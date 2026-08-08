@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>
+
+        RoadSafe AI | Driver Registration
+
+    </title>
+
+    <link rel="stylesheet" href="../../public/css/common.css">
+    <link rel="stylesheet" href="../../public/css/register.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="register-container">
+
+    <!-- =========================
+         LEFT PANEL
+    ========================== -->
+
+    <div class="left-panel">
+
+        <div class="bg-circle circle1"></div>
+
+        <div class="bg-circle circle2"></div>
+
+
+        <!-- Logo -->
+
+        <div class="logo-section">
+
+            <div class="logo-icon">
+
+                <i class="fa-solid fa-tower-broadcast"></i>
+
+            </div>
+
+            <div>
+
+                <h2>
+
+                    RoadSafe AI
+
+                </h2>
+
+                <p>
+
+                    SMART MONITORING
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- Hero -->
+
+        <div class="hero-section">
+
+            <h1>
+
+                Join 3,200+<br>
+
+                drivers making<br>
+
+                roads safer.
+
+            </h1>
+
+            <p>
+
+                Register as a driver to start contributing
+                to India's largest road safety AI network.
+
+            </p>
+
+        </div>
+
+
+        <!-- Features -->
+
+        <div class="feature-list">
+
+            <div class="feature-item">
+
+                <i class="fa-solid fa-circle-check"></i>
+
+                <span>
+
+                    AI-powered pothole detection
+
+                </span>
+
+            </div>
+
+            <div class="feature-item">
+
+                <i class="fa-solid fa-circle-check"></i>
+
+                <span>
+
+                    Real-time road hazard alerts
+
+                </span>
+
+            </div>
+
+            <div class="feature-item">
+
+                <i class="fa-solid fa-circle-check"></i>
+
+                <span>
+
+                    Automated report generation
+
+                </span>
+
+            </div>
+
+            <div class="feature-item">
+
+                <i class="fa-solid fa-circle-check"></i>
+
+                <span>
+
+                    Safety score tracking
+
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         RIGHT PANEL
+    ========================== -->
+
+    <div class="right-panel">
+
+        <div class="register-card">
+
+            <!-- Back -->
+
+            <a href="login.html"
+                class="back-btn">
+
+                <i class="fa-solid fa-arrow-left"></i>
+
+                Back to Login
+
+            </a>
+
+
+            <!-- Heading -->
+
+            <div class="register-header">
+
+                <span>
+
+                    Driver Registration
+
+                </span>
+
+                <h1>
+
+                    Create your account
+
+                </h1>
+
+                <p>
+
+                    Fill in your details to get started
+                    as a RoadSafe AI driver.
+
+                </p>
+
+            </div>
+
+
+            <!-- Error -->
+
+            <div
+                class="error-box"
+                id="errorBox">
+
+                <i class="fa-solid fa-circle-exclamation"></i>
+
+                <span id="errorMessage"></span>
+
+            </div>
+
+
+            <form
+                id="registerForm">
+                
+                <!-- Full Name -->
+
+                <div class="form-group">
+
+                    <label>
+
+                        Full Name
+
+                    </label>
+
+                    <input
+                        type="text"
+                        id="fullName"
+                        placeholder="Arjun Sharma">
+
+                </div>
+
+
+                <!-- Email & Phone -->
+
+                <div class="grid-2">
+
+                    <div class="form-group">
+
+                        <label>
+
+                            Email Address
+
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            placeholder="you@example.com">
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+
+                            Phone Number
+
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="phone"
+                            placeholder="+91 98765 43210">
+
+                    </div>
+
+                </div>
+
+
+                <!-- Vehicle -->
+
+                <div class="grid-2">
+
+                    <div class="form-group">
+
+                        <label>
+
+                            Vehicle Number
+
+                        </label>
+
+                        <input
+                            type="text"
+                            id="vehicleNumber"
+                            placeholder="MH 01 AB 1234">
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+
+                            Driving License Number
+
+                        </label>
+
+                        <input
+                            type="text"
+                            id="licenseNumber"
+                            placeholder="DL-1234567890">
+
+                    </div>
+
+                </div>
+
+
+                <!-- City -->
+
+                <div class="grid-2">
+
+                    <div class="form-group">
+
+                        <label>
+
+                            City
+
+                        </label>
+
+                        <input
+                            type="text"
+                            id="city"
+                            placeholder="Mumbai">
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+
+                            State
+
+                        </label>
+
+                        <input
+                            type="text"
+                            id="state"
+                            placeholder="Maharashtra">
+
+                    </div>
+
+                </div>
+                
+                <!-- Password -->
+
+                <div class="form-group">
+
+                    <label>
+
+                        Password
+
+                    </label>
+
+                    <div class="password-wrapper">
+
+                        <input
+                            type="password"
+                            id="password"
+                            placeholder="Min. 8 characters">
+
+                        <button
+                            type="button"
+                            class="toggle-password"
+                            id="togglePassword">
+
+                            <i class="fa-solid fa-eye"></i>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Confirm Password -->
+
+                <div class="form-group">
+
+                    <label>
+
+                        Confirm Password
+
+                    </label>
+
+                    <div class="password-wrapper">
+
+                        <input
+                            type="password"
+                            id="confirmPassword"
+                            placeholder="Re-enter password">
+
+                        <button
+                            type="button"
+                            class="toggle-password"
+                            id="toggleConfirmPassword">
+
+                            <i class="fa-solid fa-eye"></i>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Submit -->
+
+                <button
+                    type="submit"
+                    class="register-btn"
+                    id="registerBtn">
+
+                    <span id="registerText">
+
+                        Create Driver Account
+
+                    </span>
+
+                </button>
+
+            </form>
+
+
+            <!-- Login -->
+
+            <div class="login-link">
+
+                <p>
+
+                    Already have an account?
+
+                    <a href="login.html">
+
+                        Sign In
+
+                    </a>
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+SUCCESS POPUP
+========================= -->
+
+<div class="success-modal" id="successModal">
+
+    <div class="success-card">
+
+        <div class="success-icon">
+
+            <i class="fa-solid fa-circle-check"></i>
+
+        </div>
+
+        <h2>
+
+            Registration Successful!
+
+        </h2>
+
+        <p>
+
+            Registration successful.
+            Please login to continue.
+
+        </p>
+
+        <p class="countdown-text">
+
+            Redirecting to login in
+
+            <span id="countdown">
+
+                2
+
+            </span>
+
+            seconds...
+
+        </p>
+
+        <a
+            href="login.html"
+            class="login-now-btn">
+
+            Go to Login Now
+
+        </a>
+
+    </div>
+
+</div>
+
+<script src="../../public/js/common.js"></script>
+<script src="../../public/js/dataService.js"></script>
+<script src="../../public/js/register.js"></script>
+
+</body>
+
+</html>

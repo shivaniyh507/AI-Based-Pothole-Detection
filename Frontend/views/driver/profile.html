@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Driver Profile</title>
+
+    <!-- Common CSS -->
+    <link rel="stylesheet" href="../../public/css/common.css">
+    <link rel="stylesheet" href="../../public/css/sidebar.css">
+    <link rel="stylesheet" href="../../public/css/Topbar.css">
+    <link rel="stylesheet" href="../../public/css/profile.css">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+          rel="stylesheet">
+</head>
+
+<body data-title="My Profile">
+
+<div class="page-layout">
+
+    <!-- Sidebar -->
+    <div id="sidebar-container"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <!-- Topbar -->
+        <div id="topbar"></div>
+
+        <!-- Page Body -->
+        <div class="page-body">
+
+            <div class="container">
+
+                <!-- ========================================= -->
+                <!-- DRIVER PROFILE HERO -->
+                <!-- ========================================= -->
+
+                <section class="driver-profile-card">
+
+                    <div class="driver-profile-banner">
+
+                        <!-- Action Buttons -->
+
+                        <div class="driver-profile-actions">
+
+                            <button
+                                type="button"
+                                class="edit-btn"
+                                id="editBtn">
+
+                                <i class="fa-solid fa-pen"></i>
+                                Edit Profile
+
+                            </button>
+
+                            <div
+                                class="driver-edit-buttons"
+                                id="editButtonGroup"
+                                style="display:none;">
+
+                                <button
+                                    type="button"
+                                    class="cancel-btn"
+                                    id="cancelBtn">
+
+                                    <i class="fa-solid fa-xmark"></i>
+                                    Cancel
+
+                                </button>
+
+                                <button
+                                    type="button"
+                                    class="save-btn"
+                                    id="saveBtn">
+
+                                    <i class="fa-solid fa-floppy-disk"></i>
+                                    Save
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                        <!-- Driver Info -->
+
+                        <div class="driver-profile-info">
+
+                            <div class="driver-profile-avatar">
+
+                                <div
+                                    id="profileInitials"
+                                    class="driver-profile-initials">
+
+                                    RT
+
+                                </div>
+
+                                <img
+                                    id="profileImage"
+                                    src="../../public/assets/images/avatar/driver-avatar.svg"
+                                    alt="Driver Profile"
+                                    style="display:none;">
+
+                                <button
+                                    class="driver-camera-btn"
+                                    id="changePhotoBtn">
+
+                                    <i class="fa-solid fa-camera"></i>
+
+                                </button>
+
+                                <input
+                                    type="file"
+                                    id="profilePhotoInput"
+                                    accept="image/png,image/jpeg,image/jpg"
+                                    style="display:none;">
+
+                            </div>
+
+                            <div class="driver-profile-details">
+
+                                <h2 id="driverName">
+
+                                    Ritika Tripathi
+
+                                </h2>
+
+                                <p class="driver-profile-id">
+
+                                    Driver ID : DRV-00001234
+
+                                </p>
+
+                                <div class="driver-profile-badges">
+
+                                    <span class="driver-badge">
+
+                                        <i class="fa-solid fa-circle-check"></i>
+                                        Active
+
+                                    </span>
+
+                                    <span class="driver-badge">
+
+                                        <i class="fa-solid fa-car"></i>
+                                        Car
+
+                                    </span>
+
+                                    <span class="driver-badge">
+
+                                        <i class="fa-solid fa-location-dot"></i>
+                                        Lucknow
+
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- ========================================= -->
+                    <!-- CONTACT STRIP -->
+                    <!-- ========================================= -->
+
+                    <div class="driver-contact-row">
+
+                        <!-- Email -->
+
+                        <div class="driver-contact-item">
+
+                            <div class="driver-contact-icon">
+
+                                <i class="fa-solid fa-envelope"></i>
+
+                            </div>
+
+                            <div>
+
+                                <span>Email Address</span>
+
+                                <h5 id="profileEmail">
+
+                                    ritika@email.com
+
+                                </h5>
+
+                            </div>
+
+                        </div>
+
+                        <!-- Phone -->
+
+                        <div class="driver-contact-item">
+
+                            <div class="driver-contact-icon">
+
+                                <i class="fa-solid fa-phone"></i>
+
+                            </div>
+
+                            <div>
+
+                                <span>Phone Number</span>
+
+                                <h5 id="profilePhone">
+
+                                    +91 9876543210
+
+                                </h5>
+
+                            </div>
+
+                        </div>
+
+                                                <!-- Member Since -->
+
+                        <div class="driver-contact-item">
+
+                            <div class="driver-contact-icon">
+
+                                <i class="fa-solid fa-calendar-days"></i>
+
+                            </div>
+
+                            <div>
+
+                                <span>Member Since</span>
+
+                                <h5>
+                                    15 January 2025
+                                </h5>
+
+                            </div>
+
+                        </div>
+
+                        <!-- Last Active -->
+
+                        <div class="driver-contact-item">
+
+                            <div class="driver-contact-icon">
+
+                                <i class="fa-regular fa-clock"></i>
+
+                            </div>
+
+                            <div>
+
+                                <span>Last Active</span>
+
+                                <h5>
+                                    Just Now
+                                </h5>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+                <!-- ========================================= -->
+                <!-- DRIVER STATISTICS -->
+                <!-- ========================================= -->
+
+                <section class="driver-stats-grid">
+
+                    <!-- Roads Scanned -->
+
+                    <div class="driver-stat-card">
+
+                        <div class="driver-stat-icon purple">
+                            <i class="fa-solid fa-road"></i>
+                        </div>
+
+                        <h2 id="roadsScanned">
+                            1,248
+                        </h2>
+
+                        <p>Roads Scanned</p>
+
+                    </div>
+
+                    <!-- Potholes Reported -->
+
+                    <div class="driver-stat-card">
+
+                        <div class="driver-stat-icon red">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                        </div>
+
+                        <h2 id="potholesReported">
+                            86
+                        </h2>
+
+                        <p>Potholes Reported</p>
+
+                    </div>
+
+                    <!-- Routes Completed -->
+
+                    <div class="driver-stat-card">
+
+                        <div class="driver-stat-icon green">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </div>
+
+                        <h2 id="routesCompleted">
+                            342
+                        </h2>
+
+                        <p>Routes Completed</p>
+
+                    </div>
+
+                    <!-- Safety Score -->
+
+                    <div class="driver-stat-card">
+
+                        <div class="driver-stat-icon blue">
+                            <i class="fa-solid fa-chart-line"></i>
+                        </div>
+
+                        <h2 id="safetyScore">
+                            94%
+                        </h2>
+
+                        <p>Safety Score</p>
+
+                    </div>
+
+                </section>
+
+                <!-- ========================================= -->
+                <!-- MAIN GRID -->
+                <!-- ========================================= -->
+
+                <section class="driver-content-grid">
+
+                    <!-- LEFT COLUMN -->
+
+                    <div class="driver-left-column">
+
+                        <!-- ========================================= -->
+                        <!-- ACCOUNT INFORMATION -->
+                        <!-- ========================================= -->
+
+                        <section class="driver-card">
+
+                            <div class="driver-card-header">
+
+                                <i class="fa-solid fa-user"></i>
+
+                                <h3>Account Information</h3>
+
+                            </div>
+
+                            <div class="driver-card-body">
+
+                                <div class="driver-info-grid">
+
+                                    <!-- Full Name -->
+
+                                    <div class="driver-info-item">
+
+                                        <label for="fullName">
+                                            Full Name
+                                        </label>
+
+                                        <input
+                                            type="text"
+                                            id="fullName"
+                                            value="Ritika Tripathi"
+                                            readonly>
+
+                                    </div>
+
+                                    <!-- Email -->
+
+                                    <div class="driver-info-item">
+
+                                        <label for="email">
+                                            Email Address
+                                        </label>
+
+                                        <input
+                                            type="email"
+                                            id="email"
+                                            value="ritika@email.com"
+                                            readonly>
+
+                                    </div>
+
+                                    <!-- Phone -->
+
+                                    <div class="driver-info-item">
+
+                                        <label for="phone">
+                                            Phone Number
+                                        </label>
+
+                                        <input
+                                            type="text"
+                                            id="phone"
+                                            value="+91 9876543210"
+                                            readonly>
+
+                                    </div>
+
+                                    <!-- Emergency Contact -->
+
+                                    <div class="driver-info-item">
+
+                                        <label for="emergency">
+                                            Emergency Contact
+                                        </label>
+
+                                        <input
+                                            type="text"
+                                            id="emergency"
+                                            value="+91 9988776655"
+                                            readonly>
+
+                                    </div>
+
+                                    <!-- City -->
+
+                                    <div class="driver-info-item">
+
+                                        <label for="city">
+                                            City
+                                        </label>
+
+                                        <input
+                                            type="text"
+                                            id="city"
+                                            value="Lucknow"
+                                            readonly>
+
+                                    </div>
+
+                                    <!-- State -->
+
+                                    <div class="driver-info-item">
+
+                                        <label for="state">
+                                            State
+                                        </label>
+
+                                        <input
+                                            type="text"
+                                            id="state"
+                                            value="Uttar Pradesh"
+                                            readonly>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </section>
+
+                                                    <!-- ========================================= -->
+                            <!-- DRIVER INFORMATION -->
+                            <!-- ========================================= -->
+
+                            <section class="driver-card">
+
+                                <div class="driver-card-header">
+
+                                    <i class="fa-solid fa-id-card"></i>
+
+                                    <h3>Driver Information</h3>
+
+                                </div>
+
+                                <div class="driver-card-body">
+
+                                    <div class="driver-info-grid">
+
+                                        <!-- Driver Status -->
+
+                                        <div class="driver-info-item">
+
+                                            <label for="driverStatus">
+
+                                                Driver Status
+
+                                            </label>
+
+                                            <input
+                                                type="text"
+                                                id="driverStatus"
+                                                value="Active"
+                                                readonly>
+
+                                        </div>
+
+                                        <!-- Vehicle Number -->
+
+                                        <div class="driver-info-item">
+
+                                            <label for="vehicleNumber">
+
+                                                Vehicle Number
+
+                                            </label>
+
+                                            <input
+                                                type="text"
+                                                id="vehicleNumber"
+                                                value="UP32AB4589"
+                                                readonly>
+
+                                        </div>
+
+                                        <!-- Vehicle Type -->
+
+                                        <div class="driver-info-item">
+
+                                            <label for="vehicleType">
+
+                                                Vehicle Type
+
+                                            </label>
+
+                                            <input
+                                                type="text"
+                                                id="vehicleType"
+                                                value="Car"
+                                                readonly>
+
+                                        </div>
+
+                                        <!-- License Number -->
+
+                                        <div class="driver-info-item">
+
+                                            <label for="licenseNumber">
+
+                                                Driving License
+
+                                            </label>
+
+                                            <input
+                                                type="text"
+                                                id="licenseNumber"
+                                                value="UP1420230004587"
+                                                readonly>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </section>
+
+                        </div>
+
+                        <!-- ========================================= -->
+                        <!-- RIGHT COLUMN -->
+                        <!-- ========================================= -->
+
+                        <div class="driver-right-column">
+
+                            <!-- ========================================= -->
+                            <!-- RECENT ACTIVITY -->
+                            <!-- ========================================= -->
+
+                            <section class="driver-card">
+
+                                <div class="driver-card-header">
+
+                                    <i class="fa-solid fa-clock-rotate-left"></i>
+
+                                    <h3>Recent Activity</h3>
+
+                                </div>
+
+                                <div class="driver-card-body">
+
+                                    <div class="driver-activity-list">
+
+                                        <div class="driver-activity-item">
+
+                                            <div class="driver-activity-icon success">
+
+                                                <i class="fa-solid fa-circle-check"></i>
+
+                                            </div>
+
+                                            <div class="driver-activity-content">
+
+                                                <h4>
+
+                                                    Route Completed
+
+                                                </h4>
+
+                                                <p>
+
+                                                    Kanpur → Lucknow
+
+                                                </p>
+
+                                                <span>
+
+                                                    10 minutes ago
+
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="driver-activity-item">
+
+                                            <div class="driver-activity-icon warning">
+
+                                                <i class="fa-solid fa-triangle-exclamation"></i>
+
+                                            </div>
+
+                                            <div class="driver-activity-content">
+
+                                                <h4>
+
+                                                    Pothole Report Submitted
+
+                                                </h4>
+
+                                                <p>
+
+                                                    Ring Road, Lucknow
+
+                                                </p>
+
+                                                <span>
+
+                                                    Today • 09:45 AM
+
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="driver-activity-item">
+
+                                            <div class="driver-activity-icon primary">
+
+                                                <i class="fa-solid fa-user-pen"></i>
+
+                                            </div>
+
+                                            <div class="driver-activity-content">
+
+                                                <h4>
+
+                                                    Profile Updated
+
+                                                </h4>
+
+                                                <p>
+
+                                                    Personal information edited
+
+                                                </p>
+
+                                                <span>
+
+                                                    Yesterday
+
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </section>
+
+                            <!-- ========================================= -->
+                            <!-- ACHIEVEMENTS -->
+                            <!-- ========================================= -->
+
+                            <section class="driver-card">
+
+                                <div class="driver-card-header">
+
+                                    <i class="fa-solid fa-trophy"></i>
+
+                                    <h3>Achievements</h3>
+
+                                </div>
+
+                                <div class="driver-card-body">
+
+                                    <div class="driver-achievement-list">
+
+                                        <div class="driver-achievement-card">
+
+                                            <div class="driver-achievement-icon gold">
+
+                                                <i class="fa-solid fa-medal"></i>
+
+                                            </div>
+
+                                            <div>
+
+                                                <h4>Safe Driver</h4>
+
+                                                <p>100 safe trips completed</p>
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="driver-achievement-card">
+
+                                            <div class="driver-achievement-icon blue">
+
+                                                <i class="fa-solid fa-road"></i>
+
+                                            </div>
+
+                                            <div>
+
+                                                <h4>Road Explorer</h4>
+
+                                                <p>1000+ km scanned successfully</p>
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="driver-achievement-card">
+
+                                            <div class="driver-achievement-icon green">
+
+                                                <i class="fa-solid fa-leaf"></i>
+
+                                            </div>
+
+                                            <div>
+
+                                                <h4>Eco Driver</h4>
+
+                                                <p>Maintained excellent driving efficiency</p>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </section>
+
+                        </div>
+
+                    </section>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+<!-- ========================================= -->
+<!-- TOAST -->
+<!-- ========================================= -->
+
+<div id="toast" class="toast">
+
+    <i class="fa-solid fa-circle-check"></i>
+
+    <span>Profile Updated Successfully</span>
+
+</div>
+
+<!-- ========================================= -->
+<!-- SCRIPTS -->
+<!-- ========================================= -->
+
+<script src="../../public/js/common.js"></script>
+<script src="../../public/js/sidebar.js"></script>
+<script src="../../public/js/Topbar.js"></script>
+<script src="../../public/js/profile.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    loadSidebar();
+    loadTopbar("My Profile", "Driver Dashboard");
+});
+</script>
+</body>
+
+</html>

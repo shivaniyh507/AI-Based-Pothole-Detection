@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Profile | RoadSafe AI</title>
+
+    <link rel="stylesheet" href="../../public/css/common.css">
+    <link rel="stylesheet" href="../../public/css/profile.css">
+    <link rel="stylesheet" href="../../public/css/sidebar.css">
+    <link rel="stylesheet" href="../../public/css/Topbar.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+
+<body data-title="My Profile" data-subtitle="ADMIN DASHBOARD">
+
+<div class="page-layout">
+
+    <!-- Sidebar -->
+    <div id="sidebar-container"></div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+
+        <!-- Topbar -->
+        <div id="topbar"></div>
+
+        <div class="page-body">
+
+            <div class="admin-profile">
+
+                <!-- ========================= -->
+                <!-- ADMIN PROFILE HEADER -->
+                <!-- ========================= -->
+
+                <div class="profile-card">
+
+                    <div class="profile-banner">
+
+                        <div class="profile-left">
+
+                            <div class="profile-photo">
+
+                                <div id="profileInitials"
+                                     class="profile-photo-initials">
+                                    SA
+                                </div>
+
+                                <img
+                                    id="profileImage"
+                                    src="../../public/assets/images/avatar/admin-avatar.svg"
+                                    alt="Admin"
+                                    style="display:none;">
+
+                                <button
+                                    class="camera-btn"
+                                    id="changePhotoBtn"
+                                    type="button">
+
+                                    <i class="fa-solid fa-camera"></i>
+
+                                </button>
+
+                                <input
+                                    type="file"
+                                    id="profilePhotoInput"
+                                    accept="image/*"
+                                    style="display:none;">
+
+                            </div>
+
+                            <div class="profile-content">
+
+                                <h2 id="adminName">
+                                    System Administrator
+                                </h2>
+
+                                <p
+                                    class="admin-designation"
+                                    id="adminDesignation">
+
+                                    Super Administrator • Operations
+
+                                </p>
+
+                                <div class="profile-badges">
+
+                                    <span class="badge active-badge">
+
+                                        <i class="fa-solid fa-circle"></i>
+
+                                        Active
+
+                                    </span>
+
+                                    <span class="badge role-badge">
+
+                                        Super Admin
+
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="profile-actions">
+
+                            <button
+                                class="edit-btn"
+                                id="editBtn"
+                                type="button">
+
+                                <i class="fa-solid fa-pen"></i>
+
+                                Edit Profile
+
+                            </button>
+
+                            <div
+                                class="edit-buttons"
+                                id="editButtonGroup"
+                                style="display:none;">
+
+                                <button
+                                    class="cancel-btn"
+                                    id="cancelBtn"
+                                    type="button">
+
+                                    <i class="fa-solid fa-xmark"></i>
+
+                                    Cancel
+
+                                </button>
+
+                                <button
+                                    class="save-btn"
+                                    id="saveBtn"
+                                    type="button">
+
+                                    <i class="fa-solid fa-floppy-disk"></i>
+
+                                    Save
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                 <form id="profileForm" onsubmit="return false;">
+
+                    <div class="content-grid admin-grid">
+
+                        <!-- ========================= -->
+                        <!-- PERSONAL INFORMATION -->
+                        <!-- ========================= -->
+
+                        <div class="card">
+
+                            <div class="card-header">
+
+                                <div class="card-icon purple">
+                                    <i class="fa-regular fa-user"></i>
+                                </div>
+
+                                <h3>Personal Information</h3>
+
+                            </div>
+
+                            <div class="info-grid">
+
+                                <div class="info-item">
+
+                                    <label>FULL NAME</label>
+
+                                    <input
+                                        type="text"
+                                        id="fullName"
+                                        value="System Administrator"
+                                        readonly>
+
+                                </div>
+
+                                <div class="info-item">
+
+                                    <label>OFFICIAL EMAIL</label>
+
+                                    <input
+                                        type="email"
+                                        id="email"
+                                        value="admin@roadsafe.ai"
+                                        readonly
+                                        disabled
+                                        class="locked-field">
+
+                                </div>
+
+                                <div class="info-item">
+
+                                    <label>PHONE NUMBER</label>
+
+                                    <input
+                                        type="text"
+                                        id="phone"
+                                        value="+91 98765 00000"
+                                        readonly
+                                        disabled
+                                        class="locked-field">
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <!-- ========================= -->
+                        <!-- ORGANISATION DETAILS -->
+                        <!-- ========================= -->
+
+                        <div class="card">
+
+                            <div class="card-header">
+
+                                <div class="card-icon purple">
+                                    <i class="fa-solid fa-building"></i>
+                                </div>
+
+                                <h3>Organisation Details</h3>
+
+                            </div>
+
+                            <div class="info-grid">
+
+                                <div class="info-item">
+
+                                    <label>EMPLOYEE ID</label>
+
+                                    <input
+                                        type="text"
+                                        id="employeeId"
+                                        value="EMP-ADM-001"
+                                        readonly
+                                        disabled
+                                        class="locked-field">
+
+                                </div>
+
+                                <div class="info-item">
+
+                                    <label>DEPARTMENT</label>
+
+                                    <input
+                                        type="text"
+                                        id="department"
+                                        value="Operations"
+                                        readonly
+                                        disabled
+                                        class="locked-field">
+
+                                </div>
+
+                                <div class="info-item">
+
+                                    <label>DESIGNATION</label>
+
+                                    <input
+                                        type="text"
+                                        id="designation"
+                                        value="Super Administrator"
+                                        readonly
+                                        disabled
+                                        class="locked-field">
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <!-- ========================= -->
+                        <!-- ROLE & PERMISSIONS -->
+                        <!-- ========================= -->
+
+                        <div class="card">
+
+                            <div class="card-header">
+
+                                <div class="card-icon purple">
+                                    <i class="fa-solid fa-shield-halved"></i>
+                                </div>
+
+                                <h3>Role & Permissions</h3>
+
+                            </div>
+
+                            <div class="info-grid">
+
+                                <div class="info-item">
+
+                                    <label>ROLE</label>
+
+                                    <input
+                                        type="text"
+                                        id="adminRole"
+                                        value="Super Admin"
+                                        readonly
+                                        disabled
+                                        class="locked-field">
+
+                                </div>
+
+                                <div class="info-item full-width">
+
+                                    <label>PERMISSIONS</label>
+
+                                    <div
+                                        class="permission-list"
+                                        id="permissionsContainer">
+
+                                        <span class="permission-chip">
+                                            <i class="fa-solid fa-check"></i>
+                                            read
+                                        </span>
+
+                                        <span class="permission-chip">
+                                            <i class="fa-solid fa-check"></i>
+                                            write
+                                        </span>
+
+                                        <span class="permission-chip">
+                                            <i class="fa-solid fa-check"></i>
+                                            manage users
+                                        </span>
+
+                                        <span class="permission-chip">
+                                            <i class="fa-solid fa-check"></i>
+                                            view reports
+                                        </span>
+
+                                        <span class="permission-chip">
+                                            <i class="fa-solid fa-check"></i>
+                                            system config
+                                        </span>
+
+                                        <span class="permission-chip">
+                                            <i class="fa-solid fa-check"></i>
+                                            delete
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                                                <!-- ========================= -->
+                        <!-- OFFICE ADDRESS -->
+                        <!-- ========================= -->
+
+                        <div class="card">
+
+                            <div class="card-header">
+
+                                <div class="card-icon purple">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                </div>
+
+                                <h3>Office Address</h3>
+
+                            </div>
+
+                            <div class="info-grid">
+
+                                <div class="info-item full-width">
+
+                                    <label>OFFICE ADDRESS</label>
+
+                                    <input
+                                        type="text"
+                                        id="officeAddress"
+                                        value="RoadSafe AI HQ, Mumbai, Maharashtra 400001"
+                                        readonly
+                                        disabled
+                                        class="locked-field">
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="../../public/js/dataService.js"></script>
+
+<script>
+
+fetch("../partials/sidebar.html")
+.then(res => res.text())
+.then(data => {
+
+    document.getElementById("sidebar-container").innerHTML = data;
+
+    if (typeof window.initSidebar === "function") {
+        window.initSidebar();
+    }
+
+});
+
+fetch("../partials/Topbar.html")
+.then(res => res.text())
+.then(data => {
+
+    document.getElementById("topbar").innerHTML = data;
+
+    if (typeof window.initTopbar === "function") {
+        window.initTopbar();
+    }
+
+});
+
+</script>
+
+<script src="../../public/js/sidebar.js"></script>
+<script src="../../public/js/Topbar.js"></script>
+<script src="../../public/js/profile.js"></script>
+
+</body>
+
+</html>
