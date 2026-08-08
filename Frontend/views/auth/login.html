@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>RoadSafe AI - Login</title>
+
+    <link rel="stylesheet" href="../../public/css/common.css">
+    <link rel="stylesheet" href="../../public/css/login.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="login-container">
+
+    <!-- =========================
+         LEFT PANEL
+    ========================== -->
+
+    <div class="left-panel">
+
+        <div class="background-circle circle-1"></div>
+
+        <div class="background-circle circle-2"></div>
+
+        <div class="background-circle circle-3"></div>
+
+
+        <!-- Logo -->
+
+        <div class="logo-section">
+
+            <div class="logo-icon">
+
+                <i class="fa-solid fa-road"></i>
+
+            </div>
+
+            <div>
+
+                <h2>
+
+                    RoadSafe AI
+
+                </h2>
+
+                <p>
+
+                    SMART MONITORING
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- Hero Text -->
+
+        <div class="hero-content">
+
+            <h1>
+
+                Monitor roads,<br>
+
+                prevent accidents,<br>
+
+                save lives.
+
+            </h1>
+
+            <p>
+
+                AI-powered pothole detection and real-time road hazard
+                monitoring system for safer journeys.
+
+            </p>
+
+        </div>
+
+
+        <!-- Stats -->
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+
+                <h3>
+
+                    12,480
+
+                </h3>
+
+                <span>
+
+                    Roads Monitored
+
+                </span>
+
+            </div>
+
+            <div class="stat-card">
+
+                <h3>
+
+                    94,320
+
+                </h3>
+
+                <span>
+
+                    Potholes Detected
+
+                </span>
+
+            </div>
+
+            <div class="stat-card">
+
+                <h3>
+
+                    3,200+
+
+                </h3>
+
+                <span>
+
+                    Active Drivers
+
+                </span>
+
+            </div>
+
+            <div class="stat-card">
+
+                <h3>
+
+                    98.4%
+
+                </h3>
+
+                <span>
+
+                    Safety Score
+
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         RIGHT PANEL
+    ========================== -->
+
+    <div class="right-panel">
+
+        <div class="login-card">
+
+            <!-- Mobile Logo -->
+
+            <div class="mobile-logo">
+
+                <div class="logo-icon mobile">
+
+                    <i class="fa-solid fa-tower-broadcast"></i>
+
+                </div>
+
+                <div>
+
+                    <h2>
+
+                        RoadSafe AI
+
+                    </h2>
+
+                    <p>
+
+                        SMART MONITORING
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Heading -->
+
+            <div class="login-header">
+
+                <span>
+
+                    Welcome Back
+
+                </span>
+
+                <h1>
+
+                    Sign in to your account
+
+                </h1>
+
+                <p>
+
+                    Enter your credentials to access your dashboard.
+
+                </p>
+
+            </div>
+
+
+            <!-- Error -->
+
+            <div class="error-box" id="errorBox">
+
+                <i class="fa-solid fa-circle-exclamation"></i>
+
+                <span id="errorMessage">
+
+                </span>
+
+            </div>
+
+
+            <form id="loginForm">
+            
+                <!-- Email -->
+
+                <div class="form-group">
+
+                    <label>
+
+                        Email / ID
+
+                    </label>
+
+                    <input
+                        type="text"
+                        id="email"
+                        placeholder="you@example.com"
+                        autocomplete="email">
+
+                </div>
+
+
+                <!-- Password -->
+
+                <div class="form-group">
+
+                    <div class="label-row">
+
+                        <label>
+
+                            Password
+
+                        </label>
+
+                        <a href="forgot-password.html" class="forgot-link">
+
+                            Forgot Password?
+
+                        </a>
+
+                    </div>
+
+                    <div class="password-wrapper">
+
+                        <input
+                            type="password"
+                            id="password"
+                            placeholder="••••••••"
+                            autocomplete="current-password">
+
+                        <button
+                            type="button"
+                            class="toggle-password"
+                            id="togglePassword">
+
+                            <i class="fa-solid fa-eye"></i>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Login Button -->
+
+                <button
+                    type="submit"
+                    class="login-btn"
+                    id="loginBtn">
+
+                    <span id="loginText">
+
+                        Sign In
+
+                    </span>
+
+                </button>
+
+            </form>
+
+
+            <!-- Register -->
+
+            <div class="register-section">
+
+                <p>
+
+                    New Driver?
+
+                    <a href="register.html">
+
+                        Create your account
+
+                    </a>
+
+                </p>
+
+            </div>
+
+
+            <!-- Security
+            <div class="security-box">
+                <div class="security-icon">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <p>
+                    Admin access is available with your official credentials. No role selection needed.
+                </p>
+            </div> -->
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="../../public/js/common.js"></script>
+<script src="../../public/js/dataService.js"></script>
+<script src="../../public/js/login.js"></script>
+
+</body>
+
+</html>

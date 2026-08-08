@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Notifications | RoadSafe AI</title>
+
+    <link rel="stylesheet" href="../../public/css/sidebar.css">
+
+    <link rel="stylesheet" href="../../public/css/topbar.css">
+
+    <link rel="stylesheet" href="../../public/css/notifications.css">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="page-layout">
+
+    <!-- Sidebar -->
+
+    <div id="sidebar-container"></div>
+
+    <!-- Main Content -->
+
+    <main class="main-content">
+
+        <!-- Topbar -->
+        <div id="topbar"></div>
+
+        <section class="page-body">
+
+
+            <div class="notifications-container">
+
+                <!-- Header -->
+
+                <div class="notification-header">
+
+                    <div class="header-left">
+
+                        <span class="unread-count"
+                              id="unreadCount">
+
+                            0 Unread
+
+                        </span>
+
+                    </div>
+
+                    <div class="header-actions">
+
+                        <button
+                            class="icon-btn"
+                            id="refreshBtn">
+
+                            <i class="fa-solid fa-rotate-right"></i>
+
+                        </button>
+
+                        <button
+                            class="primary-btn"
+                            id="markAllBtn">
+
+                            <i class="fa-solid fa-check-double"></i>
+
+                            Mark All Read
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <!-- Filter Tabs -->
+
+                <div class="notification-tabs">
+
+                    <button
+                        class="tab-btn active"
+                        data-tab="all">
+
+                        <i class="fa-solid fa-bell"></i>
+
+                        <span>All</span>
+
+                        <span class="tab-count"
+                              id="allCount">0</span>
+
+                    </button>
+
+                    <button
+                        class="tab-btn"
+                        data-tab="alert">
+
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+
+                        <span>Alerts</span>
+
+                        <span class="tab-count"
+                              id="alertCount">0</span>
+
+                    </button>
+
+                    <button
+                        class="tab-btn"
+                        data-tab="report">
+
+                        <i class="fa-solid fa-file-lines"></i>
+
+                        <span>Reports</span>
+
+                        <span class="tab-count"
+                              id="reportCount">0</span>
+
+                    </button>
+
+                    <button
+                        class="tab-btn"
+                        data-tab="system">
+
+                        <i class="fa-solid fa-gear"></i>
+
+                        <span>System</span>
+
+                        <span class="tab-count"
+                              id="systemCount">0</span>
+
+                    </button>
+
+                </div>
+                                <!-- Loading State -->
+
+                <div
+                    class="loading-state"
+                    id="loadingState">
+
+                    <div class="loading-card"></div>
+
+                    <div class="loading-card"></div>
+
+                    <div class="loading-card"></div>
+
+                </div>
+
+                <!-- Empty State -->
+
+                <div
+                    class="empty-state hidden"
+                    id="emptyState">
+
+                    <div class="empty-icon">
+
+                        <i class="fa-solid fa-bell"></i>
+
+                    </div>
+
+                    <h3>No Notifications</h3>
+
+                    <p>
+
+                        There are currently no system alerts,
+                        driver activities or reports to review.
+
+                    </p>
+
+                </div>
+
+                <!-- Notifications List -->
+
+                <div
+                    class="notifications-list"
+                    id="notificationsList">
+
+                    <!-- Notification Card -->
+
+                    <div
+                        class="notification-card unread"
+                        data-category="alert">
+
+                        <div class="notification-icon alert">
+
+                            <i class="fa-solid fa-user-plus"></i>
+
+                        </div>
+
+                        <div class="notification-content">
+
+                            <div class="notification-top">
+
+                                <div>
+
+                                    <h4>
+
+                                        New Driver Registration
+
+                                        <span class="unread-dot"></span>
+
+                                    </h4>
+
+                                    <p>
+
+                                        A new driver has submitted a registration request.
+                                        Please review and verify the application.
+
+                                    </p>
+
+                                    <span class="time">
+
+                                        8 min ago
+
+                                    </span>
+
+                                </div>
+
+                                <div class="notification-actions">
+
+                                    <button class="mark-read-btn">
+
+                                        Review
+
+                                    </button>
+
+                                    <button class="delete-btn">
+
+                                        <i class="fa-solid fa-trash"></i>
+
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                            <span class="notification-tag alert">
+
+                                Alert
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Notification Card -->
+
+                    <div
+                        class="notification-card unread"
+                        data-category="alert">
+
+                        <div class="notification-icon alert">
+
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+
+                        </div>
+
+                        <div class="notification-content">
+
+                            <div class="notification-top">
+
+                                <div>
+
+                                    <h4>
+
+                                        Driver SOS Alert
+
+                                        <span class="unread-dot"></span>
+
+                                    </h4>
+
+                                    <p>
+
+                                        An SOS alert has been triggered by Driver Rahul
+                                        Sharma near NH-27. Immediate attention is required.
+
+                                    </p>
+
+                                    <span class="time">
+
+                                        15 min ago
+
+                                    </span>
+
+                                </div>
+
+                                <div class="notification-actions">
+
+                                    <button class="mark-read-btn">
+
+                                        View
+
+                                    </button>
+
+                                    <button class="delete-btn">
+
+                                        <i class="fa-solid fa-trash"></i>
+
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                            <span class="notification-tag alert">
+
+                                Alert
+
+                            </span>
+
+                        </div>
+
+                    </div>
+                                        <!-- Notification Card -->
+
+                    <div
+                        class="notification-card"
+                        data-category="report">
+
+                        <div class="notification-icon report">
+
+                            <i class="fa-solid fa-file-circle-check"></i>
+
+                        </div>
+
+                        <div class="notification-content">
+
+                            <div class="notification-top">
+
+                                <div>
+
+                                    <h4>
+
+                                        Incident Report Submitted
+
+                                    </h4>
+
+                                    <p>
+
+                                        Driver Aman Verma has submitted an incident report
+                                        regarding a minor vehicle breakdown. Please review
+                                        the report and take the necessary action.
+
+                                    </p>
+
+                                    <span class="time">
+
+                                        1 hour ago
+
+                                    </span>
+
+                                </div>
+
+                                <div class="notification-actions">
+
+                                    <button class="delete-btn">
+
+                                        <i class="fa-solid fa-trash"></i>
+
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                            <span class="notification-tag report">
+
+                                Report
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Notification Card -->
+
+                    <div
+                        class="notification-card unread"
+                        data-category="system">
+
+                        <div class="notification-icon system">
+
+                            <i class="fa-solid fa-car"></i>
+
+                        </div>
+
+                        <div class="notification-content">
+
+                            <div class="notification-top">
+
+                                <div>
+
+                                    <h4>
+
+                                        Vehicle Inspection Due
+
+                                        <span class="unread-dot"></span>
+
+                                    </h4>
+
+                                    <p>
+
+                                        Vehicle UP78 AB 4582 is scheduled for inspection
+                                        tomorrow. Please assign the maintenance team.
+
+                                    </p>
+
+                                    <span class="time">
+
+                                        3 hours ago
+
+                                    </span>
+
+                                </div>
+
+                                <div class="notification-actions">
+
+                                    <button class="mark-read-btn">
+
+                                        Assign
+
+                                    </button>
+
+                                    <button class="delete-btn">
+
+                                        <i class="fa-solid fa-trash"></i>
+
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                            <span class="notification-tag system">
+
+                                System
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Notification Card -->
+
+                    <div
+                        class="notification-card"
+                        data-category="system">
+
+                        <div class="notification-icon system">
+
+                            <i class="fa-solid fa-user-check"></i>
+
+                        </div>
+
+                        <div class="notification-content">
+
+                            <div class="notification-top">
+
+                                <div>
+
+                                    <h4>
+
+                                        Driver Verification Completed
+
+                                    </h4>
+
+                                    <p>
+
+                                        Driver Neha Singh has successfully completed
+                                        document verification and is now eligible for trip
+                                        assignments.
+
+                                    </p>
+
+                                    <span class="time">
+
+                                        Yesterday
+
+                                    </span>
+
+                                </div>
+
+                                <div class="notification-actions">
+
+                                    <button class="delete-btn">
+
+                                        <i class="fa-solid fa-trash"></i>
+
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                            <span class="notification-tag system">
+
+                                System
+
+                            </span>
+
+                        </div>
+
+                    </div>
+                                        <!-- Notification Card -->
+
+                    <div
+                        class="notification-card unread"
+                        data-category="system">
+
+                        <div class="notification-icon system">
+
+                            <i class="fa-solid fa-server"></i>
+
+                        </div>
+
+                        <div class="notification-content">
+
+                            <div class="notification-top">
+
+                                <div>
+
+                                    <h4>
+
+                                        Scheduled System Maintenance
+
+                                        <span class="unread-dot"></span>
+
+                                    </h4>
+
+                                    <p>
+
+                                        The RoadSafe AI platform will undergo scheduled
+                                        maintenance tonight from 12:00 AM to 01:00 AM.
+                                        Some services may be temporarily unavailable.
+
+                                    </p>
+
+                                    <span class="time">
+
+                                        Today
+
+                                    </span>
+
+                                </div>
+
+                                <div class="notification-actions">
+
+                                    <button class="mark-read-btn">
+
+                                        Acknowledge
+
+                                    </button>
+
+                                    <button class="delete-btn">
+
+                                        <i class="fa-solid fa-trash"></i>
+
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                            <span class="notification-tag system">
+
+                                System
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Notification Card -->
+
+                    <div
+                        class="notification-card"
+                        data-category="report">
+
+                        <div class="notification-icon report">
+
+                            <i class="fa-solid fa-chart-column"></i>
+
+                        </div>
+
+                        <div class="notification-content">
+
+                            <div class="notification-top">
+
+                                <div>
+
+                                    <h4>
+
+                                        Daily Analytics Report Generated
+
+                                    </h4>
+
+                                    <p>
+
+                                        Today's fleet performance report has been generated.
+                                        Review driver activity, safety score and trip summary.
+
+                                    </p>
+
+                                    <span class="time">
+
+                                        2 days ago
+
+                                    </span>
+
+                                </div>
+
+                                <div class="notification-actions">
+
+                                    <button class="delete-btn">
+
+                                        <i class="fa-solid fa-trash"></i>
+
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                            <span class="notification-tag report">
+
+                                Report
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<script src="../../public/js/dataService.js"></script>
+<script>
+fetch("../partials/sidebar.html")
+.then(res => res.text())
+.then(data => {
+    document.getElementById("sidebar-container").innerHTML = data;
+    if (typeof window.initSidebar === "function") window.initSidebar();
+});
+
+fetch("../partials/Topbar.html")
+.then(res => res.text())
+.then(data => {
+    document.getElementById("topbar").innerHTML = data;
+    if (typeof window.initTopbar === "function") window.initTopbar();
+});
+</script>
+
+<script src="../../public/js/sidebar.js"></script>
+<script src="../../public/js/Topbar.js"></script>
+<script src="../../public/js/common.js"></script>
+<script src="../../public/js/notifications.js"></script>
+</body>
+
+</html>

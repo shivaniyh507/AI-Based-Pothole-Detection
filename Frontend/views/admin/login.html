@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign In | RoadSafe AI Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../public/css/common.css">
+</head>
+<body>
+
+<svg style="display:none;">
+  <defs>
+    <symbol id="i-radio" viewBox="0 0 24 24"><path d="M4.93 19.07a10 10 0 0 1 0-14.14"/><path d="M7.76 16.24a6 6 0 0 1 0-8.49"/><circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></symbol>
+    <symbol id="i-spinner" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-9-9"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol>
+  </defs>
+</svg>
+
+<div class="auth-shell">
+
+  <div class="auth-hero">
+    <div class="auth-hero-brand">
+      <span class="brand-mark"><svg class="icon"><use href="#i-radio"/></svg></span>
+      <div class="brand-text">RoadSafe AI<span class="brand-sub">SMART MONITORING</span></div>
+    </div>
+
+    <div class="auth-hero-title">Monitor roads, prevent accidents, save lives.</div>
+    <div class="auth-hero-sub">AI-powered pothole detection and real-time road hazard monitoring system for safer journeys.</div>
+
+    <div class="auth-stats-grid">
+      <div class="auth-stat-card"><div class="auth-stat-num">12,480</div><div class="auth-stat-label">Roads Monitored</div></div>
+      <div class="auth-stat-card"><div class="auth-stat-num">94,320</div><div class="auth-stat-label">Potholes Detected</div></div>
+      <div class="auth-stat-card"><div class="auth-stat-num">3,200+</div><div class="auth-stat-label">Active Drivers</div></div>
+      <div class="auth-stat-card"><div class="auth-stat-num">98.4%</div><div class="auth-stat-label">Safety Score</div></div>
+    </div>
+  </div>
+
+  <div class="auth-form-panel">
+    <div class="auth-form-card">
+      <div class="auth-eyebrow">Welcome Back</div>
+      <h1 class="auth-form-title">Sign in to your account</h1>
+      <p class="auth-form-sub">Enter your credentials to access your dashboard.</p>
+
+      <form id="loginForm" data-redirect="../admin/dashboard.html">
+        <div class="field-group">
+          <label class="field-label" for="emailId">Email / ID</label>
+          <input type="text" class="field-input" id="emailId" placeholder="admin@roadsafe.ai" required>
+        </div>
+
+        <div class="field-row-between" style="margin-bottom:8px;">
+          <label class="field-label" for="password" style="margin-bottom:0;">Password</label>
+          <a href="forgot-password.html" class="link-accent">Forgot password?</a>
+        </div>
+        <div class="field-group">
+          <div class="input-with-icon">
+            <input type="password" class="field-input" id="password" placeholder="••••••••" required>
+            <button type="button" class="field-icon-btn" id="togglePassword" aria-label="Show password"><svg class="icon"><use href="#i-eye"/></svg></button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary btn-block" id="loginBtn" style="margin-top:8px;">
+          <span id="loginBtnText">Sign In</span>
+        </button>
+      </form>
+
+      <div class="auth-info-note" style="margin-top:22px;">
+        <svg class="icon"><use href="#i-shield"/></svg>
+        <span>Admin access is available with your official credentials. No role selection needed.</span>
+      </div>
+
+      <div class="auth-footer-links">Not an admin? <a href="../auth/login.html">Driver login</a></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span>Login successful — redirecting…</span></div>
+
+<script src="../../public/js/common.js"></script>
+<script src="../../public/js/login.js"></script>
+</body>
+</html>
