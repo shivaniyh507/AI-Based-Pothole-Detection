@@ -1,0 +1,17 @@
+[
+  {
+    "id": "ADM-001",
+    "fullName": "System Administrator",
+    "email": "admin@roadsafe.ai",
+    "password": "Admin@123",
+    "phone": "+91 98765 00000",
+    "employeeId": "EMP-ADM-001",
+    "department": "Operations",
+    "designation": "Super Administrator",
+    "role": "Super Admin",
+    "officeAddress": "RoadSafe AI HQ, Mumbai, Maharashtra 400001",
+    "permissions": ["read", "write", "manage users", "view reports", "system config", "delete"],
+    "status": "Active",
+    "avatar": ""
+  }
+]

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard | RoadSafe AI Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../public/css/common.css">
+<link rel="stylesheet" href="../../public/css/dashboard.css">
+<link rel="stylesheet" href="../../public/css/sidebar.css">
+<link rel="stylesheet" href="../../public/css/Topbar.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+<body data-title="Dashboard" data-subtitle="ADMIN DASHBOARD">
+
+<div class="page-layout">
+  <div id="sidebar-container"></div>
+
+  <div class="main-content">
+    <div id="topbar"></div>
+
+    <div class="page-body">
+      <div class="welcome-card">
+        <div class="welcome-title">Welcome back, Administrator 👋</div>
+        <div class="welcome-sub">Here's an overview of platform activity today.</div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon purple"><i class="fa-solid fa-users"></i></div>
+          <div class="stat-num">3,200+</div>
+          <div class="stat-label">Active Drivers</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon red"><i class="fa-solid fa-triangle-exclamation"></i></div>
+          <div class="stat-num">94,320</div>
+          <div class="stat-label">Potholes Detected</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green"><i class="fa-solid fa-road"></i></div>
+          <div class="stat-num">12,480</div>
+          <div class="stat-label">Roads Monitored</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon blue"><i class="fa-solid fa-chart-line"></i></div>
+          <div class="stat-num">98.4%</div>
+          <div class="stat-label">Safety Score</div>
+        </div>
+      </div>
+
+      <div class="dash-cards-row">
+        <div class="info-card">
+          <div class="section-eyebrow">
+            <span class="badge-icon"><i class="fa-solid fa-chart-simple"></i></span>
+            <h3>Recent System Activity</h3>
+          </div>
+          <div class="activity-item">
+            <span class="activity-dot success"></span>
+            <div>
+              <div class="activity-text">Admin session initialized</div>
+              <div class="activity-time">Just now</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <span class="activity-dot success"></span>
+            <div>
+              <div class="activity-text">AI Pothole Detection model active (v8.2)</div>
+              <div class="activity-time">5 mins ago</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="section-eyebrow">
+            <span class="badge-icon"><i class="fa-solid fa-bolt"></i></span>
+            <h3>Quick Actions</h3>
+          </div>
+          <a href="reports.html" class="quick-action-btn">
+            <span class="quick-action-icon"><i class="fa-solid fa-file-lines"></i></span>
+            <span class="quick-action-text">Review reports</span>
+          </a>
+          <a href="settings.html" class="quick-action-btn">
+            <span class="quick-action-icon"><i class="fa-solid fa-gear"></i></span>
+            <span class="quick-action-text">Review system settings</span>
+          </a>
+          <a href="notifications.html" class="quick-action-btn">
+            <span class="quick-action-icon"><i class="fa-solid fa-bell"></i></span>
+            <span class="quick-action-text">View admin notifications</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="../../public/js/dataService.js"></script>
+<script>
+fetch("../partials/sidebar.html")
+.then(res => res.text())
+.then(data => {
+    document.getElementById("sidebar-container").innerHTML = data;
+    if (typeof window.initSidebar === "function") window.initSidebar();
+});
+
+fetch("../partials/Topbar.html")
+.then(res => res.text())
+.then(data => {
+    document.getElementById("topbar").innerHTML = data;
+    if (typeof window.initTopbar === "function") window.initTopbar();
+});
+</script>
+
+<script src="../../public/js/sidebar.js"></script>
+<script src="../../public/js/Topbar.js"></script>
+<script src="../../public/js/common.js"></script>
+
+</body>
+</html>
