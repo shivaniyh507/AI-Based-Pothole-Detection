@@ -1,0 +1,339 @@
+/* ==========================================================================
+   ROADIES - Live Map & Navigation System (live-map.css)
+   Includes Floating Controls, Follow Me Mode, Route Info Cards, & Fallback Styling
+   ========================================================================== */
+
+/* Main Live Map Layout Grid */
+.live-map-grid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.map-primary-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.map-secondary-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Route Planner Control Bar */
+.route-planner-bar {
+  margin-bottom: 20px;
+  padding: 20px;
+}
+
+.route-inputs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 180px;
+  gap: 16px;
+  align-items: end;
+}
+
+.route-input-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 6px;
+}
+
+.input-with-action {
+  display: flex;
+  gap: 8px;
+}
+
+.input-with-action input {
+  flex: 1;
+}
+
+/* Location Permission Warning Banner */
+.location-banner {
+  background-color: #FEF3C7;
+  border: 1px solid #F59E0B;
+  color: #92400E;
+  padding: 12px 18px;
+  border-radius: var(--radius-inner);
+  font-size: 13px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.location-banner button {
+  background: transparent;
+  border: none;
+  color: #92400E;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Map Card Container & Canvas */
+.map-card-container {
+  position: relative;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.live-map-viewport {
+  width: 100%;
+  height: 520px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--border-light);
+  background-color: #E2E8F0;
+  position: relative;
+}
+
+/* Floating Map Control Buttons Overlay (Recenter, Follow Me, Layer) */
+.map-floating-controls {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.map-control-btn {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  color: var(--text-dark);
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  transition: var(--transition-fast);
+}
+
+.map-control-btn:hover {
+  background-color: #FFFFFF;
+  color: var(--primary-purple);
+  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.15);
+  transform: translateY(-1px);
+}
+
+.map-control-btn.active {
+  background: var(--gradient-purple);
+  color: #FFFFFF;
+  border-color: transparent;
+}
+
+.map-control-btn.active i {
+  color: #FFFFFF;
+}
+
+/* GPS User Pulse Marker Animation (Leaflet & Canvas) */
+.user-pulse-marker {
+  position: relative;
+  width: 20px;
+  height: 20px;
+}
+
+.user-pulse-dot {
+  width: 16px;
+  height: 16px;
+  background-color: #3B82F6;
+  border: 3px solid #FFFFFF;
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.8);
+  z-index: 2;
+}
+
+.user-pulse-ring {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #3B82F6;
+  border-radius: 50%;
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  opacity: 0.8;
+  animation: pulse-ring 1.8s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.4);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+/* Route Loading Spinner Overlay */
+.route-loading-overlay {
+  position: absolute;
+  top: 76px;
+  left: 20px;
+  right: 20px;
+  bottom: 20px;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(8px);
+  z-index: 150;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  color: var(--text-dark);
+  font-weight: 600;
+}
+
+.spinner-circle {
+  width: 44px;
+  height: 44px;
+  border: 4px solid var(--bg-purple-light);
+  border-top-color: var(--primary-purple);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Trip Summary Grid Card */
+.trip-summary-card {
+  padding: 18px 24px;
+}
+
+.trip-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.trip-metric {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.trip-metric i {
+  font-size: 22px;
+  color: var(--primary-purple);
+  width: 42px;
+  height: 42px;
+  background-color: var(--bg-purple-light);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.trip-metric span {
+  font-size: 12px;
+  color: var(--text-muted);
+  display: block;
+}
+
+.trip-metric strong {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+/* Secondary Column AI & Environment Widgets */
+.ai-recommendation-content {
+  background-color: var(--bg-main);
+  padding: 14px 16px;
+  border-radius: var(--radius-inner);
+  border: 1px solid var(--border-light);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-dark);
+}
+
+.env-widgets-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.env-widget {
+  background-color: var(--bg-main);
+  padding: 12px 14px;
+  border-radius: var(--radius-inner);
+  border: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.env-widget i {
+  font-size: 20px;
+}
+
+.env-widget strong {
+  font-size: 13px;
+  display: block;
+  color: var(--text-dark);
+}
+
+.env-widget p {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.legend-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: var(--text-gray);
+  font-weight: 500;
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.legend-dot.red { background-color: var(--text-danger); }
+.legend-dot.orange { background-color: var(--text-warning); }
+.legend-dot.green { background-color: var(--text-success); }
+.legend-dot.purple { background-color: var(--primary-purple); }
+
+/* Responsive Grid Rules */
+@media (max-width: 1100px) {
+  .live-map-grid {
+    grid-template-columns: 1fr;
+  }
+  .route-inputs-grid {
+    grid-template-columns: 1fr;
+  }
+  .trip-summary-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

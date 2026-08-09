@@ -1,0 +1,144 @@
+/* ==========================================================================
+   RoadSafe AI - Scan Road Page Styles
+   ========================================================================== */
+
+.scan-grid {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.upload-panel-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.drop-zone {
+  border: 2px dashed var(--primary-purple);
+  border-radius: var(--radius-inner);
+  background-color: var(--bg-main);
+  padding: 36px 20px;
+  text-align: center;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-normal);
+  min-height: 340px;
+  position: relative;
+}
+
+.drop-zone:hover {
+  background-color: var(--bg-purple-soft);
+}
+
+.drop-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.upload-icon-wrapper {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-color: var(--bg-purple-light);
+  color: var(--primary-purple);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  margin-bottom: 6px;
+}
+
+.drop-placeholder h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.drop-placeholder p {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.preview-media {
+  max-width: 100%;
+  max-height: 320px;
+  border-radius: 12px;
+  display: none;
+  object-fit: contain;
+}
+
+/* Result Panel Styling */
+.result-panel-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.result-details {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.result-status-block {
+  background-color: var(--bg-main);
+  padding: 14px;
+  border-radius: var(--radius-inner);
+  border: 1px solid var(--border-light);
+}
+
+.status-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.result-status-block h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--primary-purple);
+}
+
+.recommendation-box {
+  background-color: var(--bg-main);
+  padding: 14px;
+  border-radius: var(--radius-inner);
+  border: 1px solid var(--border-light);
+}
+
+.recommendation-box p {
+  font-size: 12px;
+  color: var(--text-gray);
+  margin-top: 4px;
+  line-height: 1.4;
+}
+
+.result-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.bottom-scan-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+}
+
+.quick-actions-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
