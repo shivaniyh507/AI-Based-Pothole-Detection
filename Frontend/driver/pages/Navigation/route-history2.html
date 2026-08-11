@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Reports | RoadSafe AI</title>
+  <title>Route History | RoadSafe AI</title>
 
   <!-- Typography & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,9 +12,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
   <!-- App Stylesheets -->
-  <link rel="stylesheet" href="../css/common2.css" />
-  <link rel="stylesheet" href="../css/reports2.css" />
-  <link rel="stylesheet" href="../css/responsive2.css" />
+  <link rel="stylesheet" href="../../css/common2.css" />
+  <link rel="stylesheet" href="../../css/reports2.css" />
+  <link rel="stylesheet" href="../../css/responsive2.css" />
 </head>
 <body>
 
@@ -23,7 +23,7 @@
   <!-- Universal Primary Sidebar Navigation -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
-      <a href="dashboard2.html" class="brand">
+      <a href="../router/dashboard2.html" class="brand">
         <div class="brand-mark"><i class="fa-solid fa-shield-halved"></i></div>
         <div class="brand-info">
           <h1>RoadSafe AI</h1>
@@ -33,12 +33,12 @@
     </div>
 
     <nav class="sidebar-nav" aria-label="Main Navigation">
-      <a class="nav-item" href="dashboard2.html" data-page="dashboard"><i class="fa-solid fa-gauge-high"></i><span>Dashboard</span></a>
+      <a class="nav-item" href="../router/dashboard2.html" data-page="dashboard"><i class="fa-solid fa-gauge-high"></i><span>Dashboard</span></a>
       <a class="nav-item" href="live-map2.html" data-page="live-map"><i class="fa-solid fa-compass"></i><span>Map View</span></a>
       <a class="nav-item" href="route-planner2.html" data-page="route-planner"><i class="fa-solid fa-route"></i><span>Route Planner</span></a>
-      <a class="nav-item" href="route-history2.html" data-page="route-history"><i class="fa-solid fa-clock-rotate-left"></i><span>Route History</span></a>
-      <a class="nav-item" href="scan-road2.html" data-page="scan-road"><i class="fa-solid fa-camera"></i><span>Scan Road</span></a>
-      <a class="nav-item active" href="my-reports2.html" data-page="my-reports"><i class="fa-solid fa-file-lines"></i><span>My Reports</span></a>
+      <a class="nav-item active" href="route-history2.html" data-page="route-history"><i class="fa-solid fa-clock-rotate-left"></i><span>Route History</span></a>
+      <a class="nav-item" href="../router/scan-road2.html" data-page="scan-road"><i class="fa-solid fa-camera"></i><span>Scan Road</span></a>
+      <a class="nav-item" href="../router/my-reports2.html" data-page="my-reports"><i class="fa-solid fa-file-lines"></i><span>My Reports</span></a>
     </nav>
 
     <div class="sidebar-footer">
@@ -58,8 +58,8 @@
     <!-- Common Premium Topbar Header -->
     <header class="topbar">
       <div class="topbar-title-section">
-        <h1 class="page-title">My Submitted Pothole Reports 📋</h1>
-        <p class="page-subtitle">Track community report verification statuses, repair schedules, & AI confidence ratings</p>
+        <h1 class="page-title">Route History Logs</h1>
+        <p class="page-subtitle">Review past trip metrics, potholes encountered vs. avoided, & safety scores</p>
       </div>
 
       <div class="topbar-actions">
@@ -72,32 +72,21 @@
     </header>
 
     <section class="panel-card">
-      <div class="reports-filter-bar">
-        <div class="reports-tabs">
-          <button class="report-tab active" data-status="all">All Reports</button>
-          <button class="report-tab" data-status="unrepaired">Unrepaired</button>
-          <button class="report-tab" data-status="scheduled">Scheduled</button>
-          <button class="report-tab" data-status="inspection">Under Inspection</button>
-        </div>
-
-        <button id="exportCsvBtn" class="btn btn-sm btn-purple-soft">
-          <i class="fa-solid fa-download"></i> Export CSV
-        </button>
-      </div>
-
       <div class="table-container">
         <table class="data-table">
           <thead>
             <tr>
-              <th>Report ID</th>
-              <th>Location Address</th>
-              <th>Severity Level</th>
-              <th>Municipal Status</th>
-              <th>Report Date</th>
+              <th>Trip ID</th>
+              <th>Date & Time</th>
+              <th>Origin → Destination</th>
+              <th>Distance</th>
+              <th>Hazards Avoided</th>
+              <th>Safety Score</th>
+              <th>Action</th>
             </tr>
           </thead>
-          <tbody id="reportsTableBody">
-            <!-- Dynamic JS render -->
+          <tbody id="historyTableBody">
+            <!-- Dynamic History Rows Rendered via JS -->
           </tbody>
         </table>
       </div>
@@ -115,7 +104,7 @@
       <input type="text" id="commandPaletteInput" placeholder="Type a command or search RoadSafe AI..." />
     </div>
     <div class="command-palette-list">
-      <a href="dashboard2.html" class="command-item">
+      <a href="../router/dashboard2.html" class="command-item">
         <i class="fa-solid fa-gauge-high"></i> Go to Dashboard <span class="command-shortcut">Jump</span>
       </a>
       <a href="live-map2.html" class="command-item">
@@ -124,10 +113,10 @@
       <a href="route-planner2.html" class="command-item">
         <i class="fa-solid fa-route"></i> AI Route Planner <span class="command-shortcut">Route</span>
       </a>
-      <a href="scan-road2.html" class="command-item">
+      <a href="../router/scan-road2.html" class="command-item">
         <i class="fa-solid fa-camera"></i> Scan Road with AI <span class="command-shortcut">Action</span>
       </a>
-      <a href="my-reports2.html" class="command-item">
+      <a href="../router/my-reports2.html" class="command-item">
         <i class="fa-solid fa-file-lines"></i> View My Pothole Reports <span class="command-shortcut">Reports</span>
       </a>
     </div>
@@ -135,7 +124,12 @@
 </div>
 
 <!-- Scripts -->
-<script src="../js/common2.js"></script>
-<script src="../js/reports2.js"></script>
+<script src="../../js/common2.js"></script>
+<script src="../../js/route-history2.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    RouteHistoryView.init();
+  });
+</script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI Route Planner | RoadSafe AI</title>
+  <title>My Reports | RoadSafe AI</title>
 
   <!-- Typography & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,14 +11,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
-  <!-- Leaflet Map CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-
   <!-- App Stylesheets -->
-  <link rel="stylesheet" href="../css/common2.css" />
-  <link rel="stylesheet" href="../css/live-map2.css" />
-  <link rel="stylesheet" href="../css/navigation-maps2.css" />
-  <link rel="stylesheet" href="../css/responsive2.css" />
+  <link rel="stylesheet" href="../../css/common2.css" />
+  <link rel="stylesheet" href="../../css/reports2.css" />
+  <link rel="stylesheet" href="../../css/responsive2.css" />
 </head>
 <body>
 
@@ -38,11 +34,11 @@
 
     <nav class="sidebar-nav" aria-label="Main Navigation">
       <a class="nav-item" href="dashboard2.html" data-page="dashboard"><i class="fa-solid fa-gauge-high"></i><span>Dashboard</span></a>
-      <a class="nav-item" href="live-map2.html" data-page="live-map"><i class="fa-solid fa-compass"></i><span>Map View</span></a>
-      <a class="nav-item active" href="route-planner2.html" data-page="route-planner"><i class="fa-solid fa-route"></i><span>Route Planner</span></a>
-      <a class="nav-item" href="route-history2.html" data-page="route-history"><i class="fa-solid fa-clock-rotate-left"></i><span>Route History</span></a>
+      <a class="nav-item" href="../Navigation/live-map2.html" data-page="live-map"><i class="fa-solid fa-compass"></i><span>Map View</span></a>
+      <a class="nav-item" href="../Navigation/route-planner2.html" data-page="route-planner"><i class="fa-solid fa-route"></i><span>Route Planner</span></a>
+      <a class="nav-item" href="../Navigation/route-history2.html" data-page="route-history"><i class="fa-solid fa-clock-rotate-left"></i><span>Route History</span></a>
       <a class="nav-item" href="scan-road2.html" data-page="scan-road"><i class="fa-solid fa-camera"></i><span>Scan Road</span></a>
-      <a class="nav-item" href="my-reports2.html" data-page="my-reports"><i class="fa-solid fa-file-lines"></i><span>My Reports</span></a>
+      <a class="nav-item active" href="my-reports2.html" data-page="my-reports"><i class="fa-solid fa-file-lines"></i><span>My Reports</span></a>
     </nav>
 
     <div class="sidebar-footer">
@@ -62,8 +58,8 @@
     <!-- Common Premium Topbar Header -->
     <header class="topbar">
       <div class="topbar-title-section">
-        <h1 class="page-title">AI Pothole Avoidance Route Planner 🛣️</h1>
-        <p class="page-subtitle">Compare safest vs. fastest navigation corridors with real-time hazard scores</p>
+        <h1 class="page-title">My Submitted Reports</h1>
+        <p class="page-subtitle">Track community report verification statuses, repair schedules, & AI confidence ratings</p>
       </div>
 
       <div class="topbar-actions">
@@ -75,31 +71,38 @@
       </div>
     </header>
 
-    <section class="panel-card route-planner-bar">
-      <div class="route-inputs-grid">
-        <div class="route-input-group">
-          <label for="originInput"><i class="fa-solid fa-location-dot text-purple"></i> Origin</label>
-          <input type="text" id="originInput" class="form-control" value="Panki Industrial Area" />
+    <section class="panel-card">
+      <div class="reports-filter-bar">
+        <div class="reports-tabs">
+          <button class="report-tab active" data-status="all">All Reports</button>
+          <button class="report-tab" data-status="unrepaired">Unrepaired</button>
+          <button class="report-tab" data-status="scheduled">Scheduled</button>
+          <button class="report-tab" data-status="inspection">Under Inspection</button>
         </div>
-        <div class="route-input-group">
-          <label for="destInput"><i class="fa-solid fa-flag-checkered text-purple"></i> Destination</label>
-          <input type="text" id="destInput" class="form-control" value="IIT Kanpur Campus" />
-        </div>
-        <div class="route-action-group">
-          <button id="calcRouteBtn" class="btn btn-purple-gradient btn-full">
-            <i class="fa-solid fa-rotate-right"></i> Recalculate
-          </button>
-        </div>
+
+        <button class="btn btn-sm btn-purple-soft" onclick="MyPotholeReports.exportCSV()">
+          <i class="fa-solid fa-download"></i> Export CSV
+        </button>
+      </div>
+
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Report ID</th>
+              <th>Location Address</th>
+              <th>Severity Level</th>
+              <th>Municipal Status</th>
+              <th>Report Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="reportsTableBody">
+            <!-- Dynamic Report Rows Rendered via JS -->
+          </tbody>
+        </table>
       </div>
     </section>
-
-    <div class="route-cards-grid" id="routeOptionsContainer" style="margin-bottom: 24px;">
-      <!-- Dynamic Route Cards rendered via JS -->
-    </div>
-
-    <article class="map-wrapper">
-      <div id="map"></div>
-    </article>
 
   </main>
 </div>
@@ -116,10 +119,10 @@
       <a href="dashboard2.html" class="command-item">
         <i class="fa-solid fa-gauge-high"></i> Go to Dashboard <span class="command-shortcut">Jump</span>
       </a>
-      <a href="live-map2.html" class="command-item">
+      <a href="../Navigation/live-map2.html" class="command-item">
         <i class="fa-solid fa-compass"></i> Open Live Map Navigation <span class="command-shortcut">Map</span>
       </a>
-      <a href="route-planner2.html" class="command-item">
+      <a href="../Navigation/route-planner2.html" class="command-item">
         <i class="fa-solid fa-route"></i> AI Route Planner <span class="command-shortcut">Route</span>
       </a>
       <a href="scan-road2.html" class="command-item">
@@ -133,15 +136,11 @@
 </div>
 
 <!-- Scripts -->
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="../js/common2.js"></script>
-<script src="../js/pothole-data2.js"></script>
-<script src="../js/map-engine2.js"></script>
-<script src="../js/route-planner2.js"></script>
+<script src="../../js/common2.js"></script>
+<script src="../../js/reports2.js"></script>
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    MapEngine.init("map");
-    RoutePlanner.init();
+    MyPotholeReports.init();
   });
 </script>
 </body>

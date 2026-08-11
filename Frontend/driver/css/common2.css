@@ -48,6 +48,11 @@
   -webkit-font-smoothing: antialiased;
 }
 
+i, .fa, .fa-solid, .fa-regular, .fa-brands, [class*="fa-"] {
+  font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands", "FontAwesome", sans-serif !important;
+  font-style: normal;
+}
+
 body {
   background-color: var(--bg-main);
   color: var(--text-dark);

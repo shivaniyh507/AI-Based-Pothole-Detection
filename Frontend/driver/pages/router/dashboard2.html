@@ -15,9 +15,9 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
   <!-- App Stylesheets -->
-  <link rel="stylesheet" href="../css/common2.css" />
-  <link rel="stylesheet" href="../css/dashboard2.css" />
-  <link rel="stylesheet" href="../css/responsive2.css" />
+  <link rel="stylesheet" href="../../css/common2.css" />
+  <link rel="stylesheet" href="../../css/dashboard2.css" />
+  <link rel="stylesheet" href="../../css/responsive2.css" />
 </head>
 <body>
 
@@ -37,9 +37,9 @@
 
     <nav class="sidebar-nav" aria-label="Main Navigation">
       <a class="nav-item active" href="dashboard2.html" data-page="dashboard"><i class="fa-solid fa-gauge-high"></i><span>Dashboard</span></a>
-      <a class="nav-item" href="live-map2.html" data-page="live-map"><i class="fa-solid fa-compass"></i><span>Map View</span></a>
-      <a class="nav-item" href="route-planner2.html" data-page="route-planner"><i class="fa-solid fa-route"></i><span>Route Planner</span></a>
-      <a class="nav-item" href="route-history2.html" data-page="route-history"><i class="fa-solid fa-clock-rotate-left"></i><span>Route History</span></a>
+      <a class="nav-item" href="../Navigation/live-map2.html" data-page="live-map"><i class="fa-solid fa-compass"></i><span>Map View</span></a>
+      <a class="nav-item" href="../Navigation/route-planner2.html" data-page="route-planner"><i class="fa-solid fa-route"></i><span>Route Planner</span></a>
+      <a class="nav-item" href="../Navigation/route-history2.html" data-page="route-history"><i class="fa-solid fa-clock-rotate-left"></i><span>Route History</span></a>
       <a class="nav-item" href="scan-road2.html" data-page="scan-road"><i class="fa-solid fa-camera"></i><span>Scan Road</span></a>
       <a class="nav-item" href="my-reports2.html" data-page="my-reports"><i class="fa-solid fa-file-lines"></i><span>My Reports</span></a>
     </nav>
@@ -61,7 +61,7 @@
     <!-- Common Premium Topbar Header -->
     <header class="topbar">
       <div class="topbar-title-section">
-        <h1 class="page-title">Driver Dashboard Overview 🚀</h1>
+        <h1 class="page-title">Driver Dashboard Overview</h1>
         <p class="page-subtitle">Real-time driving safety telemetry, AI pothole evaluation, & route recommendations</p>
       </div>
 
@@ -81,7 +81,7 @@
         <h2>Kanpur Smart City Corridor Active</h2>
         <p>RoadSafe AI is actively monitoring road conditions and guiding you away from 12 severe pothole hazard clusters.</p>
         <div class="hero-banner-actions">
-          <a href="live-map2.html" class="btn btn-purple-gradient">
+          <a href="../Navigation/live-map2.html" class="btn btn-purple-gradient">
             <i class="fa-solid fa-compass"></i> Open Live Map
           </a>
           <a href="scan-road2.html" class="btn btn-secondary">
@@ -108,7 +108,7 @@
       </div>
 
       <div class="context-pill">
-        <i class="fa-solid fa-car text-info"></i>
+        <i class="fa-solid fa-car-side text-purple"></i>
         <div>
           <span>Corridor Traffic</span>
           <strong>Moderate Flow (24 km/h)</strong>
@@ -116,7 +116,7 @@
       </div>
 
       <div class="context-pill">
-        <i class="fa-solid fa-satellite-dish text-success"></i>
+        <i class="fa-solid fa-wifi text-success"></i>
         <div>
           <span>AI Telemetry Sync</span>
           <strong>Connected (12ms)</strong>
@@ -124,52 +124,54 @@
       </div>
     </section>
 
-    <!-- 4 Overview Metric Cards -->
+    <!-- 4 Key Telemetry Metrics Grid -->
     <section class="stats-grid">
-      <article class="stat-card">
+      <div class="stat-card">
         <div class="stat-icon"><i class="fa-solid fa-route"></i></div>
         <div class="stat-info">
           <span>Total Distance Driven</span>
-          <strong>142 km</strong>
+          <strong id="statDistance">142 km</strong>
         </div>
-      </article>
+      </div>
 
-      <article class="stat-card">
+      <div class="stat-card">
         <div class="stat-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
         <div class="stat-info">
           <span>Potholes Avoided</span>
-          <strong>18 Hazards</strong>
+          <strong id="statAvoided">18 Hazards</strong>
         </div>
-      </article>
+      </div>
 
-      <article class="stat-card">
-        <div class="stat-icon"><i class="fa-solid fa-camera"></i></div>
+      <div class="stat-card">
+        <div class="stat-icon"><i class="fa-solid fa-camera-retro"></i></div>
         <div class="stat-info">
           <span>AI Scans Submitted</span>
-          <strong>12 Scans</strong>
+          <strong id="statScans">12 Scans</strong>
         </div>
-      </article>
+      </div>
 
-      <article class="stat-card">
-        <div class="stat-icon"><i class="fa-solid fa-shield-check"></i></div>
+      <div class="stat-card">
+        <div class="stat-icon"><i class="fa-solid fa-shield-virus"></i></div>
         <div class="stat-info">
           <span>Safety Index</span>
-          <strong>94% Safe</strong>
+          <strong id="statSafetyIndex">94% Safe</strong>
         </div>
-      </article>
+      </div>
     </section>
 
-    <!-- Dashboard Main 2-Column Grid -->
+    <!-- 2-Column Dashboard Work Area -->
     <div class="dashboard-main-grid">
 
-      <!-- Left Column: Map Overview & Driving Guidelines -->
+      <!-- Left Primary Column -->
       <div class="dashboard-primary-column">
 
-        <!-- Kanpur Corridor Map Card -->
+        <!-- Live Corridor Map Widget -->
         <article class="panel-card map-panel-card">
           <div class="panel-header-bar">
             <h2><i class="fa-solid fa-map-location-dot"></i> Live Pothole Hazard Corridor Map</h2>
-            <a href="live-map2.html" class="btn btn-sm btn-purple-soft">Full Map View <i class="fa-solid fa-arrow-right"></i></a>
+            <a href="../Navigation/live-map2.html" class="btn btn-sm btn-purple-soft">
+              Full Map View <i class="fa-solid fa-arrow-right"></i>
+            </a>
           </div>
           <div id="dashboardMap" class="map-viewport"></div>
         </article>
@@ -248,7 +250,7 @@
             <h2><i class="fa-solid fa-route"></i> Quick Routes</h2>
           </div>
 
-          <div class="route-option-card active" onclick="location.href='route-planner2.html'">
+          <div class="route-option-card active" onclick="location.href='../Navigation/route-planner2.html'">
             <div class="route-option-header">
               <strong>Civil Lines → IIT Kanpur</strong>
               <span class="badge-tag badge-success-soft">Safest</span>
@@ -256,7 +258,7 @@
             <p>12.4 km • 24 min • 0 Potholes</p>
           </div>
 
-          <div class="route-option-card" onclick="location.href='route-planner2.html'">
+          <div class="route-option-card" onclick="location.href='../Navigation/route-planner2.html'">
             <div class="route-option-header">
               <strong>Kanpur Central → Swaroop Nagar</strong>
               <span class="badge-tag badge-warning-soft">Balanced</span>
@@ -306,10 +308,10 @@
       <a href="dashboard2.html" class="command-item">
         <i class="fa-solid fa-gauge-high"></i> Go to Dashboard <span class="command-shortcut">Jump</span>
       </a>
-      <a href="live-map2.html" class="command-item">
+      <a href="../Navigation/live-map2.html" class="command-item">
         <i class="fa-solid fa-compass"></i> Open Live Map Navigation <span class="command-shortcut">Map</span>
       </a>
-      <a href="route-planner2.html" class="command-item">
+      <a href="../Navigation/route-planner2.html" class="command-item">
         <i class="fa-solid fa-route"></i> AI Route Planner <span class="command-shortcut">Route</span>
       </a>
       <a href="scan-road2.html" class="command-item">
@@ -324,7 +326,7 @@
 
 <!-- Scripts -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="../js/common2.js"></script>
-<script src="../js/dashboard2.js"></script>
+<script src="../../js/common2.js"></script>
+<script src="../../js/dashboard2.js"></script>
 </body>
 </html>
