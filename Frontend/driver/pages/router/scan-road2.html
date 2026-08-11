@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scan Road | RoadSafe AI</title>
+
+  <!-- Typography & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- App Stylesheets -->
+  <link rel="stylesheet" href="../../css/common2.css" />
+  <link rel="stylesheet" href="../../css/scan2.css" />
+  <link rel="stylesheet" href="../../css/responsive2.css" />
+</head>
+<body>
+
+<div class="app-shell">
+
+  <!-- Universal Primary Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <a href="dashboard2.html" class="brand">
+        <div class="brand-mark"><i class="fa-solid fa-shield-halved"></i></div>
+        <div class="brand-info">
+          <h1>RoadSafe AI</h1>
+          <p>Driver Safety System</p>
+        </div>
+      </a>
+    </div>
+
+    <nav class="sidebar-nav" aria-label="Main Navigation">
+      <a class="nav-item" href="dashboard2.html" data-page="dashboard"><i class="fa-solid fa-gauge-high"></i><span>Dashboard</span></a>
+      <a class="nav-item" href="../Navigation/live-map2.html" data-page="live-map"><i class="fa-solid fa-compass"></i><span>Map View</span></a>
+      <a class="nav-item" href="../Navigation/route-planner2.html" data-page="route-planner"><i class="fa-solid fa-route"></i><span>Route Planner</span></a>
+      <a class="nav-item" href="../Navigation/route-history2.html" data-page="route-history"><i class="fa-solid fa-clock-rotate-left"></i><span>Route History</span></a>
+      <a class="nav-item active" href="scan-road2.html" data-page="scan-road"><i class="fa-solid fa-camera"></i><span>Scan Road</span></a>
+      <a class="nav-item" href="my-reports2.html" data-page="my-reports"><i class="fa-solid fa-file-lines"></i><span>My Reports</span></a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="status-card">
+        <span class="dot"></span>
+        <div>
+          <strong>GPS Telemetry Active</strong>
+          <p>RoadSafe AI Connected</p>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Shell -->
+  <main class="main-content">
+
+    <!-- Common Premium Topbar Header -->
+    <header class="topbar">
+      <div class="topbar-title-section">
+        <h1 class="page-title">Scan Road Surface</h1>
+        <p class="page-subtitle">Upload road images or activate dashcam stream for automated YOLO v8 pothole detection</p>
+      </div>
+
+      <div class="topbar-actions">
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="globalSearchInput" placeholder="Search destination, road ID, or report..." />
+          <span class="search-shortcut-hint">Ctrl K</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Scan Workspace Grid -->
+    <div class="scan-workspace-grid">
+
+      <!-- Left Column: Upload Dropzone & AI Preview -->
+      <div class="scan-primary-column">
+
+        <article class="panel-card">
+          <div class="panel-header-bar">
+            <h2><i class="fa-solid fa-cloud-arrow-up"></i> Upload Road Photo or Dashcam Snapshot</h2>
+            <span class="badge-tag badge-purple-soft">YOLO v8 Model Ready</span>
+          </div>
+
+          <!-- Drag and Drop Zone -->
+          <div class="dropzone-area" id="dropzone" onclick="document.getElementById('fileInput').click()">
+            <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="PotholeScanner.handleFileSelect(event)" />
+            <div class="dropzone-content" id="dropzoneContent">
+              <div class="dropzone-icon"><i class="fa-solid fa-camera"></i></div>
+              <h3>Drag & Drop Road Photo Here</h3>
+              <p>Supports PNG, JPG, JPEG (Max 15MB)</p>
+              <button type="button" class="btn btn-purple-gradient btn-sm" style="margin-top: 12px;">
+                <i class="fa-solid fa-folder-open"></i> Browse File
+              </button>
+            </div>
+
+            <!-- Image Preview Box -->
+            <div class="image-preview-container" id="previewContainer" style="display: none;">
+              <img id="imagePreview" src="" alt="Road Pothole Scan Preview" />
+              <div class="scan-overlay-bounding-box" id="boundingBox">
+                <span class="bounding-label">Pothole: 97.4% Conf (High Severity)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Control Bar -->
+          <div class="scan-actions-bar" style="margin-top: 20px; display: flex; gap: 14px; justify-content: flex-end;">
+            <button id="resetScanBtn" class="btn btn-secondary" onclick="PotholeScanner.resetScan()" style="display: none;">
+              <i class="fa-solid fa-arrow-rotate-left"></i> Reset Scan
+            </button>
+            <button id="analyzeBtn" class="btn btn-purple-gradient" onclick="PotholeScanner.analyzeImage()" disabled>
+              <i class="fa-solid fa-microchip"></i> Run AI Detection Analysis
+            </button>
+          </div>
+        </article>
+
+        <!-- Analysis Results Card (Hidden initially) -->
+        <article class="panel-card" id="resultsCard" style="display: none; margin-top: 24px;">
+          <div class="panel-header-bar">
+            <h2><i class="fa-solid fa-square-poll-vertical"></i> AI Analysis Diagnostic Report</h2>
+            <span class="badge-tag badge-danger-soft">High Severity Cavity</span>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px;">
+            <div style="background: #f8fafc; padding: 14px; border-radius: 12px; border: 1px solid var(--border-color);">
+              <span style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 600;">Est. Depth</span>
+              <strong style="display: block; font-size: 20px; color: var(--text-dark); margin-top: 4px;" id="resDepth">14.5 cm</strong>
+            </div>
+
+            <div style="background: #f8fafc; padding: 14px; border-radius: 12px; border: 1px solid var(--border-color);">
+              <span style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 600;">Est. Diameter</span>
+              <strong style="display: block; font-size: 20px; color: var(--text-dark); margin-top: 4px;" id="resWidth">65 cm</strong>
+            </div>
+
+            <div style="background: #f8fafc; padding: 14px; border-radius: 12px; border: 1px solid var(--border-color);">
+              <span style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 600;">AI Confidence</span>
+              <strong style="display: block; font-size: 20px; color: var(--purple-primary); margin-top: 4px;" id="resConfidence">97.4%</strong>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 14px; justify-content: flex-end;">
+            <button class="btn btn-purple-gradient" onclick="PotholeScanner.submitReport()">
+              <i class="fa-solid fa-paper-plane"></i> Submit Official Pothole Report
+            </button>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- Right Column: AI Telemetry & Guidelines -->
+      <div class="scan-secondary-column">
+
+        <!-- AI Detection Telemetry -->
+        <article class="panel-card">
+          <div class="panel-header-bar">
+            <h2><i class="fa-solid fa-microchip"></i> AI Detection Telemetry</h2>
+          </div>
+          <ul class="telemetry-list">
+            <li class="telemetry-item">
+              <i class="fa-solid fa-circle-check text-purple"></i>
+              <div>
+                <span>GPS Tag</span>
+                <strong id="scanGpsCoords">26.4524° N, 80.3345° E</strong>
+              </div>
+            </li>
+            <li class="telemetry-item">
+              <i class="fa-solid fa-circle-check text-purple"></i>
+              <div>
+                <span>Model Status</span>
+                <strong>YOLO v8 Weight Model Loaded</strong>
+              </div>
+            </li>
+            <li class="telemetry-item">
+              <i class="fa-solid fa-circle-check text-purple"></i>
+              <div>
+                <span>Surface Classification</span>
+                <strong>Asphalt Pavement</strong>
+              </div>
+            </li>
+          </ul>
+        </article>
+
+        <!-- Scanning Best Practices -->
+        <article class="panel-card" style="margin-top: 24px;">
+          <div class="panel-header-bar">
+            <h2><i class="fa-solid fa-lightbulb"></i> Best Practices</h2>
+          </div>
+          <p style="font-size: 12px; color: var(--text-muted); line-height: 1.6;">
+            For maximum AI detection accuracy, capture road images in daylight with clear angle showing the pothole depth boundaries.
+          </p>
+        </article>
+
+      </div>
+
+    </div>
+
+  </main>
+</div>
+
+<!-- Command Palette Modal (Ctrl+K) -->
+<div id="commandPaletteModal" class="command-palette-modal">
+  <div id="commandPaletteBackdrop" class="command-palette-backdrop"></div>
+  <div class="command-palette-card">
+    <div class="command-palette-header">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" id="commandPaletteInput" placeholder="Type a command or search RoadSafe AI..." />
+    </div>
+    <div class="command-palette-list">
+      <a href="dashboard2.html" class="command-item">
+        <i class="fa-solid fa-gauge-high"></i> Go to Dashboard <span class="command-shortcut">Jump</span>
+      </a>
+      <a href="../Navigation/live-map2.html" class="command-item">
+        <i class="fa-solid fa-compass"></i> Open Live Map Navigation <span class="command-shortcut">Map</span>
+      </a>
+      <a href="../Navigation/route-planner2.html" class="command-item">
+        <i class="fa-solid fa-route"></i> AI Route Planner <span class="command-shortcut">Route</span>
+      </a>
+      <a href="scan-road2.html" class="command-item">
+        <i class="fa-solid fa-camera"></i> Scan Road with AI <span class="command-shortcut">Action</span>
+      </a>
+      <a href="my-reports2.html" class="command-item">
+        <i class="fa-solid fa-file-lines"></i> View My Pothole Reports <span class="command-shortcut">Reports</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="../../js/common2.js"></script>
+<script src="../../js/pothole-data2.js"></script>
+<script src="../../js/scan2.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    PotholeScanner.init();
+  });
+</script>
+</body>
+</html>
