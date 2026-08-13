@@ -1,0 +1,770 @@
+/* ===========================
+GLOBAL
+=========================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Inter',sans-serif;
+    background:#F5F7FB;
+    color:#1f2937;
+}
+
+.page-layout{
+    display:flex;
+    min-height:100vh;
+}
+
+.main-content{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+
+    margin-left:240px;
+    transition:margin-left .3s ease;
+}
+
+.settings-wrapper{
+    display:flex;
+    flex:1;
+    overflow:hidden;
+}
+
+/* ===========================
+LEFT SIDEBAR
+=========================== */
+
+.settings-sidebar{
+    width:240px;
+    background:#ffffff;
+    border-right:1px solid #eef2f7;
+    padding:25px 18px;
+    overflow-y:auto;
+}
+
+.setting-group{
+    margin-bottom:30px;
+}
+
+.group-title{
+    font-size:11px;
+    font-weight:700;
+    color:#9ca3af;
+    letter-spacing:1px;
+    margin-bottom:14px;
+    text-transform:uppercase;
+}
+
+.menu-item{
+    width:100%;
+    border:none;
+    background:transparent;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 15px;
+    border-radius:12px;
+    cursor:pointer;
+    font-size:14px;
+    font-weight:600;
+    color:#6b7280;
+    transition:.3s;
+    margin-bottom:6px;
+}
+
+.menu-item i{
+    width:18px;
+    text-align:center;
+}
+
+.menu-item:hover{
+    background:#f3f4f6;
+    color:#111827;
+}
+
+.menu-item.active{
+    background:#8B5CF6;
+    color:#ffffff;
+}
+
+/* ===========================
+RIGHT CONTENT
+=========================== */
+
+.settings-content{
+    flex:1;
+    padding:30px;
+    overflow-y:auto;
+}
+
+.settings-panel{
+    display:none;
+}
+
+.settings-panel.active{
+    display:block;
+}
+
+/* ===========================
+COMMON PANEL
+=========================== */
+
+.panel{
+    background:#ffffff;
+    border-radius:18px;
+    box-shadow:0 2px 18px rgba(0,0,0,.06);
+    margin-bottom:24px;
+    overflow:hidden;
+}
+
+.panel-header{
+    padding:24px;
+    border-bottom:1px solid #eef2f7;
+}
+
+.panel-header h2{
+    margin-bottom:6px;
+    font-size:22px;
+    color:var(--text-primary);
+}
+
+.panel-header p{
+    color:#6b7280;
+    font-size:14px;
+}
+
+.panel-body{
+    padding:24px;
+}
+
+/* ===========================
+SETTING BLOCKS
+=========================== */
+
+.setting-block{
+    margin-bottom:28px;
+}
+
+.setting-block:last-child{
+    margin-bottom:0;
+}
+
+.setting-block label{
+    display:block;
+    font-size:14px;
+    font-weight:600;
+    color:#374151;
+    margin-bottom:12px;
+}
+/* ===========================
+THEME BUTTONS
+=========================== */
+
+.theme-options{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+}
+
+.theme-btn{
+    height:50px;
+    border:2px solid #e5e7eb;
+    border-radius:14px;
+    background:#fff;
+    cursor:pointer;
+    font-size:14px;
+    font-weight:600;
+    color:#4b5563;
+    transition:.3s;
+}
+
+.theme-btn:hover{
+    border-color:#8B5CF6;
+}
+
+.theme-btn.active{
+    border-color:#8B5CF6;
+    background:#EDE9FE;
+    color:#8B5CF6;
+}
+
+/* ===========================
+ACCENT COLORS
+=========================== */
+
+.color-picker{
+    display:flex;
+    gap:14px;
+    flex-wrap:wrap;
+}
+
+.color{
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    cursor:pointer;
+    border:3px solid transparent;
+    transition:.3s;
+}
+
+.color.active{
+    transform:scale(1.1);
+    border-color:#8B5CF6;
+}
+
+.color.purple{background:#8B5CF6;}
+.color.green{background:#22c55e;}
+.color.blue{background:#3b82f6;}
+.color.orange{background:#f59e0b;}
+.color.red{background:#ef4444;}
+.color.gray{background:#6b7280;}
+
+/* ===========================
+TOGGLE ROW
+=========================== */
+
+.toggle-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    padding:18px 0;
+    border-bottom:1px solid #f3f4f6;
+}
+
+.toggle-row:last-of-type{
+    border-bottom:none;
+}
+
+.toggle-row h4{
+    font-size:15px;
+    color:#111827;
+    margin-bottom:4px;
+}
+
+.toggle-row p{
+    font-size:13px;
+    color:#9ca3af;
+}
+
+/* ===========================
+SWITCH
+=========================== */
+
+.switch{
+    position:relative;
+    width:50px;
+    height:28px;
+    display:inline-block;
+    flex-shrink:0;
+}
+
+.switch input{
+    display:none;
+}
+
+.slider{
+    position:absolute;
+    inset:0;
+    background:#d1d5db;
+    border-radius:30px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.slider::before{
+    content:"";
+    position:absolute;
+    width:22px;
+    height:22px;
+    left:3px;
+    top:3px;
+    background:#fff;
+    border-radius:50%;
+    transition:.3s;
+    box-shadow:0 2px 8px rgba(0,0,0,.15);
+}
+
+.switch input:checked + .slider{
+    background:#8B5CF6;
+}
+
+.switch input:checked + .slider::before{
+    transform:translateX(22px);
+}
+
+/* ===========================
+PROVIDER GRID
+=========================== */
+
+.provider-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+}
+
+.provider-card{
+    padding:18px;
+    border:2px solid #e5e7eb;
+    border-radius:16px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.provider-card:hover{
+    border-color:#8B5CF6;
+}
+
+.provider-card.active{
+    background:#EDE9FE;
+    border-color:#8B5CF6;
+}
+
+.provider-card h4{
+    font-size:15px;
+    color:#111827;
+    margin-bottom:5px;
+}
+
+.provider-card p{
+    font-size:13px;
+    color:#6b7280;
+}
+
+/* ===========================
+RANGE
+=========================== */
+
+.range-wrapper{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.range-wrapper span{
+    font-size:13px;
+    color:#6b7280;
+}
+
+.range-slider{
+    flex:1;
+    accent-color:#8B5CF6;
+}
+
+/* ===========================
+SELECT
+=========================== */
+
+.custom-select{
+    width:100%;
+    height:48px;
+    border:1px solid #d1d5db;
+    border-radius:12px;
+    padding:0 14px;
+    font-size:14px;
+    background:#fff;
+    outline:none;
+    transition:.3s;
+}
+
+.custom-select:focus{
+    border-color:var(--secondary);
+}
+
+/* ===========================
+PASSWORD
+=========================== */
+
+.password-field{
+    position:relative;
+}
+
+.password-field input{
+    width:100%;
+    height:48px;
+    border:1px solid #d1d5db;
+    border-radius:12px;
+    padding:0 48px 0 16px;
+    font-size:14px;
+    outline:none;
+    transition:.3s;
+}
+
+.password-field input:focus{
+    border-color:#8B5CF6;
+}
+
+.eye-btn{
+    position:absolute;
+    right:14px;
+    top:50%;
+    transform:translateY(-50%);
+    border:none;
+    background:none;
+    cursor:pointer;
+    color:#9ca3af;
+    font-size:16px;
+}
+
+.eye-btn:hover{
+    color:#8B5CF6;
+}
+/* ===========================
+BUTTONS
+=========================== */
+
+.button-row,
+.save-row{
+    display:flex;
+    justify-content:flex-end;
+    align-items:center;
+    gap:12px;
+    margin-top:28px;
+}
+
+.primary-btn,
+.secondary-btn,
+.danger-btn{
+    border:none;
+    cursor:pointer;
+    font-size:14px;
+    font-weight:600;
+    padding:12px 22px;
+    border-radius:12px;
+    transition:.3s;
+}
+
+.primary-btn{
+    /* background:#8B5CF6; */
+    color:#fff;
+    background:var(--gradient-primary);
+}
+
+.primary-btn:hover{
+    background:#7c3aed;
+    filter:brightness(.95);
+}
+
+.secondary-btn{
+    background:#f3f4f6;
+    color:#374151;
+}
+
+.secondary-btn:hover{
+    background:#e5e7eb;
+}
+
+.danger-btn{
+    width:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+    background:#ef4444;
+    color:#fff;
+    margin-top:18px;
+}
+
+.danger-btn:hover{
+    background:#dc2626;
+}
+
+/* ===========================
+ABOUT
+=========================== */
+
+.info-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:16px 0;
+    border-bottom:1px solid #eef2f7;
+}
+
+.info-row:last-child{
+    border-bottom:none;
+}
+
+.info-row span{
+    color:#6b7280;
+    font-size:14px;
+}
+
+.info-row strong{
+    color:#111827;
+    font-size:14px;
+    font-weight:600;
+}
+
+/* ===========================
+LOGOUT
+=========================== */
+
+.logout-box{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:24px;
+}
+
+.logout-info{
+    display:flex;
+    align-items:center;
+    gap:16px;
+}
+
+.logout-icon{
+    width:48px;
+    height:48px;
+    border-radius:14px;
+    background:#f3f4f6;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:18px;
+    color:#6b7280;
+}
+
+.logout-info h4{
+    font-size:16px;
+    color:#111827;
+    margin-bottom:4px;
+}
+
+.logout-info p{
+    font-size:13px;
+    color:#9ca3af;
+}
+
+/* ===========================
+DANGER PANEL
+=========================== */
+
+.danger-panel{
+    border:1px solid #fecaca;
+}
+
+.danger-panel .panel-header{
+    border-bottom:1px solid #fee2e2;
+}
+
+.danger-panel h2{
+    color:#dc2626;
+}
+
+.danger-text{
+    color:#dc2626;
+    font-size:14px;
+    margin-bottom:18px;
+}
+
+.danger-input{
+    width:100%;
+    height:48px;
+    border:1px solid #fca5a5;
+    border-radius:12px;
+    padding:0 16px;
+    outline:none;
+    transition:.3s;
+}
+
+.danger-input:focus{
+    border-color:#ef4444;
+}
+
+/* ===========================
+RESPONSIVE
+=========================== */
+
+@media(max-width:1024px){
+
+    .settings-wrapper{
+        flex-direction:column;
+    }
+
+    .settings-sidebar{
+        width:100%;
+        border-right:none;
+        border-bottom:1px solid #eef2f7;
+        display:flex;
+        gap:30px;
+        overflow-x:auto;
+    }
+
+    .setting-group{
+        min-width:220px;
+        margin-bottom:0;
+    }
+
+}
+
+@media(max-width:768px){
+
+    .settings-content{
+        padding:18px;
+    }
+
+    .provider-grid{
+        grid-template-columns:1fr;
+    }
+
+    .theme-options{
+        grid-template-columns:1fr;
+    }
+
+    .logout-box{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:20px;
+    }
+
+    .button-row,
+    .save-row{
+        flex-direction:column;
+    }
+
+    .primary-btn,
+    .secondary-btn{
+        width:100%;
+    }
+
+    .toggle-row{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .info-row{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:6px;
+    }
+
+}
+
+@media(max-width:480px){
+
+    .panel-header,
+    .panel-body{
+        padding:18px;
+    }
+
+    .panel-header h2{
+        font-size:20px;
+    }
+
+    .group-title{
+        font-size:10px;
+    }
+
+    .menu-item{
+        font-size:13px;
+        padding:10px 12px;
+    }
+
+}
+
+/* ==========================================
+ACCOUNT PAGE
+========================================== */
+
+.account-details{
+    display:flex;
+    flex-direction:column;
+}
+
+.account-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    padding:22px 0;
+    border-bottom:1px solid #EEF2F7;
+}
+
+.account-row:last-child{
+    border-bottom:none;
+}
+
+.account-left{
+    display:flex;
+    align-items:center;
+    gap:16px;
+}
+
+.account-icon{
+    width:48px;
+    height:48px;
+    border-radius:14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+    font-size:18px;
+
+    background:rgba(124,58,237,.10);
+    color:var(--secondary);
+}
+
+.account-icon.success{
+    background:#ECFDF5;
+    color:#16A34A;
+}
+
+.account-left h4{
+    font-size:15px;
+    font-weight:600;
+    color:#111827;
+    margin:0;
+}
+
+.account-row strong{
+    font-size:15px;
+    font-weight:700;
+    color:#111827;
+    text-align:right;
+}
+
+.status-badge{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 18px;
+    border-radius:999px;
+    background:#ECFDF5;
+    border:1px solid #BBF7D0;
+    color:#16A34A;
+    font-size:14px;
+    font-weight:700;
+}
+
+.dot{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#22C55E;
+    display:inline-block;
+}
+
+/* Mobile */
+
+@media(max-width:768px){
+
+    .account-row{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:14px;
+    }
+
+    .account-row strong{
+        text-align:left;
+    }
+
+    .status-badge{
+        align-self:flex-start;
+    }
+
+}

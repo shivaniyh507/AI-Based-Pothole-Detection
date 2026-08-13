@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Driver Settings</title>
+
+    <link rel="stylesheet" href="../../public/css/settings.css">
+    <link rel="stylesheet" href="../../public/css/sidebar.css">
+    <link rel="stylesheet" href="../../public/css/Topbar.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+
+<body data-title="Settings">
+
+<div class="page-layout">
+
+    <!-- Sidebar -->
+    <div id="sidebar-container"></div>
+
+    <div class="main-content">
+
+        <!-- Topbar -->
+        <div id="topbar"></div>
+
+        <div class="settings-wrapper">
+
+            <!-- LEFT MENU -->
+
+            <aside class="settings-sidebar">
+
+                <div class="setting-group">
+
+                    <p class="group-title">
+                        ACCOUNT
+                    </p>
+
+                    <button class="menu-item active" data-tab="account">
+
+                        <i class="fa-regular fa-user"></i>
+
+                        <span>Account</span>
+
+                    </button>
+
+                    <button class="menu-item" data-tab="security">
+
+                        <i class="fa-solid fa-lock"></i>
+
+                        <span>Security</span>
+
+                    </button>
+
+                    <button class="menu-item" data-tab="notifications">
+
+                        <i class="fa-solid fa-bell"></i>
+
+                        <span>Notifications</span>
+
+                    </button>
+
+                    <button class="menu-item" data-tab="appearance">
+
+                        <i class="fa-solid fa-palette"></i>
+
+                        <span>Appearance</span>
+
+                    </button>
+
+                    <button class="menu-item" data-tab="language">
+
+                        <i class="fa-solid fa-globe"></i>
+
+                        <span>Language</span>
+
+                    </button>
+
+                    <button class="menu-item" data-tab="privacy">
+
+                        <i class="fa-solid fa-shield-halved"></i>
+
+                        <span>Privacy</span>
+
+                    </button>
+
+                    <button class="menu-item" data-tab="about">
+
+                        <i class="fa-solid fa-circle-info"></i>
+
+                        <span>About</span>
+
+                    </button>
+
+                    <button class="menu-item" data-tab="danger">
+
+                        <i class="fa-solid fa-trash"></i>
+
+                        <span>Danger Zone</span>
+
+                    </button>
+
+                </div>
+
+            </aside>
+
+
+            <!-- RIGHT CONTENT -->
+
+            <div class="settings-content">
+
+                <!-- ====================== -->
+                <!-- ACCOUNT -->
+                <!-- ====================== -->
+
+                <section class="settings-panel active" id="account">
+
+                    <div class="panel">
+
+                        <div class="panel-header">
+
+                            <h2>Account</h2>
+
+                            <p>View your account information and sign-in details.</p>
+
+                        </div>
+
+                        <div class="panel-body account-details">
+
+                            <div class="account-row">
+
+                                <div class="account-left">
+
+                                    <div class="account-icon success">
+                                        <i class="fa-solid fa-circle-check"></i>
+                                    </div>
+
+                                    <div>
+                                        <h4>Account Status</h4>
+                                    </div>
+
+                                </div>
+
+                                <span class="status-badge">
+                                    <span class="dot"></span>
+                                    Active
+                                </span>
+
+                            </div>
+
+
+                            <div class="account-row">
+
+                                <div class="account-left">
+
+                                    <div class="account-icon purple">
+                                        <i class="fa-regular fa-user"></i>
+                                    </div>
+
+                                    <div>
+                                        <h4>Account Type</h4>
+                                    </div>
+
+                                </div>
+
+                                <strong id="accountType">
+                                    Driver
+                                </strong>
+
+                            </div>
+
+
+                            <div class="account-row">
+
+                                <div class="account-left">
+
+                                    <div class="account-icon purple">
+                                        <i class="fa-solid fa-hashtag"></i>
+                                    </div>
+
+                                    <div>
+                                        <h4>Account ID</h4>
+                                    </div>
+
+                                </div>
+
+                                <strong id="accountId">
+                                    DRV-001
+                                </strong>
+
+                            </div>
+
+
+                            <div class="account-row">
+
+                                <div class="account-left">
+
+                                    <div class="account-icon purple">
+                                        <i class="fa-regular fa-envelope"></i>
+                                    </div>
+
+                                    <div>
+                                        <h4>Login Email</h4>
+                                    </div>
+
+                                </div>
+
+                                <strong id="accountEmail">
+                                    driver@example.com
+                                </strong>
+
+                            </div>
+
+
+                            <div class="account-row">
+
+                                <div class="account-left">
+
+                                    <div class="account-icon purple">
+                                        <i class="fa-regular fa-calendar"></i>
+                                    </div>
+
+                                    <div>
+                                        <h4>Account Created</h4>
+                                    </div>
+
+                                </div>
+
+                                <strong id="accountCreated">
+                                    --
+                                </strong>
+
+                            </div>
+
+
+                            <div class="account-row">
+
+                                <div class="account-left">
+
+                                    <div class="account-icon purple">
+                                        <i class="fa-regular fa-clock"></i>
+                                    </div>
+
+                                    <div>
+                                        <h4>Last Login</h4>
+                                    </div>
+
+                                </div>
+
+                                <strong id="lastLogin">
+                                    Just Now
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+                <!-- ====================== -->
+                <!-- APPEARANCE -->
+                <!-- ====================== -->
+
+                <section class="settings-panel" id="appearance">
+
+                    <div class="panel">
+
+                        <div class="panel-header">
+
+                            <h2>Appearance</h2>
+
+                            <p>
+                                Theme, colors and display preferences
+                            </p>
+
+                        </div>
+
+                        <div class="panel-body">
+
+                            <div class="setting-block">
+
+                                <label>
+
+                                    Theme Mode
+
+                                </label>
+
+                                <div class="theme-options">
+
+                                    <button class="theme-btn active" data-setting="theme" data-value="Light">
+
+                                        Light
+
+                                    </button>
+
+                                    <button class="theme-btn" data-setting="theme" data-value="Dark">
+
+                                        Dark
+
+                                    </button>
+
+                                    <button class="theme-btn" data-setting="theme" data-value="System">
+
+                                        System
+
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="setting-block">
+
+                                <label>
+
+                                    Accent Color
+
+                                </label>
+
+                                <div class="color-picker">
+
+                                    <button type="button" class="color purple active" data-setting="accentColor" data-value="purple"></button>
+
+                                    <button type="button" class="color green" data-setting="accentColor" data-value="green"></button>
+
+                                    <button type="button" class="color blue" data-setting="accentColor" data-value="blue"></button>
+
+                                    <button type="button" class="color orange" data-setting="accentColor" data-value="orange"></button>
+
+                                    <button type="button" class="color red" data-setting="accentColor" data-value="red"></button>
+
+                                    <button type="button" class="color gray" data-setting="accentColor" data-value="gray"></button>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="toggle-row">
+
+                                <div>
+
+                                    <h4>
+
+                                        Compact Layout
+
+                                    </h4>
+
+                                    <p>
+
+                                        Reduce spacing between elements
+
+                                    </p>
+
+                                </div>
+
+                                <label class="switch">
+
+                                    <input type="checkbox" data-setting="compactLayout">
+
+                                    <span class="slider"></span>
+
+                                </label>
+
+                            </div>
+
+
+                            <div class="toggle-row">
+
+                                <div>
+
+                                    <h4>
+
+                                        Animations
+
+                                    </h4>
+
+                                    <p>
+
+                                        Page transitions and hover effects
+
+                                    </p>
+
+                                </div>
+
+                                <label class="switch">
+
+                                    <input type="checkbox" data-setting="animations" checked>
+
+                                    <span class="slider"></span>
+
+                                </label>
+
+                            </div>
+
+                            <div class="save-row">
+
+                                <button class="secondary-btn">
+
+                                    Reset
+
+                                </button>
+
+                                <button class="primary-btn" id="saveAppearanceBtn">
+
+                                    Save Changes
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- ====================== -->
+                <!-- LANGUAGE -->
+                <!-- ====================== -->
+
+                <section class="settings-panel" id="language">
+
+                    <div class="panel">
+
+                        <div class="panel-header">
+
+                            <h2>Language & Region</h2>
+
+                            <p>
+
+                                App language and regional formatting
+
+                            </p>
+
+                        </div>
+
+                        <div class="panel-body">
+
+                            <div class="setting-block">
+
+                                <label>
+
+                                    Display Language
+
+                                </label>
+
+                                <select class="custom-select" data-setting="language">
+
+                                    <option value="English" selected>
+
+                                        English
+
+                                    </option>
+
+                                    <option value="Hindi">
+
+                                        Hindi
+
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                            <div class="save-row">
+
+                                <button class="primary-btn" id="saveLanguageBtn">
+
+                                    Save Changes
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+                
+                <!-- ====================== -->
+                <!-- SECURITY -->
+                <!-- ====================== -->
+
+                <section class="settings-panel" id="security">
+
+                    <div class="panel">
+
+                        <div class="panel-header">
+
+                            <h2>Change Password</h2>
+
+                            <p>
+
+                                Update your account password
+
+                            </p>
+
+                        </div>
+
+                        <div class="panel-body">
+
+                            <div class="setting-block">
+
+                                <label>
+
+                                    Current Password
+
+                                </label>
+
+                                <div class="password-field">
+
+                                    <input
+                                        type="password"
+                                        placeholder="••••••••"
+                                        id="currentPassword">
+
+                                    <button class="eye-btn">
+
+                                        <i class="fa-solid fa-eye"></i>
+
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                            <div class="setting-block">
+
+                                <label>
+
+                                    New Password
+
+                                </label>
+
+                                <div class="password-field">
+
+                                    <input
+                                        type="password"
+                                        id="newPassword"
+                                        placeholder="Minimum 8 characters">
+
+                                    <button class="eye-btn">
+
+                                        <i class="fa-solid fa-eye"></i>
+
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                            <div class="setting-block">
+
+                                <label>
+
+                                    Confirm Password
+
+                                </label>
+
+                                <div class="password-field">
+
+                                    <input
+                                        type="password"
+                                        id="confirmPassword"
+                                        placeholder="Re-enter password">
+
+                                    <button class="eye-btn">
+
+                                        <i class="fa-solid fa-eye"></i>
+
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                            <div class="button-row">
+
+                                <button class="primary-btn" id="updatePasswordBtn">
+
+                                    Update Password
+
+                                </button>
+
+                                <button class="secondary-btn">
+
+                                    Cancel
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- ====================== -->
+                <!-- NOTIFICATIONS -->
+                <!-- ====================== -->
+
+                <section class="settings-panel" id="notifications">
+
+                    <div class="panel">
+
+                        <div class="panel-header">
+
+                            <h2>
+
+                                Notification Preferences
+
+                            </h2>
+
+                            <p>
+
+                                Choose which notifications you receive
+
+                            </p>
+
+                        </div>
+
+                        <div class="panel-body">
+
+                            <div class="toggle-row">
+
+                                <div>
+
+                                    <h4>
+
+                                        Push Alerts
+
+                                    </h4>
+
+                                    <p>
+
+                                        Real-time road hazard notifications
+
+                                    </p>
+
+                                </div>
+
+                                <label class="switch">
+
+                                    <input
+                                        type="checkbox"
+                                        data-setting="pushAlerts"
+                                        checked>
+
+                                    <span class="slider"></span>
+
+                                </label>
+
+                            </div>
+
+                            <div class="toggle-row">
+
+                                <div>
+
+                                    <h4>
+
+                                        Email Reports
+
+                                    </h4>
+
+                                    <p>
+
+                                        Weekly route and safety reports
+
+                                    </p>
+
+                                </div>
+
+                                <label class="switch">
+
+                                    <input
+                                        type="checkbox"
+                                        data-setting="emailReports"
+                                        checked>
+
+                                    <span class="slider"></span>
+
+                                </label>
+
+                            </div>
+
+                            <div class="toggle-row">
+
+                                <div>
+
+                                    <h4>
+
+                                        SMS Alerts
+
+                                    </h4>
+
+                                    <p>
+
+                                        Critical alerts via SMS
+
+                                    </p>
+
+                                </div>
+
+                                <label class="switch">
+
+                                    <input
+                                        type="checkbox"
+                                        data-setting="smsAlerts">
+
+                                    <span class="slider"></span>
+
+                                </label>
+
+                            </div>
+
+                            <div class="toggle-row">
+
+                                <div>
+
+                                    <h4>
+
+                                        Weekly Digest
+
+                                    </h4>
+
+                                    <p>
+
+                                        Weekly activity summary
+
+                                    </p>
+
+                                </div>
+
+                                <label class="switch">
+
+                                    <input
+                                        type="checkbox"
+                                        data-setting="weeklyDigest"
+                                        checked>
+
+                                    <span class="slider"></span>
+
+                                </label>
+
+                            </div>
+
+                            <div class="toggle-row">
+
+                                <div>
+
+                                    <h4>
+
+                                        System Updates
+
+                                    </h4>
+
+                                    <p>
+
+                                        App updates and new features
+
+                                    </p>
+
+                                </div>
+
+                                <label class="switch">
+
+                                    <input
+                                        type="checkbox"
+                                        data-setting="systemUpdates"
+                                        checked>
+
+                                    <span class="slider"></span>
+
+                                </label>
+
+                            </div>
+
+                            <div class="save-row">
+
+                                <button class="secondary-btn">
+
+                                    Reset
+
+                                </button>
+
+                                <button class="primary-btn" id="saveAccountBtn">
+
+                                    Save Changes
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+                
+                <!-- ====================== -->
+                <!-- PRIVACY -->
+                <!-- ====================== -->
+
+                <section class="settings-panel" id="privacy">
+
+                    <div class="panel">
+
+                        <div class="panel-header">
+
+                            <h2>Privacy & Data</h2>
+
+                            <p>Control how your data is used</p>
+
+                        </div>
+
+                        <div class="panel-body">
+
+                            <div class="toggle-row">
+
+                                <div>
+
+                                    <h4>Data Sharing</h4>
+
+                                    <p>Share anonymized road data to improve AI accuracy</p>
+
+                                </div>
+
+                                <label class="switch">
+
+                                    <input type="checkbox" data-setting="dataSharing" checked>
+
+                                    <span class="slider"></span>
+
+                                </label>
+
+                            </div>
+
+                            <div class="toggle-row">
+
+                                <div>
+
+                                    <h4>Profile Visibility</h4>
+
+                                    <p>Make your profile visible to other drivers</p>
+
+                                </div>
+
+                                <label class="switch">
+
+                                    <input type="checkbox" data-setting="profileVisibility" checked>
+
+                                    <span class="slider"></span>
+
+                                </label>
+
+                            </div>
+
+                            <div class="save-row">
+
+                                <button class="primary-btn" id="savePrivacyBtn">
+
+                                    Save Changes
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- ====================== -->
+                <!-- ABOUT -->
+                <!-- ====================== -->
+
+                <section class="settings-panel" id="about">
+
+                    <div class="panel">
+
+                        <div class="panel-header">
+
+                            <h2>About</h2>
+
+                            <p>Version, credits and legal information</p>
+
+                        </div>
+
+                        <div class="panel-body">
+
+                            <div class="info-row">
+
+                                <span>App Name</span>
+
+                                <strong>RoadSafe AI</strong>
+
+                            </div>
+
+                            <div class="info-row">
+
+                                <span>Version</span>
+
+                                <strong>v1.0.0</strong>
+
+                            </div>
+
+                            <div class="info-row">
+
+                                <span>AI Model</span>
+
+                                <strong>YOLOv8 (Ultralytics)</strong>
+
+                            </div>
+
+                            <div class="info-row">
+
+                                <span>Backend</span>
+
+                                <strong>Supabase + Edge Functions</strong>
+
+                            </div>
+
+                            <div class="info-row">
+
+                                <span>Developed By</span>
+
+                                <strong>RoadSafe AI Team</strong>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- ====================== -->
+                <!-- DANGER ZONE -->
+                <!-- ====================== -->
+
+                <section class="settings-panel" id="danger">
+
+                    <!-- Logout -->
+
+                    <div class="panel">
+
+                        <div class="logout-box">
+
+                            <div class="logout-info">
+
+                                <div class="logout-icon">
+
+                                    <i class="fa-solid fa-right-from-bracket"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <h4>
+
+                                        Logout
+
+                                    </h4>
+
+                                    <p>
+
+                                        Sign out of your RoadSafe AI account
+
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                            <button class="secondary-btn"  id="settingsLogoutBtn">
+
+                                Logout
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Delete -->
+
+                    <div class="panel danger-panel">
+
+                        <div class="panel-header">
+
+                            <h2>
+
+                                Delete Account
+
+                            </h2>
+
+                            <p>
+
+                                Permanently delete your account and all data
+
+                            </p>
+
+                        </div>
+
+                        <div class="panel-body">
+
+                            <p class="danger-text">
+
+                                Type <strong>DELETE</strong> to confirm.
+                                This action cannot be undone.
+
+                            </p>
+
+                            <input
+                                type="text"
+                                class="danger-input"
+                                placeholder="DELETE">
+
+                            <button class="danger-btn">
+
+                                <i class="fa-solid fa-trash"></i>
+
+                                Confirm Delete
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="../../public/js/dataService.js"></script>
+<script>
+fetch("../partials/sidebar.html")
+.then(res => res.text())
+.then(data => {
+    document.getElementById("sidebar-container").innerHTML = data;
+    if (typeof window.initSidebar === "function") window.initSidebar();
+});
+
+fetch("../partials/Topbar.html")
+.then(res => res.text())
+.then(data => {
+    document.getElementById("topbar").innerHTML = data;
+    if (typeof window.initTopbar === "function") window.initTopbar();
+});
+</script>
+
+<script src="../../public/js/sidebar.js"></script>
+<script src="../../public/js/Topbar.js"></script>
+<script src="../../public/js/common.js"></script>
+<script src="../../public/js/settings.js"></script>
+</body>
+
+</html>

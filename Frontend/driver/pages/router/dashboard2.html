@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Driver Dashboard | RoadSafe AI</title>
+
+  <!-- Typography & FontAwesome Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Leaflet Vector Engine CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <!-- App Stylesheets -->
+  <link rel="stylesheet" href="../../css/common2.css" />
+  <link rel="stylesheet" href="../../css/dashboard2.css" />
+  <link rel="stylesheet" href="../../css/responsive2.css" />
+</head>
+<body>
+
+<div class="app-shell">
+
+  <!-- Universal Primary Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <a href="dashboard2.html" class="brand">
+        <div class="brand-mark"><i class="fa-solid fa-shield-halved"></i></div>
+        <div class="brand-info">
+          <h1>RoadSafe AI</h1>
+          <p>Driver Safety System</p>
+        </div>
+      </a>
+    </div>
+
+    <nav class="sidebar-nav" aria-label="Main Navigation">
+      <a class="nav-item active" href="dashboard2.html" data-page="dashboard"><i class="fa-solid fa-gauge-high"></i><span>Dashboard</span></a>
+      <a class="nav-item" href="../Navigation/live-map2.html" data-page="live-map"><i class="fa-solid fa-compass"></i><span>Map View</span></a>
+      <a class="nav-item" href="../Navigation/route-planner2.html" data-page="route-planner"><i class="fa-solid fa-route"></i><span>Route Planner</span></a>
+      <a class="nav-item" href="../Navigation/route-history2.html" data-page="route-history"><i class="fa-solid fa-clock-rotate-left"></i><span>Route History</span></a>
+      <a class="nav-item" href="scan-road2.html" data-page="scan-road"><i class="fa-solid fa-camera"></i><span>Scan Road</span></a>
+      <a class="nav-item" href="my-reports2.html" data-page="my-reports"><i class="fa-solid fa-file-lines"></i><span>My Reports</span></a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="status-card">
+        <span class="dot"></span>
+        <div>
+          <strong>GPS Telemetry Active</strong>
+          <p>RoadSafe AI Connected</p>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Shell -->
+  <main class="main-content">
+
+    <!-- Common Premium Topbar Header -->
+    <header class="topbar">
+      <div class="topbar-title-section">
+        <h1 class="page-title">Driver Dashboard Overview</h1>
+        <p class="page-subtitle">Real-time driving safety telemetry, AI pothole evaluation, & route recommendations</p>
+      </div>
+
+      <div class="topbar-actions">
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="globalSearchInput" placeholder="Search destination, road ID, or report..." />
+          <span class="search-shortcut-hint">Ctrl K</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Environmental Safety Banner -->
+    <section class="dashboard-hero">
+      <div class="hero-banner-content">
+        <span class="hero-eyebrow"><i class="fa-solid fa-shield-halved"></i> Live Safety Telemetry</span>
+        <h2>Kanpur Smart City Corridor Active</h2>
+        <p>RoadSafe AI is actively monitoring road conditions and guiding you away from 12 severe pothole hazard clusters.</p>
+        <div class="hero-banner-actions">
+          <a href="../Navigation/live-map2.html" class="btn btn-purple-gradient">
+            <i class="fa-solid fa-compass"></i> Open Live Map
+          </a>
+          <a href="scan-road2.html" class="btn btn-secondary">
+            <i class="fa-solid fa-camera"></i> Scan New Pothole
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-side-card">
+        <span>Route Safety Score</span>
+        <strong>94%</strong>
+        <p>Optimal Safe Driving Zone</p>
+      </div>
+    </section>
+
+    <!-- Environmental & Driver Context Bar -->
+    <section class="env-context-grid">
+      <div class="context-pill">
+        <i class="fa-solid fa-cloud-sun text-warning"></i>
+        <div>
+          <span>Weather Conditions</span>
+          <strong>Clear Sky 28°C</strong>
+        </div>
+      </div>
+
+      <div class="context-pill">
+        <i class="fa-solid fa-car-side text-purple"></i>
+        <div>
+          <span>Corridor Traffic</span>
+          <strong>Moderate Flow (24 km/h)</strong>
+        </div>
+      </div>
+
+      <div class="context-pill">
+        <i class="fa-solid fa-wifi text-success"></i>
+        <div>
+          <span>AI Telemetry Sync</span>
+          <strong>Connected (12ms)</strong>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4 Key Telemetry Metrics Grid -->
+    <section class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon"><i class="fa-solid fa-route"></i></div>
+        <div class="stat-info">
+          <span>Total Distance Driven</span>
+          <strong id="statDistance">142 km</strong>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+        <div class="stat-info">
+          <span>Potholes Avoided</span>
+          <strong id="statAvoided">18 Hazards</strong>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon"><i class="fa-solid fa-camera-retro"></i></div>
+        <div class="stat-info">
+          <span>AI Scans Submitted</span>
+          <strong id="statScans">12 Scans</strong>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon"><i class="fa-solid fa-shield-virus"></i></div>
+        <div class="stat-info">
+          <span>Safety Index</span>
+          <strong id="statSafetyIndex">94% Safe</strong>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2-Column Dashboard Work Area -->
+    <div class="dashboard-main-grid">
+
+      <!-- Left Primary Column -->
+      <div class="dashboard-primary-column">
+
+        <!-- Live Corridor Map Widget -->
+        <article class="panel-card map-panel-card">
+          <div class="panel-header-bar">
+            <h2><i class="fa-solid fa-map-location-dot"></i> Live Pothole Hazard Corridor Map</h2>
+            <a href="../Navigation/live-map2.html" class="btn btn-sm btn-purple-soft">
+              Full Map View <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+          <div id="dashboardMap" class="map-viewport"></div>
+        </article>
+
+        <!-- Driver Safety Guidelines Card -->
+        <article class="panel-card">
+          <div class="panel-header-bar">
+            <h2><i class="fa-solid fa-circle-info"></i> Driver Safety Guidelines</h2>
+          </div>
+          <div class="guidelines-grid">
+            <div class="guideline-card">
+              <div class="guideline-icon purple"><i class="fa-solid fa-shield-halved"></i></div>
+              <div class="guideline-content">
+                <h3>Use Recommended Safe Routes</h3>
+                <p>Always prioritize AI Safest Route recommendations over shortcuts to minimize vehicle suspension wear.</p>
+              </div>
+            </div>
+
+            <div class="guideline-card">
+              <div class="guideline-icon warning"><i class="fa-solid fa-video"></i></div>
+              <div class="guideline-content">
+                <h3>Mount Smartphone Securely</h3>
+                <p>Ensure your dash camera or mobile device is securely mounted for clear road surface scanning.</p>
+              </div>
+            </div>
+
+            <div class="guideline-card">
+              <div class="guideline-icon danger"><i class="fa-solid fa-triangle-exclamation"></i></div>
+              <div class="guideline-content">
+                <h3>High Risk Corridor Alert</h3>
+                <p>GT Road Mall Crossing sector currently contains 3 un-repaired high-severity potholes.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- Right Column: AI Analytics & Activity Timeline -->
+      <div class="dashboard-secondary-column">
+
+        <!-- AI Analytics Summary Widget -->
+        <article class="panel-card">
+          <div class="panel-header-bar">
+            <h2><i class="fa-solid fa-brain"></i> AI Road Intelligence</h2>
+            <span class="badge-tag badge-success-soft">Live</span>
+          </div>
+
+          <ul class="metric-list">
+            <li class="metric-row">
+              <span class="metric-label">Corridor Safety Score</span>
+              <strong class="metric-value text-purple">94 / 100</strong>
+            </li>
+            <li class="metric-row">
+              <span class="metric-label">Active Potholes Detected</span>
+              <strong class="metric-value">4 Critical, 8 Minor</strong>
+            </li>
+            <li class="metric-row">
+              <span class="metric-label">AI Detection Confidence</span>
+              <strong class="metric-value">96.8% Avg</strong>
+            </li>
+            <li class="metric-row">
+              <span class="metric-label">Municipal Repair Status</span>
+              <strong class="metric-value badge-tag badge-warning-soft">2 Scheduled</strong>
+            </li>
+          </ul>
+
+          <a href="scan-road2.html" class="btn btn-purple-gradient btn-full">
+            <i class="fa-solid fa-camera"></i> Launch AI Road Scanner
+          </a>
+        </article>
+
+        <!-- Recommended Routes Quick Select Widget -->
+        <article class="panel-card">
+          <div class="panel-header-bar">
+            <h2><i class="fa-solid fa-route"></i> Quick Routes</h2>
+          </div>
+
+          <div class="route-option-card active" onclick="location.href='../Navigation/route-planner2.html'">
+            <div class="route-option-header">
+              <strong>Civil Lines → IIT Kanpur</strong>
+              <span class="badge-tag badge-success-soft">Safest</span>
+            </div>
+            <p>12.4 km • 24 min • 0 Potholes</p>
+          </div>
+
+          <div class="route-option-card" onclick="location.href='../Navigation/route-planner2.html'">
+            <div class="route-option-header">
+              <strong>Kanpur Central → Swaroop Nagar</strong>
+              <span class="badge-tag badge-warning-soft">Balanced</span>
+            </div>
+            <p>6.8 km • 16 min • 1 Pothole</p>
+          </div>
+        </article>
+
+        <!-- Recent Activity Stream Widget -->
+        <article class="panel-card">
+          <div class="panel-header-bar">
+            <h2><i class="fa-solid fa-clock-rotate-left"></i> Recent Activity</h2>
+          </div>
+
+          <ul class="timeline-list">
+            <li class="timeline-item">
+              <strong>Pothole #POT-104 Avoided</strong>
+              <p>VIP Road Swaroop Nagar • 10 mins ago</p>
+            </li>
+            <li class="timeline-item">
+              <strong>Road Scan Submitted #REP-104</strong>
+              <p>Mall Road Junction • 2 hours ago</p>
+            </li>
+            <li class="timeline-item">
+              <strong>Trip Completed (12.4 km)</strong>
+              <p>Civil Lines to IIT Kanpur • 4 hours ago</p>
+            </li>
+          </ul>
+        </article>
+
+      </div>
+
+    </div>
+
+  </main>
+</div>
+
+<!-- Command Palette Modal (Ctrl+K) -->
+<div id="commandPaletteModal" class="command-palette-modal">
+  <div id="commandPaletteBackdrop" class="command-palette-backdrop"></div>
+  <div class="command-palette-card">
+    <div class="command-palette-header">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" id="commandPaletteInput" placeholder="Type a command or search RoadSafe AI..." />
+    </div>
+    <div class="command-palette-list">
+      <a href="dashboard2.html" class="command-item">
+        <i class="fa-solid fa-gauge-high"></i> Go to Dashboard <span class="command-shortcut">Jump</span>
+      </a>
+      <a href="../Navigation/live-map2.html" class="command-item">
+        <i class="fa-solid fa-compass"></i> Open Live Map Navigation <span class="command-shortcut">Map</span>
+      </a>
+      <a href="../Navigation/route-planner2.html" class="command-item">
+        <i class="fa-solid fa-route"></i> AI Route Planner <span class="command-shortcut">Route</span>
+      </a>
+      <a href="scan-road2.html" class="command-item">
+        <i class="fa-solid fa-camera"></i> Scan Road with AI <span class="command-shortcut">Action</span>
+      </a>
+      <a href="my-reports2.html" class="command-item">
+        <i class="fa-solid fa-file-lines"></i> View My Pothole Reports <span class="command-shortcut">Reports</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="../../js/common2.js"></script>
+<script src="../../js/dashboard2.js"></script>
+</body>
+</html>
