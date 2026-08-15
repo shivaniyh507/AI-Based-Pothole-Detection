@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Reports | RoadSafe AI</title>
+  <title>My Reports | ROADIES</title>
 
   <!-- Typography & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,137 +11,184 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
-  <!-- App Stylesheets -->
-  <link rel="stylesheet" href="../../css/common2.css" />
-  <link rel="stylesheet" href="../../css/reports2.css" />
-  <link rel="stylesheet" href="../../css/responsive2.css" />
+  <!-- CSS Dependencies -->
+  <link rel="stylesheet" href="../../assets/css/common.css" />
+  <link rel="stylesheet" href="../../assets/css/navigation-maps.css" />
+
+  <!-- Embedded Theme Styles matching Navigation Folder -->
+  <style>
+    :root {
+      --bg: #f1f5f9; --sidebar: #ffffff; --card: #ffffff; --text: #1e293b;
+      --muted: #64748b; --line: #e2e8f0; --purple: #9333ea; --purple-light: #f3e8ff;
+      --purple-gradient: linear-gradient(135deg, #a855f7, #7e22ce);
+      --blue: #2563eb; --green: #22c55e; --yellow: #f59e0b; --red: #ef4444;
+      --shadow: 0 4px 20px rgba(0, 0, 0, 0.04); --radius: 18px;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+    body { background: var(--bg); color: var(--text); min-height: 100vh; }
+    .app-shell { display: flex; min-height: 100vh; }
+
+    /* Universal Sidebar matching Navigation Folder */
+    .sidebar { width: 270px; height: 100vh; position: sticky; top: 0; align-self: flex-start; overflow-y: auto; z-index: 100; background: var(--sidebar); color: var(--text); padding: 24px; display: flex; flex-direction: column; justify-content: space-between; flex-shrink: 0; border-right: 1px solid var(--line); }
+    .brand { display: flex; align-items: center; gap: 14px; margin-bottom: 30px; }
+    .brand-mark { width: 48px; height: 48px; border-radius: 14px; background: var(--purple-gradient); color: white; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+    .brand h1 { font-size: 20px; font-weight: 700; color: var(--purple); margin: 0; }
+    .brand p { font-size: 12px; color: var(--muted); margin: 0; }
+    .sidebar-nav { display: flex; flex-direction: column; gap: 6px; }
+    .nav-item { display: flex; align-items: center; gap: 14px; padding: 12px 16px; border-radius: 12px; color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: all 0.2s ease; }
+    .nav-item:hover { background: #f8fafc; color: var(--purple); }
+    .nav-item.active { background: var(--purple-light); color: var(--purple); font-weight: 600; }
+    .nav-item.active i { color: var(--purple); }
+
+    /* Main Outer Wrapper matching Navigation Folder */
+    .main-wrapper { flex: 1; display: flex; flex-direction: column; height: 100vh; overflow-y: auto; background: #f8fafc; }
+    .admin-topbar { height: 76px; padding: 0 32px; background: #ffffff; border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 90; flex-shrink: 0; }
+    .topbar-page-title { font-size: 22px; font-weight: 700; color: var(--purple); margin: 0; }
+    .topbar-right { display: flex; align-items: center; gap: 16px; }
+    .btn-topbar-action { background: var(--purple-gradient); color: #ffffff; border: none; padding: 10px 20px; border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; box-shadow: 0 4px 14px rgba(147, 51, 234, 0.25); transition: all 0.2s ease; }
+    .btn-topbar-action:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(147, 51, 234, 0.35); }
+    .user-avatar-pill { width: 42px; height: 42px; border-radius: 50%; overflow: hidden; border: 2px solid var(--purple-light); display: flex; align-items: center; justify-content: center; }
+    .user-avatar-pill img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* Page Body Content matching Navigation Folder */
+    .page-body { padding: 28px 36px; display: flex; flex-direction: column; gap: 24px; }
+    .detail-card { background: #fff; border-radius: 20px; padding: 26px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); border: 1px solid var(--line); }
+
+    /* Reports Table & Controls */
+    .reports-filter-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 14px; }
+    .reports-tabs { display: flex; gap: 8px; background: #f8fafc; padding: 6px; border-radius: 14px; border: 1px solid var(--line); }
+    .report-tab { border: none; background: transparent; padding: 8px 16px; border-radius: 10px; font-size: 13px; font-weight: 600; color: var(--muted); cursor: pointer; transition: all 0.2s; }
+    .report-tab.active { background: #ffffff; color: var(--purple); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+
+    .table-container { overflow-x: auto; }
+    .data-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; }
+    .data-table th { background: #f8fafc; padding: 14px 18px; font-weight: 700; color: var(--muted); border-bottom: 1px solid var(--line); }
+    .data-table td { padding: 16px 18px; border-bottom: 1px solid var(--line); color: var(--text); }
+    .data-table tr:last-child td { border-bottom: none; }
+
+    .badge-tag { padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; display: inline-block; }
+    .badge-danger-soft { background: #fee2e2; color: #ef4444; }
+    .badge-warning-soft { background: #fef3c7; color: #d97706; }
+    .badge-success-soft { background: #dcfce7; color: #16a34a; }
+
+    .btn-action { background: var(--purple-light); color: var(--purple); border: none; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+    .btn-action:hover { background: var(--purple); color: #fff; }
+  </style>
 </head>
 <body>
 
 <div class="app-shell">
 
-  <!-- Universal Primary Sidebar Navigation -->
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-      <a href="dashboard2.html" class="brand">
-        <div class="brand-mark"><i class="fa-solid fa-shield-halved"></i></div>
-        <div class="brand-info">
-          <h1>RoadSafe AI</h1>
-          <p>Driver Safety System</p>
+  <!-- Universal Sidebar Navigation matching Navigation Folder -->
+  <aside class="sidebar">
+    <div>
+      <div class="brand">
+        <div class="brand-mark"><i class="fa-solid fa-road"></i></div>
+        <div>
+          <h1>ROADIES</h1>
+          <p>Driver Portal</p>
         </div>
-      </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a class="nav-item" href="dashboard2.html"><i class="fa-solid fa-gauge-high"></i><span>Dashboard</span></a>
+        <a class="nav-item" href="../Navigation/live-map3.html"><i class="fa-solid fa-compass"></i><span>Map View</span></a>
+        <a class="nav-item" href="../Navigation/route-planner3.html"><i class="fa-solid fa-route"></i><span>Route Planner</span></a>
+        <a class="nav-item" href="../Navigation/route-history3.html"><i class="fa-solid fa-clock-rotate-left"></i><span>Route History</span></a>
+        <a class="nav-item" href="../Navigation/pothole-detail3.html"><i class="fa-solid fa-circle-info"></i><span>Pothole Details</span></a>
+        <a class="nav-item" href="scan-road2.html"><i class="fa-solid fa-camera"></i><span>Scan Road</span></a>
+        <a class="nav-item active" href="my-reports2.html"><i class="fa-solid fa-file-lines"></i><span>My Reports</span></a>
+      </nav>
     </div>
 
-    <nav class="sidebar-nav" aria-label="Main Navigation">
-      <a class="nav-item" href="dashboard2.html" data-page="dashboard"><i class="fa-solid fa-gauge-high"></i><span>Dashboard</span></a>
-      <a class="nav-item" href="../Navigation/live-map2.html" data-page="live-map"><i class="fa-solid fa-compass"></i><span>Map View</span></a>
-      <a class="nav-item" href="../Navigation/route-planner2.html" data-page="route-planner"><i class="fa-solid fa-route"></i><span>Route Planner</span></a>
-      <a class="nav-item" href="../Navigation/route-history2.html" data-page="route-history"><i class="fa-solid fa-clock-rotate-left"></i><span>Route History</span></a>
-      <a class="nav-item" href="scan-road2.html" data-page="scan-road"><i class="fa-solid fa-camera"></i><span>Scan Road</span></a>
-      <a class="nav-item active" href="my-reports2.html" data-page="my-reports"><i class="fa-solid fa-file-lines"></i><span>My Reports</span></a>
-    </nav>
-
     <div class="sidebar-footer">
-      <div class="status-card">
-        <span class="dot"></span>
+      <div class="status-card" style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 14px; background: #f8fafc; color: var(--text); font-size: 12px; border: 1px solid var(--line);">
+        <span style="width: 10px; height: 10px; border-radius: 50%; background: #22c55e;"></span>
         <div>
-          <strong>GPS Telemetry Active</strong>
-          <p>RoadSafe AI Connected</p>
+          <strong>GPS Active</strong>
+          <p>Live Telemetry Active</p>
         </div>
       </div>
     </div>
   </aside>
 
-  <!-- Main Content Shell -->
-  <main class="main-content">
-
-    <!-- Common Premium Topbar Header -->
-    <header class="topbar">
-      <div class="topbar-title-section">
-        <h1 class="page-title">My Submitted Reports</h1>
-        <p class="page-subtitle">Track community report verification statuses, repair schedules, & AI confidence ratings</p>
-      </div>
-
-      <div class="topbar-actions">
-        <div class="search-box">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" id="globalSearchInput" placeholder="Search destination, road ID, or report..." />
-          <span class="search-shortcut-hint">Ctrl K</span>
+  <!-- Main Outer Wrapper matching Navigation Folder -->
+  <main class="main-wrapper">
+    <header class="admin-topbar">
+      <h2 class="topbar-page-title">My Submitted Pothole Reports</h2>
+      <div class="topbar-right">
+        <a href="scan-road2.html" class="btn-topbar-action">
+          <i class="fa-solid fa-plus"></i> Submit New Scan
+        </a>
+        <div class="user-avatar-pill">
+          <img src="https://i.pravatar.cc/80?img=32" alt="User Avatar">
         </div>
       </div>
     </header>
 
-    <section class="panel-card">
-      <div class="reports-filter-bar">
-        <div class="reports-tabs">
-          <button class="report-tab active" data-status="all">All Reports</button>
-          <button class="report-tab" data-status="unrepaired">Unrepaired</button>
-          <button class="report-tab" data-status="scheduled">Scheduled</button>
-          <button class="report-tab" data-status="inspection">Under Inspection</button>
+    <!-- Page Body Content -->
+    <div class="page-body">
+
+      <div class="detail-card">
+        <div class="reports-filter-bar">
+          <div class="reports-tabs">
+            <button class="report-tab active">All Reports (3)</button>
+            <button class="report-tab">Unrepaired</button>
+            <button class="report-tab">Scheduled</button>
+            <button class="report-tab">Under Inspection</button>
+          </div>
+
+          <button class="btn-action" style="padding: 8px 16px;">
+            <i class="fa-solid fa-download"></i> Export CSV
+          </button>
         </div>
 
-        <button class="btn btn-sm btn-purple-soft" onclick="MyPotholeReports.exportCSV()">
-          <i class="fa-solid fa-download"></i> Export CSV
-        </button>
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Report ID</th>
+                <th>Location Address</th>
+                <th>Severity Level</th>
+                <th>Municipal Status</th>
+                <th>Report Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>#REP-104</strong></td>
+                <td>Mall Road Junction, Kanpur</td>
+                <td><span class="badge-tag badge-danger-soft">High Severity</span></td>
+                <td><span class="badge-tag badge-warning-soft">Scheduled for Repair</span></td>
+                <td>Aug 13, 2026</td>
+                <td><a href="../Navigation/pothole-detail3.html" class="btn-action"><i class="fa-solid fa-eye"></i> View Details</a></td>
+              </tr>
+              <tr>
+                <td><strong>#REP-103</strong></td>
+                <td>VIP Road Swaroop Nagar</td>
+                <td><span class="badge-tag badge-warning-soft">Medium Severity</span></td>
+                <td><span class="badge-tag badge-danger-soft">Unrepaired</span></td>
+                <td>Aug 12, 2026</td>
+                <td><a href="../Navigation/pothole-detail3.html" class="btn-action"><i class="fa-solid fa-eye"></i> View Details</a></td>
+              </tr>
+              <tr>
+                <td><strong>#REP-101</strong></td>
+                <td>GT Road Crossing</td>
+                <td><span class="badge-tag badge-danger-soft">High Severity</span></td>
+                <td><span class="badge-tag badge-success-soft">Repaired</span></td>
+                <td>Aug 10, 2026</td>
+                <td><a href="../Navigation/pothole-detail3.html" class="btn-action"><i class="fa-solid fa-eye"></i> View Details</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
-      <div class="table-container">
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>Report ID</th>
-              <th>Location Address</th>
-              <th>Severity Level</th>
-              <th>Municipal Status</th>
-              <th>Report Date</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="reportsTableBody">
-            <!-- Dynamic Report Rows Rendered via JS -->
-          </tbody>
-        </table>
-      </div>
-    </section>
+    </div>
 
   </main>
 </div>
 
-<!-- Command Palette Modal (Ctrl+K) -->
-<div id="commandPaletteModal" class="command-palette-modal">
-  <div id="commandPaletteBackdrop" class="command-palette-backdrop"></div>
-  <div class="command-palette-card">
-    <div class="command-palette-header">
-      <i class="fa-solid fa-magnifying-glass"></i>
-      <input type="text" id="commandPaletteInput" placeholder="Type a command or search RoadSafe AI..." />
-    </div>
-    <div class="command-palette-list">
-      <a href="dashboard2.html" class="command-item">
-        <i class="fa-solid fa-gauge-high"></i> Go to Dashboard <span class="command-shortcut">Jump</span>
-      </a>
-      <a href="../Navigation/live-map2.html" class="command-item">
-        <i class="fa-solid fa-compass"></i> Open Live Map Navigation <span class="command-shortcut">Map</span>
-      </a>
-      <a href="../Navigation/route-planner2.html" class="command-item">
-        <i class="fa-solid fa-route"></i> AI Route Planner <span class="command-shortcut">Route</span>
-      </a>
-      <a href="scan-road2.html" class="command-item">
-        <i class="fa-solid fa-camera"></i> Scan Road with AI <span class="command-shortcut">Action</span>
-      </a>
-      <a href="my-reports2.html" class="command-item">
-        <i class="fa-solid fa-file-lines"></i> View My Pothole Reports <span class="command-shortcut">Reports</span>
-      </a>
-    </div>
-  </div>
-</div>
-
-<!-- Scripts -->
-<script src="../../js/common2.js"></script>
-<script src="../../js/reports2.js"></script>
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    MyPotholeReports.init();
-  });
-</script>
 </body>
 </html>
