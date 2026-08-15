@@ -1,0 +1,111 @@
+/* ======================================================
+   RoadSafe AI — Official Common Stylesheet
+   ====================================================== */
+
+:root {
+  --bg-main: #f8fafc;
+  --bg-sidebar: #ffffff;
+  --bg-card: #ffffff;
+  --text-dark: #0f172a;
+  --text-muted: #64748b;
+  --border-color: #e2e8f0;
+
+  --purple-primary: #a855f7;
+  --purple-dark: #7e22ce;
+  --purple-light: #f3e8ff;
+  --purple-border: #e9d5ff;
+  --purple-gradient: linear-gradient(135deg, #a855f7, #7e22ce);
+
+  --green-soft: #dcfce7;
+  --green-text: #16a34a;
+  --yellow-soft: #fef3c7;
+  --yellow-text: #d97706;
+  --red-soft: #fee2e2;
+  --red-text: #dc2626;
+
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  --radius: 18px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: var(--bg-main);
+  color: var(--text-dark);
+  min-height: 100vh;
+}
+
+.badge-pill {
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  display: inline-block;
+}
+
+.badge-danger, .badge-danger-soft {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.badge-warning, .badge-warning-soft {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.badge-success, .badge-success-soft {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.badge-info, .badge-purple-soft {
+  background: #f3e8ff;
+  color: #a855f7;
+}
+
+/* Custom Leaflet Map Markers */
+.custom-leaflet-marker {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #ffffff;
+  font-size: 18px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+  border: 2px solid #ffffff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.custom-leaflet-marker:hover {
+  transform: scale(1.2);
+  z-index: 1000 !important;
+}
+
+.custom-leaflet-marker.marker-high {
+  background: linear-gradient(135deg, #ef4444, #b91c1c);
+  box-shadow: 0 0 16px rgba(239, 68, 68, 0.7);
+}
+
+.custom-leaflet-marker.marker-medium {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.7);
+}
+
+.custom-leaflet-marker.marker-low {
+  background: linear-gradient(135deg, #22c55e, #15803d);
+  box-shadow: 0 0 16px rgba(34, 197, 94, 0.7);
+}
+
+.custom-leaflet-marker.marker-start {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+}
+
+.custom-leaflet-marker.marker-end {
+  background: linear-gradient(135deg, #a855f7, #7e22ce);
+}

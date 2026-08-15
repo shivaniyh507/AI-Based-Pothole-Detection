@@ -5,200 +5,228 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Route Planner | ROADIES</title>
 
-    <!-- Leaflet & FontAwesome & Google Fonts -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- CSS Dependencies -->
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#a855f7',
+                        secondary: '#0a0a0f',
+                        critical: '#ff4d4d',
+                        warning: '#ff9800',
+                        success: '#4caf50'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../../admin/css/admin-style.css">
+    <link rel="stylesheet" href="../../admin/css/responsive.css">
     <link rel="stylesheet" href="../../assets/css/common.css">
     <link rel="stylesheet" href="../../assets/css/navigation-maps.css">
 
-    <!-- Embedded Theme Styles -->
+    <!-- FontAwesome & Google Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
     <style>
-        :root {
-            --bg: #f1f5f9; --sidebar: #ffffff; --card: #ffffff; --text: #1e293b;
-            --muted: #64748b; --line: #e2e8f0; --purple: #9333ea; --purple-light: #f3e8ff;
-            --purple-gradient: linear-gradient(135deg, #a855f7, #7e22ce);
-            --blue: #2563eb; --green: #22c55e; --yellow: #f59e0b; --red: #ef4444;
-            --shadow: 0 4px 20px rgba(0, 0, 0, 0.04); --radius: 18px;
-        }
-        * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
-        body { background: var(--bg); color: var(--text); min-height: 100vh; }
-        .app-shell { display: flex; min-height: 100vh; }
-        .sidebar { width: 270px; height: 100vh; position: sticky; top: 0; align-self: flex-start; overflow-y: auto; z-index: 100; background: var(--sidebar); color: var(--text); padding: 24px; display: flex; flex-direction: column; justify-content: space-between; flex-shrink: 0; border-right: 1px solid var(--line); }
-        .brand { display: flex; align-items: center; gap: 14px; margin-bottom: 30px; }
-        .brand-mark { width: 48px; height: 48px; border-radius: 14px; background: var(--purple-gradient); color: white; display: flex; align-items: center; justify-content: center; font-size: 22px; }
-        .brand h1 { font-size: 20px; font-weight: 700; color: var(--purple); }
-        .brand p { font-size: 12px; color: var(--muted); }
-        .sidebar-nav { display: flex; flex-direction: column; gap: 6px; }
-        .nav-item { display: flex; align-items: center; gap: 14px; padding: 12px 16px; border-radius: 12px; color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: all 0.2s ease; }
-        .nav-item:hover { background: #f8fafc; color: var(--purple); }
-        .nav-item.active { background: var(--purple-light); color: var(--purple); font-weight: 600; }
-        .nav-item.active i { color: var(--purple); }
-
-        .main-wrapper { flex: 1; display: flex; flex-direction: column; height: 100vh; overflow-y: auto; background: #f8fafc; }
-        .admin-topbar { height: 76px; padding: 0 32px; background: #ffffff; border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 90; flex-shrink: 0; }
-        .topbar-page-title { font-size: 22px; font-weight: 700; color: var(--purple); margin: 0; }
-        .topbar-right { display: flex; align-items: center; gap: 16px; }
-        .btn-topbar-action { background: var(--purple-gradient); color: #ffffff; border: none; padding: 10px 20px; border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; box-shadow: 0 4px 14px rgba(147, 51, 234, 0.25); transition: all 0.2s ease; }
-        .btn-topbar-action:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(147, 51, 234, 0.35); }
-        .user-avatar-pill { width: 42px; height: 42px; border-radius: 50%; overflow: hidden; border: 2px solid var(--purple-light); display: flex; align-items: center; justify-content: center; }
-        .user-avatar-pill img { width: 100%; height: 100%; object-fit: cover; }
-
-        .page-body { padding: 28px 36px; display: flex; flex-direction: column; gap: 24px; }
-        .btn-primary { background: var(--purple-gradient); color: white; border: none; padding: 12px 22px; border-radius: 12px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-size: 14px; box-shadow: 0 4px 14px rgba(147, 51, 234, 0.25); }
-        .btn-secondary { background: var(--purple-light); color: var(--purple); border: 1px solid #e9d5ff; padding: 12px 22px; border-radius: 12px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-size: 14px; }
-        .detail-card { background: #fff; border-radius: 20px; padding: 26px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); border: 1px solid var(--line); }
-        .route-cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-bottom: 10px; }
-        .route-select-card { background: #fff; padding: 20px; border-radius: 16px; border: 2px solid var(--line); box-shadow: 0 10px 30px rgba(0,0,0,0.04); cursor: pointer; transition: all 0.25s ease; position: relative; }
-        .route-select-card.active { border-color: var(--purple); background: linear-gradient(180deg, #f3e8ff 0%, #ffffff 100%); }
-        .route-tag { position: absolute; top: 14px; right: 14px; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; }
-        .tag-safest { background: #dcfce7; color: #15803d; }
-        .tag-balanced { background: #fef3c7; color: #b45309; }
-        .tag-fastest { background: #dbeafe; color: #1e40af; }
-        .route-card-title { font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
-        .route-card-stats { display: flex; gap: 14px; font-size: 13px; color: var(--muted); margin-top: 12px; }
-        .detail-grid { display: grid; grid-template-columns: 1fr 380px; gap: 24px; }
-        .map-wrapper { position: relative; width: 100%; height: 480px; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.04); border: 1px solid var(--line); background: #fff; }
+        .map-wrapper { position: relative; width: 100%; height: 480px; border-radius: 1.25rem; overflow: hidden; }
         #map { width: 100%; height: 100%; z-index: 1; }
-        .directions-panel { background: #fff; border-radius: 20px; padding: 26px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); border: 1px solid var(--line); }
-        .direction-step { display: flex; align-items: flex-start; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line); }
-        .direction-step:last-child { border-bottom: none; }
-        .step-icon { width: 40px; height: 40px; border-radius: 10px; background: var(--purple-light); color: var(--purple); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
-        .step-icon.warning { background: #fee2e2; color: var(--red); }
+        .brand-mark { width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, #a855f7, #7e22ce); color: white; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
     </style>
 </head>
-<body>
+<body class="bg-slate-50 text-slate-900 flex h-screen overflow-hidden">
 
-<div class="app-shell">
+    <!-- Sidebar Overlay (Mobile) -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-    <!-- Universal Sidebar Navigation -->
-    <aside class="sidebar">
+    <!-- Sidebar -->
+    <aside class="sidebar w-64 bg-white border-r border-slate-200 shadow-xl flex-shrink-0 z-20 flex flex-col justify-between transition-all duration-300 relative" id="sidebar">
         <div>
-            <div class="brand">
+            <!-- ROADIES Logo Header -->
+            <div class="h-20 flex items-center px-6 border-b border-slate-200 gap-3">
                 <div class="brand-mark"><i class="fa-solid fa-road"></i></div>
                 <div>
-                    <h1>ROADIES</h1>
-                    <p>Navigation & Maps</p>
+                    <h1 class="text-xl font-bold text-primary tracking-tight leading-none">ROADIES</h1>
+                    <p class="text-xs text-slate-500 mt-1">Navigation & Maps</p>
                 </div>
             </div>
 
-            <nav class="sidebar-nav">
-                <a class="nav-item" href="../dashboard.html"><i class="fa-solid fa-gauge-high"></i><span>Dashboard</span></a>
-                <a class="nav-item" href="live-map3.html"><i class="fa-solid fa-compass"></i><span>Map View</span></a>
-                <a class="nav-item active" href="route-planner3.html"><i class="fa-solid fa-route"></i><span>Route Planner</span></a>
-                <a class="nav-item" href="route-history3.html"><i class="fa-solid fa-clock-rotate-left"></i><span>Route History</span></a>
-                <a class="nav-item" href="pothole-detail3.html"><i class="fa-solid fa-circle-info"></i><span>Pothole Details</span></a>
-                <a class="nav-item" href="../scan-road.html"><i class="fa-solid fa-camera"></i><span>Scan Road</span></a>
-                <a class="nav-item" href="../my-reports.html"><i class="fa-solid fa-file-lines"></i><span>My Reports</span></a>
+            <!-- Navigation Links -->
+            <nav class="py-6 px-4 space-y-1.5 overflow-y-auto">
+                <a href="../router/dashboard2.html" class="sidebar-link flex items-center px-4 py-3 rounded-xl text-slate-600 hover:text-primary hover:bg-purple-50 transition-all duration-200 font-medium text-sm">
+                    <i class="fa-solid fa-gauge-high w-5 h-5 mr-3 text-slate-400"></i>
+                    Dashboard
+                </a>
+                <a href="live-map3.html" class="sidebar-link flex items-center px-4 py-3 rounded-xl text-slate-600 hover:text-primary hover:bg-purple-50 transition-all duration-200 font-medium text-sm">
+                    <i class="fa-solid fa-compass w-5 h-5 mr-3 text-slate-400"></i>
+                    Map View
+                </a>
+                <a href="route-planner3.html" class="sidebar-link active flex items-center px-4 py-3 rounded-xl font-semibold bg-purple-100 text-primary text-sm">
+                    <i class="fa-solid fa-route w-5 h-5 mr-3 text-primary"></i>
+                    Route Planner
+                </a>
+                <a href="route-history3.html" class="sidebar-link flex items-center px-4 py-3 rounded-xl text-slate-600 hover:text-primary hover:bg-purple-50 transition-all duration-200 font-medium text-sm">
+                    <i class="fa-solid fa-clock-rotate-left w-5 h-5 mr-3 text-slate-400"></i>
+                    Route History
+                </a>
+                <a href="pothole-detail3.html" class="sidebar-link flex items-center px-4 py-3 rounded-xl text-slate-600 hover:text-primary hover:bg-purple-50 transition-all duration-200 font-medium text-sm">
+                    <i class="fa-solid fa-circle-info w-5 h-5 mr-3 text-slate-400"></i>
+                    Pothole Details
+                </a>
+                <a href="../router/scan-road2.html" class="sidebar-link flex items-center px-4 py-3 rounded-xl text-slate-600 hover:text-primary hover:bg-purple-50 transition-all duration-200 font-medium text-sm">
+                    <i class="fa-solid fa-camera w-5 h-5 mr-3 text-slate-400"></i>
+                    Scan Road
+                </a>
+                <a href="../router/my-reports2.html" class="sidebar-link flex items-center px-4 py-3 rounded-xl text-slate-600 hover:text-primary hover:bg-purple-50 transition-all duration-200 font-medium text-sm">
+                    <i class="fa-solid fa-file-lines w-5 h-5 mr-3 text-slate-400"></i>
+                    My Reports
+                </a>
             </nav>
         </div>
 
-        <div class="sidebar-footer">
-            <div class="status-card" style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 14px; background: #f8fafc; color: var(--text); font-size: 12px; border: 1px solid var(--line);">
-                <span style="width: 10px; height: 10px; border-radius: 50%; background: #22c55e;"></span>
+        <!-- Sidebar Footer: GPS Status Card & User Profile -->
+        <div class="p-4 border-t border-slate-200 space-y-3">
+            <div class="flex items-center gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse flex-shrink-0"></span>
                 <div>
-                    <strong>GPS Active</strong>
-                    <p>Hazard Zone Mapping</p>
+                    <strong class="text-slate-900 font-bold block">GPS Active</strong>
+                    <p class="text-slate-500">Hazard Zone Mapping</p>
                 </div>
+            </div>
+
+            <div class="flex items-center justify-between pt-1">
+                <div class="flex items-center">
+                    <div class="w-9 h-9 rounded-full bg-primary flex items-center justify-center text-white font-bold text-sm shadow-sm">
+                        S
+                    </div>
+                    <div class="ml-2.5">
+                        <p class="text-sm font-bold text-slate-900">shhio</p>
+                    </div>
+                </div>
+                <a href="#" class="text-slate-400 hover:text-rose-500 transition-colors" title="Logout">
+                    <i class="fa-solid fa-right-from-bracket w-4 h-4"></i>
+                </a>
             </div>
         </div>
     </aside>
 
-    <!-- Main Content Outer Wrapper -->
-    <main class="main-wrapper">
-        <header class="admin-topbar">
-            <h2 class="topbar-page-title">AI Route Planner & Navigation</h2>
-            <div class="topbar-right">
-                <button id="calcRouteBtnHeader" onclick="document.getElementById('calcRouteBtn').click()" class="btn-topbar-action">
-                    <i class="fa-solid fa-plus"></i> Calculate Safe Route
+    <!-- Main Content -->
+    <main class="flex-1 relative flex flex-col h-screen overflow-hidden">
+        
+        <!-- Top Header -->
+        <header class="h-20 bg-white/80 backdrop-blur-md border-b border-slate-200 z-50 flex items-center justify-between px-8">
+            <div class="flex items-center">
+                <button class="hamburger-btn mr-3 text-slate-600 hover:text-primary" id="sidebar-toggle">
+                    <i class="fa-solid fa-bars text-xl"></i>
                 </button>
-                <div class="user-avatar-pill">
-                    <img src="https://i.pravatar.cc/80?img=32" alt="User Avatar">
+                <h2 class="text-xl font-bold text-primary">AI Route Planner & Navigation</h2>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button id="calcRouteBtnHeader" onclick="document.getElementById('calcRouteBtn').click()" class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-xl font-semibold text-sm flex items-center gap-2 shadow-sm transition-colors">
+                    <i class="fa-solid fa-plus"></i> Calculate Route
+                </button>
+                <button class="relative p-2 text-slate-500 hover:text-primary transition-colors">
+                    <i class="fa-solid fa-bell text-lg"></i>
+                    <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-critical rounded-full alert-pulse"></span>
+                </button>
+                <div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:text-primary border-2 border-transparent hover:border-primary transition-all duration-300 shadow-sm overflow-hidden">
+                    <img src="https://i.pravatar.cc/80?img=32" alt="Profile" class="w-full h-full object-cover">
                 </div>
             </div>
         </header>
 
-        <!-- Page Body Content -->
-        <div class="page-body">
+        <!-- Scrollable Body Content -->
+        <div class="flex-1 overflow-y-auto p-8 space-y-6">
 
-            <div id="navBanner" style="display: none; margin-bottom: 24px;"></div>
+            <div id="navBanner" style="display: none;" class="mb-4"></div>
 
             <!-- Route Inputs Card -->
-            <div class="detail-card">
-                <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
-                    <div style="flex: 1; min-width: 260px;">
-                        <label style="font-size: 11px; font-weight: 700; color: #64748b; display: block; margin-bottom: 6px;">START LOCATION</label>
-                        <div style="display: flex; align-items: center; gap: 10px; background: #f8fafc; padding: 12px 16px; border-radius: 12px; border: 1px solid var(--line);">
-                            <i class="fa-solid fa-location-dot" style="color: var(--purple);"></i>
-                            <input type="text" id="originInput" value="Panki" style="border:none; background:transparent; outline:none; width:100%; font-weight: 500;">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
+                    <div class="md:col-span-4">
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">START LOCATION</label>
+                        <div class="flex items-center bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5">
+                            <i class="fa-solid fa-location-dot text-primary mr-2"></i>
+                            <input type="text" id="originInput" value="Panki" class="bg-transparent outline-none w-full text-sm font-medium text-slate-800">
                         </div>
                     </div>
 
-                    <button id="swapLocationsBtn" class="btn-secondary" style="margin-top: 20px; border-radius: 50%; width: 44px; height: 44px; padding: 0; display: flex; align-items: center; justify-content: center;" title="Swap Locations">
-                        <i class="fa-solid fa-right-left"></i>
-                    </button>
-
-                    <div style="flex: 1; min-width: 260px;">
-                        <label style="font-size: 11px; font-weight: 700; color: #64748b; display: block; margin-bottom: 6px;">DESTINATION</label>
-                        <div style="display: flex; align-items: center; gap: 10px; background: #f8fafc; padding: 12px 16px; border-radius: 12px; border: 1px solid var(--line);">
-                            <i class="fa-solid fa-flag-checkered" style="color: #ef4444;"></i>
-                            <input type="text" id="destInput" value="IIT Kanpur Campus" style="border:none; background:transparent; outline:none; width:100%; font-weight: 500;">
-                        </div>
-                    </div>
-
-                    <div style="display: flex; gap: 10px; margin-top: 20px;">
-                        <button id="calcRouteBtn" class="btn-secondary" style="padding: 14px 22px;">
-                            <i class="fa-solid fa-calculator"></i> Calculate Route
+                    <div class="md:col-span-1 flex items-center justify-center">
+                        <button id="swapLocationsBtn" class="w-10 h-10 rounded-full bg-purple-100 text-primary flex items-center justify-center hover:bg-purple-200 transition-colors" title="Swap Locations">
+                            <i class="fa-solid fa-right-left"></i>
                         </button>
-                        <button id="startNavBtn" class="btn-primary" style="padding: 14px 28px;">
-                            <i class="fa-solid fa-paper-plane"></i> Start Live Navigation
+                    </div>
+
+                    <div class="md:col-span-4">
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">DESTINATION</label>
+                        <div class="flex items-center bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5">
+                            <i class="fa-solid fa-flag-checkered text-rose-500 mr-2"></i>
+                            <input type="text" id="destInput" value="IIT Kanpur Campus" class="bg-transparent outline-none w-full text-sm font-medium text-slate-800">
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-3 flex gap-2">
+                        <button id="calcRouteBtn" class="flex-1 bg-purple-100 hover:bg-purple-200 text-primary font-semibold py-2.5 px-3 rounded-xl text-sm transition-colors flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-calculator"></i> Calculate
+                        </button>
+                        <button id="startNavBtn" class="flex-1 bg-primary hover:bg-primary/90 text-white font-semibold py-2.5 px-3 rounded-xl text-sm shadow-sm transition-colors flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-paper-plane"></i> Start
                         </button>
                     </div>
                 </div>
             </div>
 
-            <h3 style="font-size: 18px; font-weight: 700;">Select AI Recommended Route</h3>
-            <div id="routeOptionsContainer" class="route-cards-grid"></div>
+            <h3 class="text-lg font-bold text-slate-900">Select AI Recommended Route</h3>
+            <div id="routeOptionsContainer" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
 
-            <!-- Grid Layout: Map & Directions Panel -->
-            <div class="detail-grid">
-                <div class="map-wrapper">
+            <!-- Map & Directions Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Map Viewport -->
+                <div class="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-200 p-2 map-wrapper">
                     <div id="map"></div>
                 </div>
 
-                <div class="directions-panel">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-                        <h3 style="font-size: 16px; font-weight: 700;"><i class="fa-solid fa-diamond-turn-right" style="color: var(--purple);"></i> Directions</h3>
-                        <span style="font-size: 12px; color: #64748b;">Step-by-step</span>
+                <!-- Step-by-Step Directions Panel -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-col">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-bold text-slate-900 flex items-center gap-2">
+                            <i class="fa-solid fa-diamond-turn-right text-primary"></i> Directions
+                        </h3>
+                        <span class="text-xs text-slate-500">Step-by-step</span>
                     </div>
 
-                    <div style="background: #f8fafc; padding: 12px; border-radius: 12px; margin-bottom: 16px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; font-size: 12px; border: 1px solid var(--line);">
-                        <div><span style="color:#64748b;">Distance:</span> <strong id="summaryDistance">11.3 km</strong></div>
-                        <div><span style="color:#64748b;">Est Time:</span> <strong id="summaryTime">24 mins</strong></div>
-                        <div><span style="color:#64748b;">Potholes:</span> <strong id="summaryPotholes" style="color:#22c55e;">0 detected</strong></div>
-                        <div><span style="color:#64748b;">Safety Score:</span> <strong id="summaryScore" style="color:var(--purple);">98/100</strong></div>
+                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 mb-4 grid grid-cols-2 gap-2 text-xs">
+                        <div><span class="text-slate-500">Distance:</span> <strong id="summaryDistance" class="text-slate-800">11.3 km</strong></div>
+                        <div><span class="text-slate-500">Est Time:</span> <strong id="summaryTime" class="text-slate-800">24 mins</strong></div>
+                        <div><span class="text-slate-500">Potholes:</span> <strong id="summaryPotholes" class="text-emerald-600">0 detected</strong></div>
+                        <div><span class="text-slate-500">Safety Score:</span> <strong id="summaryScore" class="text-primary">98/100</strong></div>
                     </div>
 
-                    <div id="directionsList" style="max-height: 320px; overflow-y: auto; padding-right: 6px;"></div>
+                    <div id="directionsList" class="flex-1 overflow-y-auto max-h-80 space-y-3 pr-2"></div>
                 </div>
             </div>
+
         </div>
+
     </main>
-</div>
 
-<!-- JS Dependencies -->
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="../../assets/js/pothole-data.js"></script>
-<script src="../../assets/js/map-engine.js"></script>
-<script src="../../assets/js/route-planner.js"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        if (typeof MapEngine !== 'undefined') MapEngine.init("map");
-        if (typeof RoutePlanner !== 'undefined') RoutePlanner.init();
-    });
-</script>
-
+    <!-- JS Dependencies -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="../../assets/js/pothole-data.js"></script>
+    <script src="../../assets/js/map-engine.js"></script>
+    <script src="../../assets/js/route-planner.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            if (typeof MapEngine !== 'undefined') MapEngine.init("map");
+            if (typeof RoutePlanner !== 'undefined') RoutePlanner.init();
+        });
+    </script>
 </body>
 </html>

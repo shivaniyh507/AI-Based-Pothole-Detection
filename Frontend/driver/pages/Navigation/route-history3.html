@@ -5,204 +5,218 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Route History | ROADIES</title>
 
-    <!-- Leaflet & FontAwesome & Google Fonts -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- CSS Dependencies -->
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#a855f7',
+                        secondary: '#0a0a0f',
+                        critical: '#ff4d4d',
+                        warning: '#ff9800',
+                        success: '#4caf50'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../../admin/css/admin-style.css">
+    <link rel="stylesheet" href="../../admin/css/responsive.css">
     <link rel="stylesheet" href="../../assets/css/common.css">
     <link rel="stylesheet" href="../../assets/css/navigation-maps.css">
 
-    <!-- Embedded Theme Styles -->
+    <!-- FontAwesome & Google Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
     <style>
-        :root {
-            --bg: #f1f5f9; --sidebar: #ffffff; --card: #ffffff; --text: #1e293b;
-            --muted: #64748b; --line: #e2e8f0; --purple: #9333ea; --purple-light: #f3e8ff;
-            --purple-gradient: linear-gradient(135deg, #a855f7, #7e22ce);
-            --blue: #2563eb; --green: #22c55e; --yellow: #f59e0b; --red: #ef4444;
-            --shadow: 0 4px 20px rgba(0, 0, 0, 0.04); --radius: 18px;
-        }
-        * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
-        body { background: var(--bg); color: var(--text); min-height: 100vh; }
-        .app-shell { display: flex; min-height: 100vh; }
-        .sidebar { width: 270px; height: 100vh; position: sticky; top: 0; align-self: flex-start; overflow-y: auto; z-index: 100; background: var(--sidebar); color: var(--text); padding: 24px; display: flex; flex-direction: column; justify-content: space-between; flex-shrink: 0; border-right: 1px solid var(--line); }
-        .brand { display: flex; align-items: center; gap: 14px; margin-bottom: 30px; }
-        .brand-mark { width: 48px; height: 48px; border-radius: 14px; background: var(--purple-gradient); color: white; display: flex; align-items: center; justify-content: center; font-size: 22px; }
-        .brand h1 { font-size: 20px; font-weight: 700; color: var(--purple); }
-        .brand p { font-size: 12px; color: var(--muted); }
-        .sidebar-nav { display: flex; flex-direction: column; gap: 6px; }
-        .nav-item { display: flex; align-items: center; gap: 14px; padding: 12px 16px; border-radius: 12px; color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: all 0.2s ease; }
-        .nav-item:hover { background: #f8fafc; color: var(--purple); }
-        .nav-item.active { background: var(--purple-light); color: var(--purple); font-weight: 600; }
-        .nav-item.active i { color: var(--purple); }
-
-        .main-wrapper { flex: 1; display: flex; flex-direction: column; height: 100vh; overflow-y: auto; background: #f8fafc; }
-        .admin-topbar { height: 76px; padding: 0 32px; background: #ffffff; border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 90; flex-shrink: 0; }
-        .topbar-page-title { font-size: 22px; font-weight: 700; color: var(--purple); margin: 0; }
-        .topbar-right { display: flex; align-items: center; gap: 16px; }
-        .btn-topbar-action { background: var(--purple-gradient); color: #ffffff; border: none; padding: 10px 20px; border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; box-shadow: 0 4px 14px rgba(147, 51, 234, 0.25); transition: all 0.2s ease; }
-        .btn-topbar-action:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(147, 51, 234, 0.35); }
-        .user-avatar-pill { width: 42px; height: 42px; border-radius: 50%; overflow: hidden; border: 2px solid var(--purple-light); display: flex; align-items: center; justify-content: center; }
-        .user-avatar-pill img { width: 100%; height: 100%; object-fit: cover; }
-
-        .page-body { padding: 28px 36px; display: flex; flex-direction: column; gap: 24px; }
-        .btn-primary { background: var(--purple-gradient); color: white; border: none; padding: 12px 22px; border-radius: 12px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-size: 14px; box-shadow: 0 4px 14px rgba(147, 51, 234, 0.25); }
-        .btn-secondary { background: var(--purple-light); color: var(--purple); border: 1px solid #e9d5ff; padding: 12px 22px; border-radius: 12px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-size: 14px; }
-        .detail-card { background: #fff; border-radius: 20px; padding: 26px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); border: 1px solid var(--line); }
-        .history-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
-        .history-table th { text-align: left; padding: 14px 16px; color: var(--muted); border-bottom: 2px solid var(--line); font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .history-table td { padding: 16px; border-bottom: 1px solid var(--line); color: var(--text); }
-        .badge-pill { padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; display: inline-block; }
-        .badge-success { background: #dcfce7; color: #16a34a; }
-        .badge-info { background: #e0f2fe; color: #0284c7; }
+        .brand-mark { width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, #a855f7, #7e22ce); color: white; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
     </style>
 </head>
-<body>
+<body class="bg-slate-50 text-slate-900 flex h-screen overflow-hidden">
 
-<div class="app-shell">
-    <aside class="sidebar">
+    <!-- Sidebar Overlay (Mobile) -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar w-64 bg-white border-r border-slate-200 shadow-xl flex-shrink-0 z-20 flex flex-col justify-between transition-all duration-300 relative" id="sidebar">
         <div>
-            <div class="brand">
+            <!-- ROADIES Logo Header -->
+            <div class="h-20 flex items-center px-6 border-b border-slate-200 gap-3">
                 <div class="brand-mark"><i class="fa-solid fa-road"></i></div>
                 <div>
-                    <h1>ROADIES</h1>
-                    <p>Navigation & Maps</p>
+                    <h1 class="text-xl font-bold text-primary tracking-tight leading-none">ROADIES</h1>
+                    <p class="text-xs text-slate-500 mt-1">Navigation & Maps</p>
                 </div>
             </div>
 
-            <nav class="sidebar-nav">
-                <a class="nav-item" href="../dashboard.html"><i class="fa-solid fa-gauge-high"></i><span>Dashboard</span></a>
-                <a class="nav-item" href="live-map3.html"><i class="fa-solid fa-compass"></i><span>Map View</span></a>
-                <a class="nav-item" href="route-planner3.html"><i class="fa-solid fa-route"></i><span>Route Planner</span></a>
-                <a class="nav-item active" href="route-history3.html"><i class="fa-solid fa-clock-rotate-left"></i><span>Route History</span></a>
-                <a class="nav-item" href="pothole-detail3.html"><i class="fa-solid fa-circle-info"></i><span>Pothole Details</span></a>
-                <a class="nav-item" href="../scan-road.html"><i class="fa-solid fa-camera"></i><span>Scan Road</span></a>
-                <a class="nav-item" href="../my-reports.html"><i class="fa-solid fa-file-lines"></i><span>My Reports</span></a>
+            <!-- Navigation Links -->
+            <nav class="py-6 px-4 space-y-1.5 overflow-y-auto">
+                <a href="../router/dashboard2.html" class="sidebar-link flex items-center px-4 py-3 rounded-xl text-slate-600 hover:text-primary hover:bg-purple-50 transition-all duration-200 font-medium text-sm">
+                    <i class="fa-solid fa-gauge-high w-5 h-5 mr-3 text-slate-400"></i>
+                    Dashboard
+                </a>
+                <a href="live-map3.html" class="sidebar-link flex items-center px-4 py-3 rounded-xl text-slate-600 hover:text-primary hover:bg-purple-50 transition-all duration-200 font-medium text-sm">
+                    <i class="fa-solid fa-compass w-5 h-5 mr-3 text-slate-400"></i>
+                    Map View
+                </a>
+                <a href="route-planner3.html" class="sidebar-link flex items-center px-4 py-3 rounded-xl text-slate-600 hover:text-primary hover:bg-purple-50 transition-all duration-200 font-medium text-sm">
+                    <i class="fa-solid fa-route w-5 h-5 mr-3 text-slate-400"></i>
+                    Route Planner
+                </a>
+                <a href="route-history3.html" class="sidebar-link active flex items-center px-4 py-3 rounded-xl font-semibold bg-purple-100 text-primary text-sm">
+                    <i class="fa-solid fa-clock-rotate-left w-5 h-5 mr-3 text-primary"></i>
+                    Route History
+                </a>
+                <a href="pothole-detail3.html" class="sidebar-link flex items-center px-4 py-3 rounded-xl text-slate-600 hover:text-primary hover:bg-purple-50 transition-all duration-200 font-medium text-sm">
+                    <i class="fa-solid fa-circle-info w-5 h-5 mr-3 text-slate-400"></i>
+                    Pothole Details
+                </a>
+                <a href="../router/scan-road2.html" class="sidebar-link flex items-center px-4 py-3 rounded-xl text-slate-600 hover:text-primary hover:bg-purple-50 transition-all duration-200 font-medium text-sm">
+                    <i class="fa-solid fa-camera w-5 h-5 mr-3 text-slate-400"></i>
+                    Scan Road
+                </a>
+                <a href="../router/my-reports2.html" class="sidebar-link flex items-center px-4 py-3 rounded-xl text-slate-600 hover:text-primary hover:bg-purple-50 transition-all duration-200 font-medium text-sm">
+                    <i class="fa-solid fa-file-lines w-5 h-5 mr-3 text-slate-400"></i>
+                    My Reports
+                </a>
             </nav>
         </div>
 
-        <div class="sidebar-footer">
-            <div class="status-card" style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 14px; background: #f8fafc; color: var(--text); font-size: 12px; border: 1px solid var(--line);">
-                <span style="width: 10px; height: 10px; border-radius: 50%; background: #22c55e;"></span>
+        <!-- Sidebar Footer: GPS Status Card & User Profile -->
+        <div class="p-4 border-t border-slate-200 space-y-3">
+            <div class="flex items-center gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse flex-shrink-0"></span>
                 <div>
-                    <strong>GPS Active</strong>
-                    <p>Hazard Zone Mapping</p>
+                    <strong class="text-slate-900 font-bold block">GPS Active</strong>
+                    <p class="text-slate-500">Hazard Zone Mapping</p>
                 </div>
+            </div>
+
+            <div class="flex items-center justify-between pt-1">
+                <div class="flex items-center">
+                    <div class="w-9 h-9 rounded-full bg-primary flex items-center justify-center text-white font-bold text-sm shadow-sm">
+                        S
+                    </div>
+                    <div class="ml-2.5">
+                        <p class="text-sm font-bold text-slate-900">shhio</p>
+                    </div>
+                </div>
+                <a href="#" class="text-slate-400 hover:text-rose-500 transition-colors" title="Logout">
+                    <i class="fa-solid fa-right-from-bracket w-4 h-4"></i>
+                </a>
             </div>
         </div>
     </aside>
 
-    <!-- Main Content Outer Wrapper -->
-    <main class="main-wrapper">
-        <header class="admin-topbar">
-            <h2 class="topbar-page-title">Your Route History</h2>
-            <div class="topbar-right">
-                <a href="route-planner3.html" class="btn-topbar-action">
+    <!-- Main Content -->
+    <main class="flex-1 relative flex flex-col h-screen overflow-hidden">
+        
+        <!-- Top Header -->
+        <header class="h-20 bg-white/80 backdrop-blur-md border-b border-slate-200 z-50 flex items-center justify-between px-8">
+            <div class="flex items-center">
+                <button class="hamburger-btn mr-3 text-slate-600 hover:text-primary" id="sidebar-toggle">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+                <h2 class="text-xl font-bold text-primary">Your Route History</h2>
+            </div>
+            <div class="flex items-center space-x-4">
+                <a href="route-planner3.html" class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-xl font-semibold text-sm flex items-center gap-2 shadow-sm transition-colors">
                     <i class="fa-solid fa-plus"></i> New Trip Plan
                 </a>
-                <div class="user-avatar-pill">
-                    <img src="https://i.pravatar.cc/80?img=32" alt="User Avatar">
+                <button class="relative p-2 text-slate-500 hover:text-primary transition-colors">
+                    <i class="fa-solid fa-bell text-lg"></i>
+                    <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-critical rounded-full alert-pulse"></span>
+                </button>
+                <div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:text-primary border-2 border-transparent hover:border-primary transition-all duration-300 shadow-sm overflow-hidden">
+                    <img src="https://i.pravatar.cc/80?img=32" alt="Profile" class="w-full h-full object-cover">
                 </div>
             </div>
         </header>
 
-        <!-- Page Body Content -->
-        <div class="page-body">
+        <!-- Scrollable Body Content -->
+        <div class="flex-1 overflow-y-auto p-8 space-y-6">
 
-            <div class="detail-card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-                    <h3 style="font-size: 16px; font-weight: 700;">Past Navigation Logs</h3>
-                    <span style="font-size: 12px; color: var(--muted);">Showing last 30 days</span>
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-bold text-slate-900 text-lg">Past Navigation Logs</h3>
+                    <span class="text-xs text-slate-500">Showing last 30 days</span>
                 </div>
 
-                <table class="history-table">
-                    <thead>
-                        <tr>
-                            <th>Trip ID & Date</th>
-                            <th>Origin & Destination</th>
-                            <th>Distance & Time</th>
-                            <th>Potholes Avoided</th>
-                            <th>Safety Score</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <strong>TRIP-801</strong><br>
-                                <span style="font-size:12px; color:var(--muted);">2026-07-22 09:30 AM</span>
-                            </td>
-                            <td>
-                                <i class="fa-solid fa-location-dot" style="color:var(--purple);"></i> Panki Industrial Area<br>
-                                <i class="fa-solid fa-flag-checkered" style="color:#ef4444;"></i> IIT Kanpur Campus
-                            </td>
-                            <td>
-                                <strong>11.3 km</strong><br>
-                                <span style="font-size:12px; color:var(--muted);">24 mins</span>
-                            </td>
-                            <td>
-                                <span class="badge-pill badge-success"><i class="fa-solid fa-shield-halved"></i> 3 Avoided</span>
-                            </td>
-                            <td>
-                                <strong style="color:var(--purple);">94 / 100</strong>
-                            </td>
-                            <td>
-                                <a href="route-planner3.html" class="btn-secondary" style="padding:6px 12px; font-size:12px;">Re-run</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <strong>TRIP-802</strong><br>
-                                <span style="font-size:12px; color:var(--muted);">2026-07-21 05:15 PM</span>
-                            </td>
-                            <td>
-                                <i class="fa-solid fa-location-dot" style="color:var(--purple);"></i> Kanpur Central Station<br>
-                                <i class="fa-solid fa-flag-checkered" style="color:#ef4444;"></i> Swaroop Nagar
-                            </td>
-                            <td>
-                                <strong>6.8 km</strong><br>
-                                <span style="font-size:12px; color:var(--muted);">16 mins</span>
-                            </td>
-                            <td>
-                                <span class="badge-pill badge-info"><i class="fa-solid fa-shield-halved"></i> 2 Avoided</span>
-                            </td>
-                            <td>
-                                <strong style="color:var(--purple);">82 / 100</strong>
-                            </td>
-                            <td>
-                                <a href="route-planner3.html" class="btn-secondary" style="padding:6px 12px; font-size:12px;">Re-run</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <strong>TRIP-803</strong><br>
-                                <span style="font-size:12px; color:var(--muted);">2026-07-20 01:10 PM</span>
-                            </td>
-                            <td>
-                                <i class="fa-solid fa-location-dot" style="color:var(--purple);"></i> Kidwai Nagar<br>
-                                <i class="fa-solid fa-flag-checkered" style="color:#ef4444;"></i> Mall Road
-                            </td>
-                            <td>
-                                <strong>8.1 km</strong><br>
-                                <span style="font-size:12px; color:var(--muted);">19 mins</span>
-                            </td>
-                            <td>
-                                <span class="badge-pill badge-success"><i class="fa-solid fa-shield-halved"></i> 4 Avoided</span>
-                            </td>
-                            <td>
-                                <strong style="color:#22c55e;">98 / 100</strong>
-                            </td>
-                            <td>
-                                <a href="route-planner3.html" class="btn-secondary" style="padding:6px 12px; font-size:12px;">Re-run</a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </main>
-</div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm text-slate-700">
+                        <thead class="bg-slate-50 text-xs font-bold text-slate-500 uppercase border-b border-slate-200">
+                            <tr>
+                                <th class="p-4">Trip ID & Date</th>
+                                <th class="p-4">Origin & Destination</th>
+                                <th class="p-4">Distance & Time</th>
+                                <th class="p-4">Potholes Avoided</th>
+                                <th class="p-4">Safety Score</th>
+                                <th class="p-4">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200">
+                            <tr class="hover:bg-slate-50/50 transition-colors">
+                                <td class="p-4">
+                                    <strong class="text-slate-900">TRIP-801</strong>
+                                    <span class="block text-xs text-slate-500">2026-07-22 09:30 AM</span>
+                                </td>
+                                <td class="p-4 space-y-1">
+                                    <div class="flex items-center gap-1.5"><i class="fa-solid fa-location-dot text-primary text-xs"></i> Panki Industrial Area</div>
+                                    <div class="flex items-center gap-1.5"><i class="fa-solid fa-flag-checkered text-rose-500 text-xs"></i> IIT Kanpur Campus</div>
+                                </td>
+                                <td class="p-4">
+                                    <strong class="text-slate-900">11.3 km</strong>
+                                    <span class="block text-xs text-slate-500">24 mins</span>
+                                </td>
+                                <td class="p-4">
+                                    <span class="inline-flex items-center gap-1 bg-emerald-100 text-emerald-700 px-2.5 py-1 rounded-full text-xs font-semibold">
+                                        <i class="fa-solid fa-shield-halved"></i> 3 Avoided
+                                    </span>
+                                </td>
+                                <td class="p-4">
+                                    <strong class="text-primary font-bold">94 / 100</strong>
+                                </td>
+                                <td class="p-4">
+                                    <a href="route-planner3.html" class="bg-purple-100 hover:bg-purple-200 text-primary px-3 py-1.5 rounded-xl text-xs font-semibold transition-colors inline-block">Re-run</a>
+                                </td>
+                            </tr>
 
+                            <tr class="hover:bg-slate-50/50 transition-colors">
+                                <td class="p-4">
+                                    <strong class="text-slate-900">TRIP-802</strong>
+                                    <span class="block text-xs text-slate-500">2026-07-21 05:15 PM</span>
+                                </td>
+                                <td class="p-4 space-y-1">
+                                    <div class="flex items-center gap-1.5"><i class="fa-solid fa-location-dot text-primary text-xs"></i> Kanpur Central Station</div>
+                                    <div class="flex items-center gap-1.5"><i class="fa-solid fa-flag-checkered text-rose-500 text-xs"></i> Swaroop Nagar</div>
+                                </td>
+                                <td class="p-4">
+                                    <strong class="text-slate-900">6.8 km</strong>
+                                    <span class="block text-xs text-slate-500">16 mins</span>
+                                </td>
+                                <td class="p-4">
+                                    <span class="inline-flex items-center gap-1 bg-sky-100 text-sky-700 px-2.5 py-1 rounded-full text-xs font-semibold">
+                                        <i class="fa-solid fa-shield-halved"></i> 2 Avoided
+                                    </span>
+                                </td>
+                                <td class="p-4">
+                                    <strong class="text-primary font-bold">82 / 100</strong>
+                                </td>
+                                <td class="p-4">
+                                    <a href="route-planner3.html" class="bg-purple-100 hover:bg-purple-200 text-primary px-3 py-1.5 rounded-xl text-xs font-semibold transition-colors inline-block">Re-run</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
 </body>
 </html>
