@@ -38,50 +38,65 @@ const RoutePlanner = {
     return [26.45, 80.30];
   },
 
-  calculateRoutes(originStr, destStr) {
+  async calculateRoutes(originStr, destStr) {
     this.origin = originStr || "Panki Industrial Area";
     this.destination = destStr || "IIT Kanpur Campus";
 
-    const startCoords = this.geocode(this.origin);
-    const endCoords = this.geocode(this.destination);
-
-    const step1 = [startCoords[0], startCoords[1]];
-    const step2 = [startCoords[0] + (endCoords[0] - startCoords[0]) * 0.5, startCoords[1] + (endCoords[1] - startCoords[1]) * 0.3];
-    const step3 = [endCoords[0], endCoords[1]];
-    const realPolyline = [step1, step2, step3];
-
-    this.routesData = {
-      safest: {
-        name: "Safest Route",
-        distanceKm: 12.4,
-        durationMin: 24,
-        potholesCount: 0,
-        safetyScore: 98,
-        tag: "Recommended",
-        tagClass: "tag-safest",
-        path: realPolyline
-      },
-      balanced: {
-        name: "Balanced Route",
-        distanceKm: 11.2,
-        durationMin: 20,
-        potholesCount: 1,
-        safetyScore: 86,
-        tag: "Moderate",
-        tagClass: "tag-balanced",
-        path: realPolyline
-      },
-      fastest: {
-        name: "Fastest Route",
-        distanceKm: 10.1,
-        durationMin: 16,
-        potholesCount: 3,
-        safetyScore: 64,
-        tag: "High Pothole Risk",
-        tagClass: "tag-fastest",
-        path: realPolyline
+    let apiSuccess = false;
+    if (typeof API !== 'undefined') {
+      try {
+        const res = await API.planRoute({ origin: this.origin, destination: this.destination });
+        if (res && res.success && res.routes) {
+          this.routesData = res.routes;
+          apiSuccess = true;
+        }
+      } catch (err) {
+        console.warn("[RoutePlanner] Live API plan-route notice, using fallback geocoder:", err.message);
       }
-    };
+    }
+
+    if (!apiSuccess) {
+      const startCoords = this.geocode(this.origin);
+      const endCoords = this.geocode(this.destination);
+
+      const step1 = [startCoords[0], startCoords[1]];
+      const step2 = [startCoords[0] + (endCoords[0] - startCoords[0]) * 0.5, startCoords[1] + (endCoords[1] - startCoords[1]) * 0.3];
+      const step3 = [endCoords[0], endCoords[1]];
+      const realPolyline = [step1, step2, step3];
+
+      this.routesData = {
+        safest: {
+          name: "Safest Route",
+          distanceKm: 12.4,
+          durationMin: 24,
+          potholesCount: 0,
+          safetyScore: 98,
+          tag: "Recommended",
+          tagClass: "tag-safest",
+          path: realPolyline
+        },
+        balanced: {
+          name: "Balanced Route",
+          distanceKm: 11.2,
+          durationMin: 20,
+          potholesCount: 1,
+          safetyScore: 86,
+          tag: "Moderate",
+          tagClass: "tag-balanced",
+          path: realPolyline
+        },
+        fastest: {
+          name: "Fastest Route",
+          distanceKm: 10.1,
+          durationMin: 16,
+          potholesCount: 3,
+          safetyScore: 64,
+          tag: "High Pothole Risk",
+          tagClass: "tag-fastest",
+          path: realPolyline
+        }
+      };
+    }
 
     this.renderRouteCards();
     this.selectRoute(this.selectedRoute || "safest");

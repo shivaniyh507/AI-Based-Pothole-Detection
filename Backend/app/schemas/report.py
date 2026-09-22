@@ -12,6 +12,10 @@ class ReportBase(BaseModel):
     bounding_boxes: Optional[List[Any]] = []
     image_path: Optional[str] = ""
     detected_potholes_count: Optional[int] = 1
+    upvotes: Optional[int] = 0
+    depth_cm: Optional[float] = 12.0
+    width_cm: Optional[float] = 50.0
+    ai_confidence: Optional[float] = 95.0
     notes: Optional[str] = ""
 
 class ReportCreate(ReportBase):

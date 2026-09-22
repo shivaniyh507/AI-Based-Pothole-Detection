@@ -16,6 +16,11 @@ class PotholeReport(Base):
     image_path = Column(String(500), default="")
     detected_potholes_count = Column(Integer, default=1)
     
+    upvotes = Column(Integer, default=0)
+    depth_cm = Column(Float, default=12.0)
+    width_cm = Column(Float, default=50.0)
+    ai_confidence = Column(Float, default=95.0)
+    
     reported_by_id = Column(Integer, ForeignKey("users.id"), nullable=True)
     assigned_to_id = Column(Integer, ForeignKey("users.id"), nullable=True)
     

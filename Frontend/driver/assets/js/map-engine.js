@@ -36,14 +36,29 @@ const MapEngine = {
                 maxZoom: 19,
             }).addTo(this.map);
 
-            // Render default pothole dataset
-            if (typeof PotholeDataStore !== 'undefined') {
-                this.renderPotholes(PotholeDataStore.potholes);
-            }
+            // Render pothole dataset (from live Backend API or PotholeDataStore fallback)
+            this.loadAndRenderPotholes();
 
             return this.map;
         } else {
             console.warn("Leaflet Library not found!");
+        }
+    },
+
+    async loadAndRenderPotholes() {
+        if (typeof API !== 'undefined') {
+            try {
+                const res = await API.getPotholes();
+                if (res && res.success && Array.isArray(res.markers) && res.markers.length > 0) {
+                    this.renderPotholes(res.markers);
+                    return;
+                }
+            } catch (err) {
+                console.warn("[MapEngine] API fetch notice, loading fallback store:", err.message);
+            }
+        }
+        if (typeof PotholeDataStore !== 'undefined') {
+            this.renderPotholes(PotholeDataStore.potholes);
         }
     },
 

@@ -142,19 +142,44 @@ def get_report_by_id(report_id: int, db: Session = Depends(get_db)):
         "report": {
             "id": r.id,
             "_id": str(r.id),
+            "lat": r.latitude,
+            "lng": r.longitude,
             "latitude": r.latitude,
             "longitude": r.longitude,
             "locationName": r.location_name,
+            "address": r.location_name,
             "severity": r.severity,
             "status": r.status,
+            "upvotes": r.upvotes,
+            "depthCm": r.depth_cm,
+            "widthCm": r.width_cm,
+            "aiConfidence": r.ai_confidence,
             "boundingBoxes": r.bounding_boxes,
             "imagePath": r.image_path,
             "detectedPotholesCount": r.detected_potholes_count,
             "reportedBy": {"id": r.reporter.id, "name": r.reporter.name} if r.reporter else None,
             "assignedTo": {"id": r.assignee.id, "name": r.assignee.name} if r.assignee else None,
+            "repairedAt": r.repaired_at,
             "notes": r.notes,
             "createdAt": r.created_at
         }
+    }
+
+@router.post("/{report_id}/upvote")
+def upvote_report(report_id: int, db: Session = Depends(get_db)):
+    r = db.query(PotholeReport).filter(PotholeReport.id == report_id).first()
+    if not r:
+        raise HTTPException(status_code=404, detail="Pothole report not found")
+
+    r.upvotes = (r.upvotes or 0) + 1
+    db.commit()
+    db.refresh(r)
+
+    return {
+        "success": True,
+        "id": r.id,
+        "upvotes": r.upvotes,
+        "message": "Report upvoted successfully"
     }
 
 @router.put("/{report_id}/status")

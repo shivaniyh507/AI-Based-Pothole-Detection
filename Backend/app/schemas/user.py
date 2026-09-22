@@ -1,10 +1,10 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime
 
 class UserBase(BaseModel):
     name: str
-    email: EmailStr
+    email: str
     role: Optional[str] = "driver"
     avatar: Optional[str] = ""
 
@@ -12,12 +12,12 @@ class UserCreate(UserBase):
     password: str
 
 class UserLogin(BaseModel):
-    email: EmailStr
+    email: str
     password: str
 
 class UserUpdate(BaseModel):
     name: Optional[str] = None
-    email: Optional[EmailStr] = None
+    email: Optional[str] = None
     password: Optional[str] = None
     avatar: Optional[str] = None
 

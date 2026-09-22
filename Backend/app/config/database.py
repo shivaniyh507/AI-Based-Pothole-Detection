@@ -15,8 +15,10 @@ if db_url.startswith("sqlite"):
 
 try:
     engine = create_engine(db_url, connect_args=connect_args)
+    with engine.connect() as conn:
+        pass
 except Exception:
-    # Fallback sqlite engine if postgres connection string has syntax/driver mismatch
+    # Fallback sqlite engine if postgres connection fails or server is offline
     sqlite_fallback = "sqlite:///./pothole_app.db"
     engine = create_engine(sqlite_fallback, connect_args={"check_same_thread": False})
 

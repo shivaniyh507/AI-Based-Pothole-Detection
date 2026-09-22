@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (errorBox) errorBox.classList.remove("show");
     }
 
-    registerForm.addEventListener("submit", function (e) {
+        registerForm.addEventListener("submit", async function (e) {
         e.preventDefault();
         hideError();
 
@@ -92,17 +92,27 @@ document.addEventListener("DOMContentLoaded", () => {
             `;
         }
 
-        setTimeout(() => {
-            let res = { success: true };
-            if (window.RoadSafeData) {
-                res = window.RoadSafeData.registerDriver(nameVal, emailVal, phoneVal, passVal);
+        try {
+            let apiRegistered = false;
+            if (typeof API !== 'undefined') {
+                try {
+                    const res = await API.register(nameVal, emailVal, passVal, 'driver');
+                    if (res && res.success) {
+                        apiRegistered = true;
+                    }
+                } catch (apiErr) {
+                    console.warn("[Register] API register notice:", apiErr.message);
+                }
             }
 
-            if (!res.success) {
-                showError(res.message || "Registration failed.");
-                registerBtn.disabled = false;
-                if (registerText) registerText.innerHTML = "Register Account";
-                return;
+            if (!apiRegistered && window.RoadSafeData && typeof window.RoadSafeData.registerDriver === 'function') {
+                const res = window.RoadSafeData.registerDriver(nameVal, emailVal, phoneVal, passVal);
+                if (!res.success) {
+                    showError(res.message || "Registration failed.");
+                    registerBtn.disabled = false;
+                    if (registerText) registerText.innerHTML = "Register Account";
+                    return;
+                }
             }
 
             if (successModal) {
@@ -121,7 +131,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 alert("Registration successful! Please sign in.");
                 window.location.href = "login.html";
             }
-        }, 1000);
+        } catch (err) {
+            showError("Registration failed: " + err.message);
+            registerBtn.disabled = false;
+            if (registerText) registerText.innerHTML = "Register Account";
+        }
     });
 
     document.querySelectorAll("input").forEach(input => {

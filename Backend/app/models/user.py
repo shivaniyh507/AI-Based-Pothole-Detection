@@ -19,3 +19,5 @@ class User(Base):
     reports = relationship("PotholeReport", foreign_keys="PotholeReport.reported_by_id", back_populates="reporter")
     assignments = relationship("PotholeReport", foreign_keys="PotholeReport.assigned_to_id", back_populates="assignee")
     notifications = relationship("Notification", back_populates="target_user")
+    route_history = relationship("RouteHistory", back_populates="user")
+

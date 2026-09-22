@@ -150,9 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // -------------------------------
 
     loginForm.addEventListener("submit", async (e) => {
-
         e.preventDefault();
-
         hideError();
 
         const username = emailInput.value.trim();
@@ -166,100 +164,62 @@ document.addEventListener("DOMContentLoaded", () => {
         setLoading(true);
 
         try {
-
             // -------------------------------
-            // Load JSON Data
+            // 1. Attempt Live Backend API Login
             // -------------------------------
-
-            const users = await loadJSON("../../data/users.json");
-            const admins = await loadJSON("../../data/admins.json");
-
-            // -------------------------------
-            // Driver Login
-            // Email OR Driver ID
-            // -------------------------------
-
-            const driver = users.find(user => {
-
-                return (
-
-                    (
-                        user.email.toLowerCase() === username.toLowerCase() ||
-                        user.driverId.toLowerCase() === username.toLowerCase()
-                    )
-
-                    &&
-
-                    user.password === password
-
-                );
-
-            });
-
-            if (driver) {
-
-                saveSession("driver", driver);
-
-                window.location.href = "../driver/dashboard.html";
-
-                return;
-
+            if (typeof API !== 'undefined') {
+                try {
+                    const res = await API.login(username, password);
+                    if (res && res.success) {
+                        const targetRole = res.role || 'driver';
+                        if (targetRole === 'admin') {
+                            window.location.href = "../admin/dashboard.html";
+                        } else {
+                            window.location.href = "../driver/dashboard.html";
+                        }
+                        return;
+                    }
+                } catch (apiErr) {
+                    console.warn("Backend API login attempt notice:", apiErr.message);
+                }
             }
 
             // -------------------------------
-            // Admin Login
-            // Email OR Employee ID
+            // 2. Fallback: Load JSON Data
             // -------------------------------
+            const users = await loadJSON("../../data/users.json").catch(() => []);
+            const admins = await loadJSON("../../data/admins.json").catch(() => []);
 
-            const admin = admins.find(user => {
-
-                return (
-
-                    (
-                        user.email.toLowerCase() === username.toLowerCase() ||
-                        user.employeeId.toLowerCase() === username.toLowerCase()
-                    )
-
-                    &&
-
-                    user.password === password
-
-                );
-
-            });
-
-            if (admin) {
-
-                saveSession("admin", admin);
-
-                window.location.href = "../admin/dashboard.html";
-
-                return;
-
-            }
-
-            // -------------------------------
-            // Invalid Login
-            // -------------------------------
-
-            showError("Invalid Email / ID or Password.");
-
-            setLoading(false);
-
-        }
-
-                catch (error) {
-
-            console.error("Login Error:", error);
-
-            showError(
-                "Unable to connect to user database. Please try again."
+            const driver = users.find(user => 
+                (user.email.toLowerCase() === username.toLowerCase() || (user.driverId && user.driverId.toLowerCase() === username.toLowerCase()))
+                && user.password === password
             );
 
+            if (driver) {
+                saveSession("driver", driver);
+                window.location.href = "../driver/dashboard.html";
+                return;
+            }
+
+            const admin = admins.find(user => 
+                (user.email.toLowerCase() === username.toLowerCase() || (user.employeeId && user.employeeId.toLowerCase() === username.toLowerCase()))
+                && user.password === password
+            );
+
+            if (admin) {
+                saveSession("admin", admin);
+                window.location.href = "../admin/dashboard.html";
+                return;
+            }
+
+            showError("Invalid Email / ID or Password.");
             setLoading(false);
 
+        } catch (error) {
+            console.error("Login Error:", error);
+            showError("Unable to connect to user database. Please try again.");
+            setLoading(false);
         }
-
     });
 
     // -------------------------------
