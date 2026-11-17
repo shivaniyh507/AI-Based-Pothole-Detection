@@ -48,7 +48,7 @@ function showPlacesUnavailableToast() {
 
 // Global Google Maps Callback Function
 window.initMap = function () {
-  const mapElement = document.getElementById("map");
+  const mapElement = document.getElementById("liveMapViewport");
   if (!mapElement) return;
 
   try {
@@ -120,29 +120,60 @@ function initGooglePlacesAutocomplete() {
 }
 
 function initLeafletFallback() {
-  const mapElement = document.getElementById("map");
-  if (!mapElement || leafletMap) return;
+  const mapElement = document.getElementById("liveMapViewport");
 
-  isGoogleMapsActive = false;
-  mapElement.innerHTML = "";
+  if (!mapElement) {
+    console.error("RoadSafe AI: liveMapViewport not found.");
+    return;
+  }
 
-  if (typeof L !== "undefined") {
-    leafletMap = L.map("map", {
-      center: [currentGeoLocation.lat, currentGeoLocation.lng],
+  if (leafletMap) {
+    console.log("RoadSafe AI: Leaflet map already initialized.");
+    return;
+  }
+
+  if (typeof L === "undefined") {
+    console.error("RoadSafe AI: Leaflet library is not loaded.");
+    return;
+  }
+
+  try {
+    isGoogleMapsActive = false;
+
+    leafletMap = L.map(mapElement, {
+      center: [
+        currentGeoLocation.lat,
+        currentGeoLocation.lng
+      ],
       zoom: 14,
       zoomControl: true
     });
 
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      maxZoom: 19
-    }).addTo(leafletMap);
+    L.tileLayer(
+      "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      {
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">' +
+          "OpenStreetMap</a>",
+        maxZoom: 19
+      }
+    ).addTo(leafletMap);
 
     leafletMap.on("dragstart", () => {
       setFollowMeMode(false);
     });
 
+    console.log(
+      "RoadSafe AI: Leaflet map initialized successfully."
+    );
+
     requestAndTrackLocation();
+
+  } catch (error) {
+    console.error(
+      "RoadSafe AI: Leaflet initialization failed:",
+      error
+    );
   }
 }
 
@@ -159,10 +190,10 @@ function requestAndTrackLocation() {
       if (permissionBanner) permissionBanner.style.display = "none";
       updateUserPosition(pos.coords.latitude, pos.coords.longitude, true);
 
-      const originInput = document.getElementById("originInput");
-      if (originInput && !originInput.value) {
-        originInput.value = "My Current Location";
-      }
+      // const originInput = document.getElementById("originInput");
+      // if (originInput && !originInput.value) {
+      //   originInput.value = "My Current Location";
+      // }
     },
     (err) => {
       console.warn("Location permission error:", err);
@@ -330,128 +361,384 @@ function calculateRoute() {
   const spinner = document.getElementById("routeLoadingSpinner");
 
   let originVal = originInput ? originInput.value.trim() : "";
-  let destinationVal = destinationInput ? destinationInput.value.trim() : "";
+  const destinationVal = destinationInput
+    ? destinationInput.value.trim()
+    : "";
 
-  if (!originVal || originVal.toLowerCase().includes("current location") || originVal.toLowerCase().includes("my location")) {
+  if (!originVal ||
+      originVal.toLowerCase().includes("current location") ||
+      originVal.toLowerCase().includes("my location")) {
+
     originVal = `${currentGeoLocation.lat},${currentGeoLocation.lng}`;
   }
 
   if (!destinationVal) {
     if (window.showToast) {
-      window.showToast("Please enter a destination to calculate route.", "warning");
+      window.showToast(
+        "Please enter a destination to calculate route.",
+        "warning"
+      );
     }
     return;
   }
 
-  if (spinner) spinner.style.display = "flex";
-
-  if (isGoogleMapsActive && googleMap && directionsService) {
-    const request = {
-      origin: originVal,
-      destination: destinationVal,
-      travelMode: google.maps.TravelMode.DRIVING
-    };
-
-    directionsService.route(request, (response, status) => {
-      if (spinner) spinner.style.display = "none";
-
-      if (status === google.maps.DirectionsStatus.OK) {
-        directionsDisplay.setDirections(response);
-        const leg = response.routes[0].legs[0];
-        updateRouteInfoPanel({
-          distance: leg.distance.text,
-          duration: leg.duration.text,
-          durationSec: leg.duration.value,
-          destinationName: leg.end_address.split(",")[0]
-        });
-      } else {
-        calculateFallbackRoute(destinationVal);
-      }
-    });
-  } else {
-    calculateFallbackRoute(destinationVal);
+  if (spinner) {
+    spinner.style.display = "flex";
   }
+
+  // RoadSafe AI uses:
+  // OSRM -> route calculation
+  // Leaflet -> route visualization
+  //
+  // Google Directions is intentionally not used here.
+  calculateFallbackRoute(
+    originVal,
+    destinationVal
+  );
 }
 
-function calculateFallbackRoute(destinationVal) {
+function calculateFallbackRoute(originVal, destinationVal) {
   const spinner = document.getElementById("routeLoadingSpinner");
-  const destCoords = {
-    lat: currentGeoLocation.lat + 0.035,
-    lng: currentGeoLocation.lng + 0.025
-  };
 
-  fetch(`https://router.project-osrm.org/route/v1/driving/${currentGeoLocation.lng},${currentGeoLocation.lat};${destCoords.lng},${destCoords.lat}?overview=full&geometries=geojson`)
-    .then((res) => res.json())
+  if (spinner) {
+    spinner.style.display = "flex";
+  }
+
+  // -----------------------------------------------------
+  // Send the actual user-entered origin and destination
+  // to the FastAPI backend.
+  // -----------------------------------------------------
+
+  const url =
+    `http://127.0.0.1:8000/api/map/plan-route` +
+    `?origin=${encodeURIComponent(originVal)}` +
+    `&destination=${encodeURIComponent(destinationVal)}`;
+
+  console.log("RoadSafe AI Route Request:");
+  console.log("Origin:", originVal);
+  console.log("Destination:", destinationVal);
+  console.log("API URL:", url);
+
+  fetch(url)
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error(
+          `Route API returned ${res.status}`
+        );
+      }
+
+      return res.json();
+    })
+
     .then((data) => {
-      if (spinner) spinner.style.display = "none";
 
-      if (data.routes && data.routes.length > 0) {
-        const route = data.routes[0];
-        const distanceKm = (route.distance / 1000).toFixed(1) + " km";
-        const durationMin = Math.round(route.duration / 60) + " mins";
+      if (!data.success ||
+          !data.routes ||
+          !data.routes.fastest) {
 
-        if (leafletMap) {
-          if (leafletRoutePolyline) leafletMap.removeLayer(leafletRoutePolyline);
-          if (leafletStartMarker) leafletMap.removeLayer(leafletStartMarker);
-          if (leafletDestMarker) leafletMap.removeLayer(leafletDestMarker);
+        throw new Error(
+          "Invalid route response from backend"
+        );
+      }
 
-          const routeCoords = route.geometry.coordinates.map((coord) => [coord[1], coord[0]]);
-          leafletRoutePolyline = L.polyline(routeCoords, { color: "#7C3AED", weight: 6, opacity: 0.85 }).addTo(leafletMap);
+      const route = data.routes.fastest;
 
-          leafletStartMarker = L.marker([currentGeoLocation.lat, currentGeoLocation.lng])
-            .addTo(leafletMap)
-            .bindPopup("<b>Start: My Location</b>");
+      console.log("RoadSafe AI Backend Response:", data);
+      console.log("Fastest Route:", route);
 
-          leafletDestMarker = L.marker([destCoords.lat, destCoords.lng])
-            .addTo(leafletMap)
-            .bindPopup(`<b>Destination: ${destinationVal}</b>`);
+      // -----------------------------------------------------
+      // Backend route information
+      // -----------------------------------------------------
 
-          leafletMap.fitBounds(leafletRoutePolyline.getBounds(), { padding: [40, 40] });
+      const distanceKm = `${route.distanceKm.toFixed(2)} km`;
+      const durationMin = `${route.durationMin} mins`;
+
+      const potholesCount =
+        Number(route.potholesCount || 0);
+
+      const safetyScore =
+        route.safetyScore !== null &&
+        route.safetyScore !== undefined
+          ? Number(route.safetyScore)
+          : null;
+
+      const hazards =
+        Array.isArray(route.hazards)
+          ? route.hazards
+          : [];
+
+      // -----------------------------------------------------
+      // Calculate route risk level
+      // -----------------------------------------------------
+
+      const highRiskHazards = hazards.filter(
+        (hazard) =>
+          hazard.severity === "High" ||
+          hazard.severity === "Critical"
+      ).length;
+
+      let riskLevel = "Low Risk";
+
+      if (highRiskHazards >= 3) {
+        riskLevel = "High Risk";
+      } else if (highRiskHazards >= 1) {
+        riskLevel = "Moderate Risk";
+      }
+
+      // -----------------------------------------------------
+      // Draw REAL OSRM road route on Leaflet
+      // -----------------------------------------------------
+
+      if (
+        leafletMap &&
+        route.path &&
+        route.path.length > 0
+      ) {
+
+        // Remove previous route
+        if (leafletRoutePolyline) {
+          leafletMap.removeLayer(
+            leafletRoutePolyline
+          );
         }
 
-        updateRouteInfoPanel({
-          distance: distanceKm,
-          duration: durationMin,
-          durationSec: route.duration,
-          destinationName: destinationVal
-        });
+        // Remove previous start marker
+        if (leafletStartMarker) {
+          leafletMap.removeLayer(
+            leafletStartMarker
+          );
+        }
+
+        // Remove previous destination marker
+        if (leafletDestMarker) {
+          leafletMap.removeLayer(
+            leafletDestMarker
+          );
+        }
+
+        // Backend converts OSRM coordinates
+        // into [latitude, longitude].
+        const routeCoords = route.path;
+
+        leafletRoutePolyline = L.polyline(
+          routeCoords,
+          {
+            color: "#7C3AED",
+            weight: 6,
+            opacity: 0.85
+          }
+        ).addTo(leafletMap);
+
+        // -------------------------------------------------
+        // Start marker
+        // -------------------------------------------------
+
+        leafletStartMarker = L.marker([
+          data.originCoords.lat,
+          data.originCoords.lng
+        ])
+          .addTo(leafletMap)
+          .bindPopup(
+            `<b>Start</b><br>${originVal}`
+          );
+
+        // -------------------------------------------------
+        // Destination marker
+        // -------------------------------------------------
+
+        leafletDestMarker = L.marker([
+          data.destCoords.lat,
+          data.destCoords.lng
+        ])
+          .addTo(leafletMap)
+          .bindPopup(
+            `<b>Destination</b><br>${destinationVal}`
+          );
+
+        // -------------------------------------------------
+        // Fit complete route inside map
+        // -------------------------------------------------
+
+        leafletMap.fitBounds(
+          leafletRoutePolyline.getBounds(),
+          {
+            padding: [40, 40]
+          }
+        );
       }
-    })
-    .catch((err) => {
-      if (spinner) spinner.style.display = "none";
-      console.warn("OSRM fallback route error:", err);
+
+      // -----------------------------------------------------
+      // Update ALL route summary information
+      // -----------------------------------------------------
 
       updateRouteInfoPanel({
-        distance: "6.8 km",
-        duration: "16 mins",
-        durationSec: 960,
-        destinationName: destinationVal
+
+        distance: distanceKm,
+
+        duration: durationMin,
+
+        durationSec:
+          Number(route.durationMin || 0) * 60,
+
+        destinationName:
+          destinationVal,
+
+        safetyScore:
+          safetyScore,
+
+        potholesCount:
+          potholesCount,
+
+        hazardCount:
+          hazards.length,
+
+        riskLevel:
+          riskLevel
+
       });
+
+      // -----------------------------------------------------
+      // Update AI Route Intelligence
+      // -----------------------------------------------------
+
+      updateAiPlaceholders({
+
+        safetyScore:
+          safetyScore !== null
+            ? `${safetyScore} / 100`
+            : "N/A",
+
+        potholesOnRoute:
+          `${potholesCount} Potholes`,
+
+        nearbyHazards:
+          `${hazards.length} Hazards`,
+
+        riskLevel:
+          riskLevel,
+
+        recommendation:
+          `Actual road route to ${destinationVal} calculated. ` +
+          `${route.distanceKm.toFixed(2)} km and approximately ` +
+          `${route.durationMin} minutes driving time.`
+      });
+
+      // -----------------------------------------------------
+      // Hide loading spinner AFTER successful response
+      // -----------------------------------------------------
+
+      if (spinner) {
+        spinner.style.display = "none";
+      }
+
+    })
+
+    .catch((err) => {
+
+      if (spinner) {
+        spinner.style.display = "none";
+      }
+
+      console.error(
+        "RoadSafe AI route API error:",
+        err
+      );
+
+      if (window.showToast) {
+        window.showToast(
+          "Unable to calculate route. Please try again.",
+          "warning"
+        );
+      }
     });
 }
-
 function updateRouteInfoPanel(info) {
+  // -----------------------------------------------------
+  // Existing / backend-connected route values
+  // -----------------------------------------------------
   const routeDistance = document.getElementById("routeDistance");
   const routeDuration = document.getElementById("routeDuration");
   const routeEta = document.getElementById("routeEta");
 
-  if (routeDistance) routeDistance.textContent = info.distance;
-  if (routeDuration) routeDuration.textContent = info.duration;
+  if (routeDistance) {
+    routeDistance.textContent = info.distance;
+  }
 
+  if (routeDuration) {
+    routeDuration.textContent = info.duration;
+  }
+
+  // Calculate arrival ETA
   if (routeEta && info.durationSec) {
     const now = new Date();
-    const arrivalTime = new Date(now.getTime() + info.durationSec * 1000);
-    const hours = arrivalTime.getHours().toString().padStart(2, "0");
-    const minutes = arrivalTime.getMinutes().toString().padStart(2, "0");
+
+    const arrivalTime = new Date(
+      now.getTime() + info.durationSec * 1000
+    );
+
+    const hours = arrivalTime
+      .getHours()
+      .toString()
+      .padStart(2, "0");
+
+    const minutes = arrivalTime
+      .getMinutes()
+      .toString()
+      .padStart(2, "0");
+
     routeEta.textContent = `${hours}:${minutes}`;
   }
 
+  // -----------------------------------------------------
+  // Live Map HTML summary cards
+  // -----------------------------------------------------
+  const tripDistance = document.getElementById("tripDistance");
+  const tripEta = document.getElementById("tripEta");
+  const tripSafetyScore = document.getElementById("tripSafetyScore");
+  const tripHazards = document.getElementById("tripHazards");
+
+  if (tripDistance) {
+    tripDistance.textContent = info.distance;
+  }
+
+  if (tripEta) {
+    tripEta.textContent = info.duration;
+  }
+
+  if (tripSafetyScore && info.safetyScore !== undefined) {
+    tripSafetyScore.textContent = `${info.safetyScore}/100`;
+  }
+
+  if (tripHazards && info.potholesCount !== undefined) {
+    tripHazards.textContent =
+      `${info.potholesCount} Potholes`;
+  }
+
+  // -----------------------------------------------------
+  // AI Route Intelligence
+  // -----------------------------------------------------
   updateAiPlaceholders({
-    safetyScore: "88 / 100",
-    potholesOnRoute: "2 Minor, 0 Critical",
-    nearbyHazards: "5 Hazards",
-    riskLevel: "Low Risk",
-    recommendation: `Driving route to ${info.destinationName} evaluated. AI recommends Bypass Corridor B (+2 min) to avoid 3 potholes.`
+    safetyScore:
+      info.safetyScore !== undefined
+        ? `${info.safetyScore} / 100`
+        : "N/A",
+
+    potholesOnRoute:
+      info.potholesCount !== undefined
+        ? `${info.potholesCount} Potholes`
+        : "N/A",
+
+    nearbyHazards:
+      info.hazardCount !== undefined
+        ? `${info.hazardCount} Hazards`
+        : "N/A",
+
+    riskLevel:
+      info.riskLevel || "Route Evaluated",
+
+    recommendation:
+      `Actual road route to ${info.destinationName} calculated. ` +
+      `${info.distance} and approximately ${info.duration} driving time.`
   });
 }
 
@@ -468,3 +755,29 @@ function updateAiPlaceholders(data) {
   if (estimatedRiskLevel) estimatedRiskLevel.textContent = data.riskLevel;
   if (aiRecommendationText) aiRecommendationText.textContent = data.recommendation;
 }
+
+
+// ==========================================================================
+// Live Map HTML Compatibility API
+// ==========================================================================
+
+window.LiveNavigationMap = {
+  init: function () {
+    if (!leafletMap && !isGoogleMapsActive) {
+      initLeafletFallback();
+    }
+  },
+
+  requestLocationPermission: function () {
+    requestAndTrackLocation();
+  },
+
+  recenterGPS: function () {
+    recenterMap();
+    setFollowMeMode(true);
+  },
+
+  showAlternateRoutes: function () {
+    calculateRoute();
+  }
+};

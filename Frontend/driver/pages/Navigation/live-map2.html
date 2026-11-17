@@ -87,10 +87,25 @@
     <section class="panel-card route-planner-bar">
       <div class="route-inputs-grid">
         <div class="route-input-group">
-          <label for="originInput"><i class="fa-solid fa-location-dot text-purple"></i> Current Location (Origin)</label>
+          <label for="originInput">
+            <i class="fa-solid fa-location-dot text-purple"></i>
+            Origin
+          </label>
+
           <div class="input-with-action">
-            <input type="text" id="originInput" class="form-control" placeholder="Acquiring GPS location..." readonly />
-            <button class="btn btn-sm btn-purple-soft" onclick="LiveNavigationMap.recenterGPS()">
+            <input
+              type="text"
+              id="originInput"
+              class="form-control"
+              placeholder="Enter starting location..."
+              autocomplete="off"
+            />
+
+            <button
+              class="btn btn-sm btn-purple-soft"
+              onclick="LiveNavigationMap.recenterGPS()"
+              type="button"
+            >
               <i class="fa-solid fa-crosshair"></i> GPS
             </button>
           </div>
@@ -189,12 +204,19 @@
             <h2><i class="fa-solid fa-brain"></i> AI Route Intelligence</h2>
             <span class="badge-tag badge-success-soft">Optimized</span>
           </div>
-          <p style="font-size: 13px; color: var(--text-dark); line-height: 1.5; margin-bottom: 14px;">
-            Take <strong>Bypass Corridor B</strong> via Phool Bagh Crossing to save 4 minutes and avoid 3 high-severity potholes.
+          <p
+            id="aiRecommendationText"
+            style="font-size: 13px; color: var(--text-dark); line-height: 1.5; margin-bottom: 14px;"
+          >
+            Enter an origin and destination to calculate an AI-assisted road safety evaluation.
           </p>
-          <button class="btn btn-purple-soft btn-full btn-sm" onclick="LiveNavigationMap.showAlternateRoutes()">
-            <i class="fa-solid fa-code-compare"></i> Compare Alternate Corridors
-          </button>
+          <button
+              class="btn btn-purple-soft btn-full btn-sm"
+              onclick="LiveNavigationMap.showAlternateRoutes()"
+            >
+              <i class="fa-solid fa-route"></i>
+              Recalculate Route
+            </button>
         </article>
 
         <!-- Route Safety Scorecard -->
@@ -203,22 +225,48 @@
             <h2><i class="fa-solid fa-chart-line"></i> Route Safety Scorecard</h2>
           </div>
           <ul class="metric-list" style="margin-bottom: 0;">
+
             <li class="metric-row">
               <span class="metric-label">Road Safety Score</span>
-              <strong class="metric-value">88 / 100</strong>
+              <strong
+                class="metric-value"
+                id="safetyScoreValue"
+              >
+                N/A
+              </strong>
             </li>
+
             <li class="metric-row">
-              <span class="metric-label">Total Potholes on Route</span>
-              <strong class="metric-value">2 Minor, 0 Critical</strong>
+              <span class="metric-label">Potholes on Route</span>
+              <strong
+                class="metric-value"
+                id="potholesOnRoute"
+              >
+                N/A
+              </strong>
             </li>
+
             <li class="metric-row">
-              <span class="metric-label">Nearby Hazards (2km)</span>
-              <strong class="metric-value">5 Hazards</strong>
+              <span class="metric-label">Route Hazards</span>
+              <strong
+                class="metric-value"
+                id="nearbyHazardsValue"
+              >
+                N/A
+              </strong>
             </li>
+
             <li class="metric-row">
               <span class="metric-label">Estimated Risk Level</span>
-              <strong class="metric-value" style="color: #22c55e;">Low Risk</strong>
+              <strong
+                class="metric-value"
+                id="estimatedRiskLevel"
+                style="color: #22c55e;"
+              >
+                Route Not Evaluated
+              </strong>
             </li>
+
           </ul>
         </article>
 
